@@ -19,7 +19,13 @@ See [implementation-plan.md](implementation-plan.md) for the full project plan.
 
 ## Project Status
 
-Currently in **Phase 0: Foundation** - building reference data and test infrastructure.
+Currently in **Phase 1: Single Channel MVP** - building form ingestion, LLM integration, and IMDRF coding services.
+
+### Completed
+- Phase 0: Foundation (IMDRF codes, test data, evaluation framework)
+- PR-1: Form ingestion pipeline (`src/intake/`)
+- PR-2: LLM integration foundation (`src/llm/`)
+- PR-3: IMDRF code suggestion service (`src/coding/`)
 
 ## Setup
 
@@ -85,7 +91,10 @@ complaints-handling/
 │   ├── models/          # Pydantic data models
 │   ├── imdrf/           # IMDRF code reference database
 │   ├── testing/         # Test case loader utilities
-│   └── evaluation/      # Evaluation framework
+│   ├── evaluation/      # Evaluation framework
+│   ├── intake/          # Form ingestion pipeline
+│   ├── llm/             # LLM client and prompts
+│   └── coding/          # IMDRF code suggestion service
 ├── data/
 │   ├── imdrf/           # IMDRF code reference files
 │   └── test_cases/      # Synthetic test complaints
@@ -99,7 +108,6 @@ complaints-handling/
 │   └── workflows/
 │       └── ci.yml
 ├── implementation-plan.md
-├── current-sprint.md
 ├── pyproject.toml
 └── README.md
 ```

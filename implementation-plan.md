@@ -123,18 +123,16 @@ Codes are hierarchical. Example: `Material Problem > Material Integrity > Crack`
 - Define success metrics
 
 **Deliverables:**
-- [ ] IMDRF code database with hierarchies (JSON/database)
-- [ ] Synthetic test dataset with ground truth codes
-- [ ] Development environment setup
-- [ ] Success metrics documentation
+- [x] IMDRF code database with hierarchies (JSON/database)
+- [x] Synthetic test dataset with ground truth codes
+- [x] Development environment setup
+- [x] Success metrics documentation
 
-**Success Gate:** Validated set of test cases with "ground truth" codes covering all channels, device types, and severity levels
+**Success Gate:** Validated set of test cases with "ground truth" codes covering all channels, device types, and severity levels ✅
 
 ---
 
-### Phase 1: Single Channel MVP (Structured Forms)
-
-**Duration:** Weeks 3-6
+### Phase 1: Single Channel MVP (Structured Forms) — IN PROGRESS
 
 **Objectives:**
 - Process online form submissions (most structured = lowest risk)
@@ -144,9 +142,9 @@ Codes are hierarchical. Example: `Material Problem > Material Integrity > Crack`
 - Basic audit logging
 
 **Deliverables:**
-- [ ] Form ingestion pipeline
-- [ ] Extraction service (form → complaint record)
-- [ ] IMDRF coding service with LLM
+- [x] Form ingestion pipeline (`src/intake/forms.py`)
+- [x] Extraction service (form → complaint record)
+- [x] IMDRF coding service with LLM (`src/coding/service.py`, `src/llm/`)
 - [ ] Basic review UI
 - [ ] Audit logging foundation
 
