@@ -131,9 +131,7 @@ class TestDisplayUtilities:
         result = format_status(ComplaintStatus.CODED)
         assert "CODED" in str(result)
 
-    def test_create_complaints_table(
-        self, sample_complaint: ComplaintRecord
-    ) -> None:
+    def test_create_complaints_table(self, sample_complaint: ComplaintRecord) -> None:
         """Complaints table is created correctly."""
         table = create_complaints_table([sample_complaint])
         assert table.title == "Complaints Pending Review"
@@ -173,7 +171,10 @@ class TestDataPersistence:
 
             assert loaded is not None
             assert loaded.complaint_id == sample_complaint.complaint_id
-            assert loaded.device_info.device_name == sample_complaint.device_info.device_name
+            assert (
+                loaded.device_info.device_name
+                == sample_complaint.device_info.device_name
+            )
         finally:
             review_module.DEFAULT_COMPLAINTS_DIR = original_dir
 
@@ -542,9 +543,7 @@ class TestHistoryCommand:
 class TestCodingDecisionModel:
     """Tests for CodingDecision model properties."""
 
-    def test_final_codes(
-        self, sample_decision: CodingDecision
-    ) -> None:
+    def test_final_codes(self, sample_decision: CodingDecision) -> None:
         """Final codes combines approved and added codes."""
         sample_decision.approved_codes = ["A0601"]
         sample_decision.added_codes = ["A0701"]
@@ -554,9 +553,7 @@ class TestCodingDecisionModel:
         assert "A0701" in final
         assert len(final) == 2
 
-    def test_is_reviewed(
-        self, sample_decision: CodingDecision
-    ) -> None:
+    def test_is_reviewed(self, sample_decision: CodingDecision) -> None:
         """is_reviewed returns True when reviewer set."""
         assert not sample_decision.is_reviewed
 
@@ -564,9 +561,7 @@ class TestCodingDecisionModel:
         sample_decision.review_timestamp = datetime.now(UTC)
         assert sample_decision.is_reviewed
 
-    def test_suggestion_accuracy(
-        self, sample_decision: CodingDecision
-    ) -> None:
+    def test_suggestion_accuracy(self, sample_decision: CodingDecision) -> None:
         """Suggestion accuracy calculation."""
         # No approvals yet - returns 0.0 since there are suggestions
         assert sample_decision.suggestion_accuracy == 0.0

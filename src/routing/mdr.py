@@ -183,9 +183,7 @@ def _analyze_text_for_mdr(
         RuleBasedMDRResult with detected criteria and evidence.
     """
     # Combine all text for analysis
-    combined_text = " ".join(
-        filter(None, [narrative, patient_outcome, device_outcome])
-    )
+    combined_text = " ".join(filter(None, [narrative, patient_outcome, device_outcome]))
 
     result = RuleBasedMDRResult()
 
@@ -440,7 +438,9 @@ def determine_mdr(
         llm_response = _call_llm_for_mdr(complaint, client)
 
         # Extract LLM determination
-        llm_requires_mdr = llm_response.get("requires_mdr", True)  # Conservative default
+        llm_requires_mdr = llm_response.get(
+            "requires_mdr", True
+        )  # Conservative default
         llm_confidence = llm_response.get("confidence", 0.5)
         llm_criteria = llm_response.get("criteria_met", [])
         llm_reasoning = llm_response.get("reasoning", "")
@@ -463,9 +463,12 @@ def determine_mdr(
                 ):
                     criteria_met.append(MDRCriteria.MALFUNCTION_COULD_CAUSE_DEATH)
                 elif (
-                    MDRCriteria.MALFUNCTION_COULD_CAUSE_SERIOUS_INJURY not in criteria_met
+                    MDRCriteria.MALFUNCTION_COULD_CAUSE_SERIOUS_INJURY
+                    not in criteria_met
                 ):
-                    criteria_met.append(MDRCriteria.MALFUNCTION_COULD_CAUSE_SERIOUS_INJURY)
+                    criteria_met.append(
+                        MDRCriteria.MALFUNCTION_COULD_CAUSE_SERIOUS_INJURY
+                    )
 
         # Combine evidence
         key_factors = list(rules_result.key_factors)

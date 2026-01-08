@@ -102,9 +102,7 @@ class AuditLogger:
             JSON string representation.
         """
         # Convert to base AuditEvent if needed
-        base_event = (
-            event if isinstance(event, AuditEvent) else event.to_base_event()
-        )
+        base_event = event if isinstance(event, AuditEvent) else event.to_base_event()
 
         # Serialize with datetime handling
         data = base_event.model_dump(mode="json")

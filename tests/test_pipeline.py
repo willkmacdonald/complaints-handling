@@ -90,16 +90,18 @@ def incomplete_form_data() -> dict:
 def mock_llm_response() -> LLMResponse:
     """Return a mock LLM response for coding."""
     return LLMResponse(
-        content=json.dumps({
-            "suggestions": [
-                {
-                    "code_id": "A0601",
-                    "confidence": 0.85,
-                    "source_text": "device malfunctioned",
-                    "reasoning": "Device malfunction is indicated",
-                },
-            ]
-        }),
+        content=json.dumps(
+            {
+                "suggestions": [
+                    {
+                        "code_id": "A0601",
+                        "confidence": 0.85,
+                        "source_text": "device malfunctioned",
+                        "reasoning": "Device malfunction is indicated",
+                    },
+                ]
+            }
+        ),
         model="gpt-4o",
         usage=TokenUsage(prompt_tokens=100, completion_tokens=50, total_tokens=150),
         latency_ms=500.0,
@@ -457,24 +459,28 @@ class TestProcessFormIntegration:
         """Test the complete pipeline flow with all steps."""
         # Create a more comprehensive mock response
         mock_response = LLMResponse(
-            content=json.dumps({
-                "suggestions": [
-                    {
-                        "code_id": "A0601",
-                        "confidence": 0.85,
-                        "source_text": "device malfunctioned",
-                        "reasoning": "Malfunction indicated in narrative",
-                    },
-                    {
-                        "code_id": "C0601",
-                        "confidence": 0.75,
-                        "source_text": "temporary discomfort",
-                        "reasoning": "Patient experienced discomfort",
-                    },
-                ]
-            }),
+            content=json.dumps(
+                {
+                    "suggestions": [
+                        {
+                            "code_id": "A0601",
+                            "confidence": 0.85,
+                            "source_text": "device malfunctioned",
+                            "reasoning": "Malfunction indicated in narrative",
+                        },
+                        {
+                            "code_id": "C0601",
+                            "confidence": 0.75,
+                            "source_text": "temporary discomfort",
+                            "reasoning": "Patient experienced discomfort",
+                        },
+                    ]
+                }
+            ),
             model="gpt-4o",
-            usage=TokenUsage(prompt_tokens=200, completion_tokens=100, total_tokens=300),
+            usage=TokenUsage(
+                prompt_tokens=200, completion_tokens=100, total_tokens=300
+            ),
             latency_ms=750.0,
         )
 

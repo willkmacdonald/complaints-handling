@@ -123,7 +123,9 @@ class ProcessingResult(BaseModel):
             return delta.total_seconds() * 1000
         return None
 
-    def add_error(self, step: str, message: str, details: dict[str, Any] | None = None) -> None:
+    def add_error(
+        self, step: str, message: str, details: dict[str, Any] | None = None
+    ) -> None:
         """Record an error that occurred during processing.
 
         Args:
@@ -131,12 +133,14 @@ class ProcessingResult(BaseModel):
             message: Error message.
             details: Additional error details.
         """
-        self.errors.append({
-            "step": step,
-            "message": message,
-            "details": details or {},
-            "timestamp": datetime.now(UTC).isoformat(),
-        })
+        self.errors.append(
+            {
+                "step": step,
+                "message": message,
+                "details": details or {},
+                "timestamp": datetime.now(UTC).isoformat(),
+            }
+        )
 
     def summary(self) -> dict[str, Any]:
         """Return a summary of the processing result.

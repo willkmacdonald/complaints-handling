@@ -325,9 +325,7 @@ def approve_suggestions(
         for i in approved_indices
         if 1 <= i <= len(suggestions)
     ]
-    rejected_codes = [
-        s.code_id for s in suggestions if s.code_id not in approved_codes
-    ]
+    rejected_codes = [s.code_id for s in suggestions if s.code_id not in approved_codes]
 
     # Confirm
     if not all_codes:

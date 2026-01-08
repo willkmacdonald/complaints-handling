@@ -80,7 +80,9 @@ class TestSearchPatterns:
         evidence = _search_patterns(text, SERIOUS_INJURY_KEYWORDS)
 
         assert len(evidence) > 0
-        assert any("hospitalized" in e.lower() or "surgery" in e.lower() for e in evidence)
+        assert any(
+            "hospitalized" in e.lower() or "surgery" in e.lower() for e in evidence
+        )
 
     def test_finds_malfunction_keywords(self) -> None:
         """Malfunction keywords are detected."""
@@ -536,9 +538,9 @@ class TestSensitivity:
         result = determine_mdr_rules_only(complaint)
 
         assert result.requires_mdr is True
-        assert (
-            MDRCriteria.DEATH in result.mdr_criteria_met
-        ), f"Death not detected in: {narrative} / {outcome}"
+        assert MDRCriteria.DEATH in result.mdr_criteria_met, (
+            f"Death not detected in: {narrative} / {outcome}"
+        )
 
     @pytest.mark.parametrize(
         "narrative,outcome",
@@ -565,6 +567,6 @@ class TestSensitivity:
         result = determine_mdr_rules_only(complaint)
 
         assert result.requires_mdr is True
-        assert (
-            MDRCriteria.SERIOUS_INJURY in result.mdr_criteria_met
-        ), f"Serious injury not detected in: {narrative} / {outcome}"
+        assert MDRCriteria.SERIOUS_INJURY in result.mdr_criteria_met, (
+            f"Serious injury not detected in: {narrative} / {outcome}"
+        )

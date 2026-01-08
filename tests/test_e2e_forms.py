@@ -30,10 +30,9 @@ def get_test_case_files() -> list[Path]:
     """Get all test case JSON files."""
     if not TEST_CASES_DIR.exists():
         return []
-    return sorted([
-        f for f in TEST_CASES_DIR.glob("form_*.json")
-        if not f.name.startswith("_")
-    ])
+    return sorted(
+        [f for f in TEST_CASES_DIR.glob("form_*.json") if not f.name.startswith("_")]
+    )
 
 
 def load_test_case(file_path: Path) -> dict:
@@ -48,12 +47,14 @@ def create_mock_coding_response(test_case: dict) -> LLMResponse:
 
     suggestions = []
     for code_id in expected_codes[:3]:  # Limit to 3 suggestions
-        suggestions.append({
-            "code_id": code_id,
-            "confidence": 0.85,
-            "source_text": "test source text",
-            "reasoning": f"Code {code_id} applies based on complaint narrative",
-        })
+        suggestions.append(
+            {
+                "code_id": code_id,
+                "confidence": 0.85,
+                "source_text": "test source text",
+                "reasoning": f"Code {code_id} applies based on complaint narrative",
+            }
+        )
 
     return LLMResponse(
         content=json.dumps({"suggestions": suggestions}),
@@ -126,9 +127,15 @@ class TestFormTestCasesWithMockedLLM:
         expected_device = expected_complaint.get("device_info", {})
 
         if expected_device.get("device_name"):
-            assert result.complaint.device_info.device_name == expected_device["device_name"]
+            assert (
+                result.complaint.device_info.device_name
+                == expected_device["device_name"]
+            )
         if expected_device.get("manufacturer"):
-            assert result.complaint.device_info.manufacturer == expected_device["manufacturer"]
+            assert (
+                result.complaint.device_info.manufacturer
+                == expected_device["manufacturer"]
+            )
 
     @pytest.mark.parametrize(
         "test_case_file",

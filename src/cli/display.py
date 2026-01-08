@@ -127,12 +127,14 @@ def create_complaint_panel(complaint: ComplaintRecord) -> Panel:
     ]
 
     if complaint.patient_info:
-        lines.extend([
-            "",
-            "[bold cyan]Patient Information[/bold cyan]",
-            f"  Age: {complaint.patient_info.age or 'N/A'}",
-            f"  Sex: {complaint.patient_info.sex or 'N/A'}",
-        ])
+        lines.extend(
+            [
+                "",
+                "[bold cyan]Patient Information[/bold cyan]",
+                f"  Age: {complaint.patient_info.age or 'N/A'}",
+                f"  Sex: {complaint.patient_info.sex or 'N/A'}",
+            ]
+        )
 
     return Panel(
         "\n".join(lines),
