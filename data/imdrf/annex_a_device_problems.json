@@ -1,0 +1,407 @@
+{
+  "annex": "A",
+  "title": "Device Problem Codes",
+  "description": "IMDRF Annex A - Codes for categorizing device problems",
+  "codes": [
+    {
+      "code_id": "A01",
+      "name": "Adverse Event Without Identified Device or Use Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Adverse event occurred but no device or use problem was identified",
+      "examples": ["Unexplained patient reaction with device functioning normally"]
+    },
+    {
+      "code_id": "A02",
+      "name": "Device Operates Differently Than Expected",
+      "parent_id": null,
+      "level": 1,
+      "description": "Device operates in a manner inconsistent with its intended design",
+      "examples": ["Device produces unexpected output", "Timing or sequencing issues"]
+    },
+    {
+      "code_id": "A0201",
+      "name": "Device Displays Inaccurate Data",
+      "parent_id": "A02",
+      "level": 2,
+      "description": "Device displays data that does not accurately reflect actual values",
+      "examples": ["Glucose meter showing incorrect blood sugar", "Monitor displaying wrong vital signs"]
+    },
+    {
+      "code_id": "A0202",
+      "name": "Unexpected/Excess Radiation Output",
+      "parent_id": "A02",
+      "level": 2,
+      "description": "Device produces more radiation than intended or expected",
+      "examples": ["X-ray delivers higher dose than programmed"]
+    },
+    {
+      "code_id": "A03",
+      "name": "Device Interaction Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Problem related to interaction between device and patient, user, or other devices",
+      "examples": ["Electromagnetic interference", "Drug-device interaction"]
+    },
+    {
+      "code_id": "A0301",
+      "name": "Incompatibility with Another Device or Product",
+      "parent_id": "A03",
+      "level": 2,
+      "description": "Device does not work correctly when used with another device or product",
+      "examples": ["Pacemaker interference from MRI", "Incompatible connector types"]
+    },
+    {
+      "code_id": "A04",
+      "name": "Electrical Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to electrical components or function",
+      "examples": ["Short circuit", "Electrical shock", "Battery failure"]
+    },
+    {
+      "code_id": "A0401",
+      "name": "Arcing",
+      "parent_id": "A04",
+      "level": 2,
+      "description": "Electrical discharge through air between conductors",
+      "examples": ["Visible spark during operation"]
+    },
+    {
+      "code_id": "A0402",
+      "name": "Burn Out",
+      "parent_id": "A04",
+      "level": 2,
+      "description": "Component failure due to excessive current or heat",
+      "examples": ["Fuse blown", "Circuit board damage from overheating"]
+    },
+    {
+      "code_id": "A0403",
+      "name": "Corrosion of Electrical Contacts",
+      "parent_id": "A04",
+      "level": 2,
+      "description": "Degradation of electrical connections due to corrosion",
+      "examples": ["Battery contacts corroded", "Connector pins oxidized"]
+    },
+    {
+      "code_id": "A0404",
+      "name": "Electric Shock",
+      "parent_id": "A04",
+      "level": 2,
+      "description": "Patient or user received electrical shock from device",
+      "examples": ["Leakage current", "Insulation failure"]
+    },
+    {
+      "code_id": "A05",
+      "name": "Electromagnetic Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to electromagnetic interference or compatibility",
+      "examples": ["EMI affecting device function", "Device causing interference"]
+    },
+    {
+      "code_id": "A06",
+      "name": "Material Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to materials used in device construction",
+      "examples": ["Material degradation", "Biocompatibility issues"]
+    },
+    {
+      "code_id": "A0601",
+      "name": "Material Integrity Problem",
+      "parent_id": "A06",
+      "level": 2,
+      "description": "Material has lost structural integrity",
+      "examples": ["Cracking", "Breaking", "Delamination"]
+    },
+    {
+      "code_id": "A060101",
+      "name": "Break",
+      "parent_id": "A0601",
+      "level": 3,
+      "description": "Material has broken into separate pieces",
+      "examples": ["Catheter tip broke off", "Handle snapped"]
+    },
+    {
+      "code_id": "A060102",
+      "name": "Crack",
+      "parent_id": "A0601",
+      "level": 3,
+      "description": "Material has developed cracks",
+      "examples": ["Housing cracked", "Seal developed cracks"]
+    },
+    {
+      "code_id": "A060103",
+      "name": "Delamination",
+      "parent_id": "A0601",
+      "level": 3,
+      "description": "Layers of material separating",
+      "examples": ["Coating peeling", "Laminate separating"]
+    },
+    {
+      "code_id": "A060104",
+      "name": "Fragmentation",
+      "parent_id": "A0601",
+      "level": 3,
+      "description": "Material breaking into small fragments",
+      "examples": ["Device shedding particles", "Implant fragmenting"]
+    },
+    {
+      "code_id": "A0602",
+      "name": "Material Deformation",
+      "parent_id": "A06",
+      "level": 2,
+      "description": "Material has changed shape inappropriately",
+      "examples": ["Bent needle", "Collapsed tubing"]
+    },
+    {
+      "code_id": "A0603",
+      "name": "Material Deterioration",
+      "parent_id": "A06",
+      "level": 2,
+      "description": "Material has degraded over time or use",
+      "examples": ["Rubber degradation", "Plastic discoloration"]
+    },
+    {
+      "code_id": "A07",
+      "name": "Mechanical Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to mechanical components or function",
+      "examples": ["Stuck mechanism", "Worn parts", "Misalignment"]
+    },
+    {
+      "code_id": "A0701",
+      "name": "Blockage",
+      "parent_id": "A07",
+      "level": 2,
+      "description": "Flow path or mechanism is blocked",
+      "examples": ["Clogged filter", "Blocked lumen"]
+    },
+    {
+      "code_id": "A0702",
+      "name": "Dislodgement of Device or Component",
+      "parent_id": "A07",
+      "level": 2,
+      "description": "Device or component has moved from intended position",
+      "examples": ["Implant migration", "Connector disconnected"]
+    },
+    {
+      "code_id": "A0703",
+      "name": "Failure to Deploy, Expand or Release",
+      "parent_id": "A07",
+      "level": 2,
+      "description": "Device did not deploy, expand, or release as intended",
+      "examples": ["Stent did not expand", "Balloon did not inflate"]
+    },
+    {
+      "code_id": "A0704",
+      "name": "Failure to Lock, Seal or Maintain Position",
+      "parent_id": "A07",
+      "level": 2,
+      "description": "Device did not lock, seal, or maintain position",
+      "examples": ["Stopcock did not seal", "Joint did not lock"]
+    },
+    {
+      "code_id": "A0705",
+      "name": "Leak",
+      "parent_id": "A07",
+      "level": 2,
+      "description": "Device is leaking fluid or gas",
+      "examples": ["IV bag leaking", "Seal failure causing leak"]
+    },
+    {
+      "code_id": "A0706",
+      "name": "Loosening of Device or Component",
+      "parent_id": "A07",
+      "level": 2,
+      "description": "Device or component has become loose",
+      "examples": ["Screw loosening", "Connection loosening"]
+    },
+    {
+      "code_id": "A08",
+      "name": "Non-Sterility",
+      "parent_id": null,
+      "level": 1,
+      "description": "Device that should be sterile is not sterile",
+      "examples": ["Contaminated packaging", "Sterility breach"]
+    },
+    {
+      "code_id": "A09",
+      "name": "Packaging Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to device packaging",
+      "examples": ["Damaged packaging", "Missing components"]
+    },
+    {
+      "code_id": "A0901",
+      "name": "Packaging Damaged or Defective",
+      "parent_id": "A09",
+      "level": 2,
+      "description": "Packaging is damaged or defective",
+      "examples": ["Torn pouch", "Crushed box"]
+    },
+    {
+      "code_id": "A0902",
+      "name": "Packaging Integrity Problem",
+      "parent_id": "A09",
+      "level": 2,
+      "description": "Packaging seal or integrity is compromised",
+      "examples": ["Seal broken", "Package open"]
+    },
+    {
+      "code_id": "A10",
+      "name": "Power Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to device power supply",
+      "examples": ["Battery depletion", "Power supply failure"]
+    },
+    {
+      "code_id": "A1001",
+      "name": "Battery Problem",
+      "parent_id": "A10",
+      "level": 2,
+      "description": "Issues with device battery",
+      "examples": ["Battery not holding charge", "Battery leaking"]
+    },
+    {
+      "code_id": "A100101",
+      "name": "Battery Depleted Earlier Than Expected",
+      "parent_id": "A1001",
+      "level": 3,
+      "description": "Battery ran out before expected lifetime",
+      "examples": ["Pacemaker battery depleted 2 years early"]
+    },
+    {
+      "code_id": "A100102",
+      "name": "Battery Failure",
+      "parent_id": "A1001",
+      "level": 3,
+      "description": "Battery completely failed",
+      "examples": ["Battery will not charge", "Battery dead on arrival"]
+    },
+    {
+      "code_id": "A11",
+      "name": "Software Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to device software",
+      "examples": ["Software crash", "Incorrect calculations", "Data corruption"]
+    },
+    {
+      "code_id": "A1101",
+      "name": "Application Program Problem",
+      "parent_id": "A11",
+      "level": 2,
+      "description": "Problem with device application software",
+      "examples": ["App crash", "Incorrect algorithm output"]
+    },
+    {
+      "code_id": "A1102",
+      "name": "Firmware Problem",
+      "parent_id": "A11",
+      "level": 2,
+      "description": "Problem with device firmware",
+      "examples": ["Firmware bug", "Firmware corruption"]
+    },
+    {
+      "code_id": "A1103",
+      "name": "Operating System Problem",
+      "parent_id": "A11",
+      "level": 2,
+      "description": "Problem with device operating system",
+      "examples": ["OS crash", "OS incompatibility"]
+    },
+    {
+      "code_id": "A1104",
+      "name": "Software Calculation Error",
+      "parent_id": "A11",
+      "level": 2,
+      "description": "Software produced incorrect calculation results",
+      "examples": ["Dosing calculation error", "Measurement conversion error"]
+    },
+    {
+      "code_id": "A12",
+      "name": "Thermal Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues related to device temperature",
+      "examples": ["Overheating", "Burns", "Insufficient heating"]
+    },
+    {
+      "code_id": "A1201",
+      "name": "Overheating",
+      "parent_id": "A12",
+      "level": 2,
+      "description": "Device became too hot",
+      "examples": ["Device hot to touch", "Thermal shutdown triggered"]
+    },
+    {
+      "code_id": "A13",
+      "name": "Labeling, Instructions for Use or Training Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Issues with device labeling or instructions",
+      "examples": ["Unclear instructions", "Missing warnings", "Incorrect labeling"]
+    },
+    {
+      "code_id": "A1301",
+      "name": "Incorrect or Missing Expiration Date",
+      "parent_id": "A13",
+      "level": 2,
+      "description": "Expiration date is wrong or missing",
+      "examples": ["No expiration printed", "Wrong expiration date"]
+    },
+    {
+      "code_id": "A1302",
+      "name": "Incorrect or Missing Instructions for Use",
+      "parent_id": "A13",
+      "level": 2,
+      "description": "Instructions are wrong or missing",
+      "examples": ["No IFU included", "Wrong language IFU"]
+    },
+    {
+      "code_id": "A14",
+      "name": "Output Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "Device output is incorrect or problematic",
+      "examples": ["Incorrect dose delivered", "Wrong output level"]
+    },
+    {
+      "code_id": "A1401",
+      "name": "High Output",
+      "parent_id": "A14",
+      "level": 2,
+      "description": "Device output is higher than intended",
+      "examples": ["Pump delivering too much", "Energy output too high"]
+    },
+    {
+      "code_id": "A1402",
+      "name": "Low Output",
+      "parent_id": "A14",
+      "level": 2,
+      "description": "Device output is lower than intended",
+      "examples": ["Pump underdelivering", "Insufficient energy output"]
+    },
+    {
+      "code_id": "A1403",
+      "name": "No Output",
+      "parent_id": "A14",
+      "level": 2,
+      "description": "Device produced no output",
+      "examples": ["Pump not delivering", "No signal output"]
+    },
+    {
+      "code_id": "A15",
+      "name": "Failure to Operate",
+      "parent_id": null,
+      "level": 1,
+      "description": "Device failed to operate or turn on",
+      "examples": ["Device would not power on", "Complete device failure"]
+    }
+  ]
+}

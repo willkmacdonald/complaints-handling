@@ -1,0 +1,35 @@
+{
+  "test_case_id": "EMAIL-002",
+  "name": "Physician Brief Notification - Assumed Knowledge",
+  "description": "Terse email from busy physician assuming reader knows device and context. Medium difficulty extraction.",
+  "channel": "email",
+  "device_type": "diagnostic",
+  "severity": "malfunction_no_harm",
+  "difficulty": "medium",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-03-12T17:45:00Z",
+    "headers": {
+      "from": "jmiller@cardiaccare.org",
+      "to": "techsupport@echoimaging.com",
+      "cc": "qcomplaint@echoimaging.com",
+      "subject": "Echo machine issue - need callback",
+      "date": "Tue, 12 Mar 2024 17:45:00 -0600"
+    },
+    "body": "Hi,\n\nThe portable echo in our cath lab (the EchoView 3000, S/N EV3K-2022-45678) is showing intermittent signal dropout during Doppler assessment. Started about 2 weeks ago. Getting worse. Already changed cables and cleaned transducer - no improvement.\n\nMissed some critical flow measurements yesterday during a valve case. Luckily we had backup but this needs to be addressed ASAP.\n\nIs this a known issue? Can someone call me tomorrow AM?\n\n-J Miller MD",
+    "attachments": []
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0201", "A14", "A1403"],
+    "alternative_codes": ["A02", "A0803"],
+    "requires_mdr": false,
+    "mdr_criteria": [],
+    "coding_rationale": "A0201 (Device Displays Inaccurate Data) or A1403 (No Output) for signal dropout. This is a malfunction but no patient harm occurred (backup was available). No MDR required as no harm resulted."
+  },
+  "extraction_challenges": [
+    "Informal language and abbreviations",
+    "Device info embedded in narrative rather than structured",
+    "Must infer manufacturer from email recipient domain"
+  ],
+  "notes": "Common pattern from busy physicians - assumes familiarity with device. Need to extract device info from casual mention."
+}

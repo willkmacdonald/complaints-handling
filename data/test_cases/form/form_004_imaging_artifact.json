@@ -1,0 +1,69 @@
+{
+  "test_case_id": "FORM-004",
+  "name": "CT Scanner Image Artifact - No Patient Harm",
+  "description": "CT scanner produced artifacts that were identified before diagnosis. Quality issue caught before patient impact.",
+  "channel": "form",
+  "device_type": "diagnostic",
+  "severity": "malfunction_no_harm",
+  "difficulty": "medium",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-02-10T11:20:00Z",
+    "fields": {
+      "device_name": "MedImage CT Scanner 3000",
+      "manufacturer": "MedImage Systems Corp",
+      "model_number": "CT-3000-PRO",
+      "serial_number": "MI-CT3K-2022-00891",
+      "event_date": "2024-02-08",
+      "event_description": "During routine abdominal CT scan, the radiologist noticed unusual streak artifacts in the images that were not consistent with patient anatomy or known artifact sources. The artifacts appeared as linear streaks radiating from the center of the image. The scan was halted and repeated after the system was rebooted. The repeat scan showed normal imaging without artifacts. Upon investigation, the facility biomedical engineering team found that one of the detector modules was intermittently failing. The original scan images were not used for diagnosis - the patient was re-scanned after the issue was identified. No additional radiation dose was clinically significant according to the radiologist.",
+      "patient_outcome": "No harm - artifacts identified before diagnosis, patient rescanned",
+      "device_returned": false,
+      "reporter_type": "clinical_staff",
+      "reporter_organization": "Regional Medical Center - Radiology Department",
+      "patient_age": 55,
+      "patient_sex": "F"
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-004",
+    "intake_channel": "form",
+    "received_date": "2024-02-10T11:20:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "MedImage CT Scanner 3000",
+      "manufacturer": "MedImage Systems Corp",
+      "model_number": "CT-3000-PRO",
+      "serial_number": "MI-CT3K-2022-00891",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-02-08",
+      "event_description": "During routine abdominal CT scan, the radiologist noticed unusual streak artifacts in the images that were not consistent with patient anatomy or known artifact sources. The artifacts appeared as linear streaks radiating from the center of the image. The scan was halted and repeated after the system was rebooted. The repeat scan showed normal imaging without artifacts. Upon investigation, the facility biomedical engineering team found that one of the detector modules was intermittently failing. The original scan images were not used for diagnosis - the patient was re-scanned after the issue was identified. No additional radiation dose was clinically significant according to the radiologist.",
+      "patient_outcome": "No harm - artifacts identified before diagnosis, patient rescanned",
+      "location": "Regional Medical Center - Radiology Department",
+      "was_device_available_for_evaluation": false
+    },
+    "patient_info": {
+      "age": 55,
+      "sex": "F",
+      "relevant_conditions": []
+    },
+    "reporter_info": {
+      "reporter_type": "clinical_staff",
+      "organization": "Regional Medical Center - Radiology Department"
+    },
+    "narrative": "During routine abdominal CT scan, the radiologist noticed unusual streak artifacts in the images that were not consistent with patient anatomy or known artifact sources. The artifacts appeared as linear streaks radiating from the center of the image. The scan was halted and repeated after the system was rebooted. The repeat scan showed normal imaging without artifacts. Upon investigation, the facility biomedical engineering team found that one of the detector modules was intermittently failing. The original scan images were not used for diagnosis - the patient was re-scanned after the issue was identified. No additional radiation dose was clinically significant according to the radiologist."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0201", "A04", "C10"],
+    "alternative_codes": ["A02", "A0402"],
+    "requires_mdr": false,
+    "mdr_criteria": [],
+    "coding_rationale": "A0201 (Device Displays Inaccurate Data) for the image artifacts. A04 (Electrical Problem) for the failing detector module. C10 (No Patient Problem) because the issue was caught before any patient harm. This does NOT require MDR because no harm occurred and the malfunction was identified before it could cause harm. However, a trend analysis might flag this if similar issues occur."
+  },
+  "extraction_challenges": [
+    "Understanding that this is a near-miss, not an actual adverse event",
+    "Identifying the root cause (detector module) vs. the symptom (artifacts)"
+  ],
+  "notes": "Tests understanding of near-miss events. No MDR required because artifacts were caught before they could impact patient care."
+}

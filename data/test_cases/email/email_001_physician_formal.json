@@ -1,0 +1,30 @@
+{
+  "test_case_id": "EMAIL-001",
+  "name": "Physician Formal Report - Implant Infection",
+  "description": "Formal clinical report from physician about implant-associated infection requiring removal.",
+  "channel": "email",
+  "device_type": "implantable",
+  "severity": "serious_injury",
+  "difficulty": "easy",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-03-05T08:22:00Z",
+    "headers": {
+      "from": "Dr. Sarah Chen <s.chen@universityhospital.edu>",
+      "to": "complaints@meddevicecorp.com",
+      "subject": "Adverse Event Report - Spinal Fusion System Infection - Patient ID 78234",
+      "date": "Tue, 05 Mar 2024 08:22:00 -0500"
+    },
+    "body": "To Whom It May Concern,\n\nI am writing to report a serious adverse event involving your SpineFix Posterior Fusion System.\n\nPatient Information:\n- Age: 56 years\n- Sex: Male\n- Procedure Date: January 15, 2024\n- Device: SpineFix Posterior Fusion System, Model SF-400\n- Lot Number: SF2023-L892\n\nClinical Summary:\nPatient underwent L4-L5 posterior spinal fusion on January 15, 2024. On February 28, 2024, patient presented with increasing lower back pain, fever (101.2°F), and elevated inflammatory markers (CRP 85 mg/L, ESR 72 mm/hr). CT imaging revealed fluid collection adjacent to hardware with possible abscess formation.\n\nCultures obtained via CT-guided aspiration grew Staphylococcus aureus (MSSA). Despite IV antibiotic therapy (cefazolin), infection failed to resolve. Patient underwent surgical debridement and hardware removal on March 4, 2024.\n\nDevice Disposition:\nRemoved hardware has been retained and is available for manufacturer evaluation if requested.\n\nPlease contact me if you require additional clinical information.\n\nSincerely,\nDr. Sarah Chen, MD, FACS\nDepartment of Orthopedic Surgery\nUniversity Hospital Medical Center\nPhone: (555) 234-5678",
+    "attachments": []
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0103", "C03", "C0301", "C1302"],
+    "alternative_codes": ["A01", "C13"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A0103 (Infection) as device-associated problem. C03/C0301 for patient infection. C1302 (Surgical Intervention) for hardware removal surgery. MDR required due to serious injury requiring surgical intervention."
+  },
+  "extraction_challenges": [],
+  "notes": "Well-structured clinical report with clear device identification and clinical timeline. Easy extraction case."
+}

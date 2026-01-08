@@ -1,0 +1,68 @@
+{
+  "test_case_id": "FORM-003",
+  "name": "Blood Glucose Meter False Low Reading",
+  "description": "Diagnostic glucose meter displayed falsely low reading leading to patient taking extra insulin and experiencing hypoglycemia. MDR required - malfunction could cause serious injury.",
+  "channel": "form",
+  "device_type": "diagnostic",
+  "severity": "malfunction_harm",
+  "difficulty": "medium",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-01-20T16:45:00Z",
+    "fields": {
+      "device_name": "GlucoCheck Pro Blood Glucose Monitor",
+      "manufacturer": "DiabetesCare Technologies",
+      "model_number": "GCP-200",
+      "serial_number": "GCP200-2023-445566",
+      "lot_number": "TEST-STRIPS-LOT-2023-11",
+      "event_date": "2024-01-18",
+      "event_description": "Patient checked blood glucose before dinner using their GlucoCheck Pro meter. The meter displayed a reading of 52 mg/dL. Based on this reading, patient consumed 15g fast-acting carbs and reduced their dinner insulin dose. Approximately 1 hour later, patient felt symptoms of hyperglycemia and rechecked with a backup meter which showed 245 mg/dL. Patient then tested the original meter with control solution which showed the meter was reading approximately 100 mg/dL low. The patient's actual glucose at the time of the original reading was likely around 150 mg/dL, not 52 mg/dL. Patient had to take corrective insulin and experienced significant blood sugar fluctuations for the next several hours.",
+      "patient_outcome": "Hyperglycemia due to reduced insulin, blood sugar fluctuations",
+      "device_returned": true,
+      "reporter_type": "patient",
+      "patient_age": 45,
+      "patient_sex": "M"
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-003",
+    "intake_channel": "form",
+    "received_date": "2024-01-20T16:45:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "GlucoCheck Pro Blood Glucose Monitor",
+      "manufacturer": "DiabetesCare Technologies",
+      "model_number": "GCP-200",
+      "serial_number": "GCP200-2023-445566",
+      "lot_number": "TEST-STRIPS-LOT-2023-11",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-01-18",
+      "event_description": "Patient checked blood glucose before dinner using their GlucoCheck Pro meter. The meter displayed a reading of 52 mg/dL. Based on this reading, patient consumed 15g fast-acting carbs and reduced their dinner insulin dose. Approximately 1 hour later, patient felt symptoms of hyperglycemia and rechecked with a backup meter which showed 245 mg/dL. Patient then tested the original meter with control solution which showed the meter was reading approximately 100 mg/dL low. The patient's actual glucose at the time of the original reading was likely around 150 mg/dL, not 52 mg/dL. Patient had to take corrective insulin and experienced significant blood sugar fluctuations for the next several hours.",
+      "patient_outcome": "Hyperglycemia due to reduced insulin, blood sugar fluctuations",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 45,
+      "sex": "M",
+      "relevant_conditions": ["Type 1 Diabetes"]
+    },
+    "reporter_info": {
+      "reporter_type": "patient"
+    },
+    "narrative": "Patient checked blood glucose before dinner using their GlucoCheck Pro meter. The meter displayed a reading of 52 mg/dL. Based on this reading, patient consumed 15g fast-acting carbs and reduced their dinner insulin dose. Approximately 1 hour later, patient felt symptoms of hyperglycemia and rechecked with a backup meter which showed 245 mg/dL. Patient then tested the original meter with control solution which showed the meter was reading approximately 100 mg/dL low. The patient's actual glucose at the time of the original reading was likely around 150 mg/dL, not 52 mg/dL. Patient had to take corrective insulin and experienced significant blood sugar fluctuations for the next several hours."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0201", "C0902"],
+    "alternative_codes": ["A02", "A1402", "C09"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_serious_injury"],
+    "coding_rationale": "A0201 (Device Displays Inaccurate Data) is the device problem - meter showed falsely low reading. C0902 (Hyperglycemia) is the patient outcome. This requires MDR because the malfunction (inaccurate glucose reading) could cause serious injury if it recurs - a patient could take too much insulin and experience severe hypoglycemia."
+  },
+  "extraction_challenges": [
+    "Need to infer relevant medical condition (diabetes) from context",
+    "Understanding the cause-effect chain (false low -> wrong treatment -> hyperglycemia)"
+  ],
+  "notes": "Tests understanding of diagnostic device failures and downstream patient effects. The malfunction itself didn't cause immediate severe harm, but could if it recurs."
+}

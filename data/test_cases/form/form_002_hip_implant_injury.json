@@ -1,0 +1,71 @@
+{
+  "test_case_id": "FORM-002",
+  "name": "Hip Implant Dislocation - Serious Injury",
+  "description": "Total hip replacement implant dislocation requiring revision surgery. Serious injury requiring MDR.",
+  "channel": "form",
+  "device_type": "implantable",
+  "severity": "serious_injury",
+  "difficulty": "easy",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-02-03T09:15:00Z",
+    "fields": {
+      "device_name": "OrthoMax Total Hip System",
+      "manufacturer": "OrthoMax Implants LLC",
+      "model_number": "OMTH-36-L",
+      "serial_number": "OMTH-2023-11234",
+      "lot_number": "23-Q2-HIP-887",
+      "event_date": "2024-01-28",
+      "event_description": "Patient presented to emergency department with severe left hip pain 8 months post total hip arthroplasty. Imaging confirmed posterior dislocation of the femoral head from the acetabular cup. Closed reduction was attempted but unsuccessful. Patient required revision surgery under general anesthesia to reposition and stabilize the implant. Examination of the device during surgery showed the acetabular liner had excessive wear and the locking mechanism appeared compromised.",
+      "patient_outcome": "Required revision surgery. Extended hospitalization (5 days). Currently in rehabilitation.",
+      "device_returned": false,
+      "reporter_type": "physician",
+      "reporter_organization": "City Orthopedic Hospital",
+      "patient_age": 72,
+      "patient_sex": "F"
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-002",
+    "intake_channel": "form",
+    "received_date": "2024-02-03T09:15:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "OrthoMax Total Hip System",
+      "manufacturer": "OrthoMax Implants LLC",
+      "model_number": "OMTH-36-L",
+      "serial_number": "OMTH-2023-11234",
+      "lot_number": "23-Q2-HIP-887",
+      "device_type": "implantable"
+    },
+    "event_info": {
+      "event_date": "2024-01-28",
+      "event_description": "Patient presented to emergency department with severe left hip pain 8 months post total hip arthroplasty. Imaging confirmed posterior dislocation of the femoral head from the acetabular cup. Closed reduction was attempted but unsuccessful. Patient required revision surgery under general anesthesia to reposition and stabilize the implant. Examination of the device during surgery showed the acetabular liner had excessive wear and the locking mechanism appeared compromised.",
+      "patient_outcome": "Required revision surgery. Extended hospitalization (5 days). Currently in rehabilitation.",
+      "device_outcome": "Excessive wear on acetabular liner, compromised locking mechanism",
+      "was_device_available_for_evaluation": false
+    },
+    "patient_info": {
+      "age": 72,
+      "sex": "F",
+      "relevant_conditions": []
+    },
+    "reporter_info": {
+      "reporter_type": "physician",
+      "organization": "City Orthopedic Hospital"
+    },
+    "narrative": "Patient presented to emergency department with severe left hip pain 8 months post total hip arthroplasty. Imaging confirmed posterior dislocation of the femoral head from the acetabular cup. Closed reduction was attempted but unsuccessful. Patient required revision surgery under general anesthesia to reposition and stabilize the implant. Examination of the device during surgery showed the acetabular liner had excessive wear and the locking mechanism appeared compromised."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0702", "A0603", "C1302", "C12"],
+    "alternative_codes": ["A07", "A0704", "C08"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A0702 (Dislodgement of Device or Component) for the hip dislocation. A0603 (Material Deterioration) for the excessive wear on the liner. C1302 (Surgical Intervention) and C12 (Hospitalization) for patient outcomes. Requires MDR due to serious injury requiring surgical intervention."
+  },
+  "extraction_challenges": [
+    "Multiple device problems to identify (dislocation and wear)",
+    "Multiple patient outcomes to capture"
+  ],
+  "notes": "Complex case with multiple codes needed. Tests ability to identify both device problems and patient outcomes."
+}

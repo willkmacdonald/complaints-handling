@@ -1,0 +1,68 @@
+{
+  "test_case_id": "FORM-006",
+  "name": "Clinical Dosing Calculator Software Error",
+  "description": "Software as Medical Device (SaMD) dosing calculator produced incorrect chemotherapy dose recommendation. Caught by pharmacist before administration.",
+  "channel": "form",
+  "device_type": "samd",
+  "severity": "malfunction_potential_harm",
+  "difficulty": "hard",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-02-15T14:00:00Z",
+    "fields": {
+      "device_name": "OncoCalc Clinical Decision Support System",
+      "manufacturer": "PrecisionRx Software Inc.",
+      "model_number": "OncoCalc v3.2.1",
+      "event_date": "2024-02-14",
+      "event_description": "The OncoCalc software was used to calculate a carboplatin dose for a patient using the Calvert formula. The system was provided with: target AUC of 5, patient weight 70kg, height 175cm, serum creatinine 1.2 mg/dL, age 62, female. The software calculated a recommended dose of 750mg. The clinical pharmacist reviewed the calculation and manually verified using the same formula, obtaining a dose of 450mg. Investigation found the software was incorrectly using the Cockcroft-Gault equation with a male coefficient instead of female, resulting in an overestimated GFR and therefore an overdose recommendation of approximately 67% above the correct dose. The error was caught before administration. IT confirmed the bug exists in v3.2.1 for all female patients.",
+      "patient_outcome": "No harm - error caught before drug administration",
+      "device_returned": false,
+      "reporter_type": "clinical_staff",
+      "reporter_organization": "University Cancer Center - Pharmacy",
+      "patient_age": 62,
+      "patient_sex": "F"
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-006",
+    "intake_channel": "form",
+    "received_date": "2024-02-15T14:00:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "OncoCalc Clinical Decision Support System",
+      "manufacturer": "PrecisionRx Software Inc.",
+      "model_number": "OncoCalc v3.2.1",
+      "device_type": "samd"
+    },
+    "event_info": {
+      "event_date": "2024-02-14",
+      "event_description": "The OncoCalc software was used to calculate a carboplatin dose for a patient using the Calvert formula. The system was provided with: target AUC of 5, patient weight 70kg, height 175cm, serum creatinine 1.2 mg/dL, age 62, female. The software calculated a recommended dose of 750mg. The clinical pharmacist reviewed the calculation and manually verified using the same formula, obtaining a dose of 450mg. Investigation found the software was incorrectly using the Cockcroft-Gault equation with a male coefficient instead of female, resulting in an overestimated GFR and therefore an overdose recommendation of approximately 67% above the correct dose. The error was caught before administration. IT confirmed the bug exists in v3.2.1 for all female patients.",
+      "patient_outcome": "No harm - error caught before drug administration",
+      "location": "University Cancer Center - Pharmacy",
+      "was_device_available_for_evaluation": false
+    },
+    "patient_info": {
+      "age": 62,
+      "sex": "F",
+      "relevant_conditions": ["Cancer - undergoing chemotherapy"]
+    },
+    "reporter_info": {
+      "reporter_type": "clinical_staff",
+      "organization": "University Cancer Center - Pharmacy"
+    },
+    "narrative": "The OncoCalc software was used to calculate a carboplatin dose for a patient using the Calvert formula. The system was provided with: target AUC of 5, patient weight 70kg, height 175cm, serum creatinine 1.2 mg/dL, age 62, female. The software calculated a recommended dose of 750mg. The clinical pharmacist reviewed the calculation and manually verified using the same formula, obtaining a dose of 450mg. Investigation found the software was incorrectly using the Cockcroft-Gault equation with a male coefficient instead of female, resulting in an overestimated GFR and therefore an overdose recommendation of approximately 67% above the correct dose. The error was caught before administration. IT confirmed the bug exists in v3.2.1 for all female patients."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A1104", "A1101", "C10"],
+    "alternative_codes": ["A11", "A1401"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_serious_injury"],
+    "coding_rationale": "A1104 (Software Calculation Error) is the primary code - the software made an incorrect calculation. A1101 (Application Program Problem) also applies as there's a bug in the application logic. C10 (No Patient Problem) because the error was caught. Despite no actual harm, this REQUIRES MDR because the malfunction could cause serious injury or death if it recurs - a 67% chemotherapy overdose could be fatal. The systematic nature (affects all female patients) makes this particularly serious."
+  },
+  "extraction_challenges": [
+    "Understanding SaMD-specific issues",
+    "Recognizing the severity despite no actual harm (potential for serious harm)",
+    "Technical software bug details"
+  ],
+  "notes": "Critical SaMD case. Despite being a near-miss, requires MDR due to potential severity. The systematic nature (all female patients affected) indicates urgency."
+}

@@ -1,0 +1,70 @@
+{
+  "test_case_id": "FORM-001",
+  "name": "Pacemaker Failure Leading to Death",
+  "description": "Implantable pacemaker battery depleted prematurely causing patient death. MDR required.",
+  "channel": "form",
+  "device_type": "implantable",
+  "severity": "death",
+  "difficulty": "easy",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-01-15T14:30:00Z",
+    "fields": {
+      "device_name": "CardioRhythm Pacemaker Model CR-500",
+      "manufacturer": "CardioRhythm Medical Inc.",
+      "model_number": "CR-500",
+      "serial_number": "CR500-2021-78432",
+      "lot_number": "LOT2021-Q3-445",
+      "udi": "(01)00884567001234(17)261231(10)LOT2021-Q3-445(21)CR500-2021-78432",
+      "event_date": "2024-01-10",
+      "event_description": "Patient's pacemaker battery depleted approximately 3 years earlier than expected based on device specifications. Patient experienced complete heart block and subsequently died. The pacemaker was implanted in March 2021 and was expected to last until at least 2029 based on the manufacturer's projected battery life of 8-10 years.",
+      "patient_outcome": "Death",
+      "device_returned": true,
+      "reporter_type": "physician",
+      "reporter_organization": "Memorial Heart Center",
+      "patient_age": 78,
+      "patient_sex": "M"
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-001",
+    "intake_channel": "form",
+    "received_date": "2024-01-15T14:30:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "CardioRhythm Pacemaker Model CR-500",
+      "manufacturer": "CardioRhythm Medical Inc.",
+      "model_number": "CR-500",
+      "serial_number": "CR500-2021-78432",
+      "lot_number": "LOT2021-Q3-445",
+      "device_type": "implantable",
+      "udi": "(01)00884567001234(17)261231(10)LOT2021-Q3-445(21)CR500-2021-78432"
+    },
+    "event_info": {
+      "event_date": "2024-01-10",
+      "event_description": "Patient's pacemaker battery depleted approximately 3 years earlier than expected based on device specifications. Patient experienced complete heart block and subsequently died. The pacemaker was implanted in March 2021 and was expected to last until at least 2029 based on the manufacturer's projected battery life of 8-10 years.",
+      "patient_outcome": "Death",
+      "device_outcome": "Device returned for evaluation",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 78,
+      "sex": "M",
+      "relevant_conditions": []
+    },
+    "reporter_info": {
+      "reporter_type": "physician",
+      "organization": "Memorial Heart Center"
+    },
+    "narrative": "Patient's pacemaker battery depleted approximately 3 years earlier than expected based on device specifications. Patient experienced complete heart block and subsequently died. The pacemaker was implanted in March 2021 and was expected to last until at least 2029 based on the manufacturer's projected battery life of 8-10 years."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A100101", "C01"],
+    "alternative_codes": ["A1001", "A10"],
+    "requires_mdr": true,
+    "mdr_criteria": ["death"],
+    "coding_rationale": "A100101 (Battery Depleted Earlier Than Expected) is the primary device problem code - the battery failed prematurely. C01 (Death) is the patient problem code as the patient died. This clearly requires MDR filing as it involves a death."
+  },
+  "extraction_challenges": [],
+  "notes": "Straightforward case with all fields clearly filled out. Device and patient outcomes are unambiguous."
+}

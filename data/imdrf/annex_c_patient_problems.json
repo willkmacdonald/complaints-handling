@@ -1,0 +1,399 @@
+{
+  "annex": "C",
+  "title": "Patient Problem Codes (Health Effects)",
+  "description": "IMDRF Annex C - Codes for categorizing patient problems, clinical signs, symptoms, and conditions",
+  "codes": [
+    {
+      "code_id": "C01",
+      "name": "Death",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient died",
+      "examples": ["Patient death associated with device use"]
+    },
+    {
+      "code_id": "C02",
+      "name": "Injury or Damage",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient experienced injury or damage",
+      "examples": ["Physical injury", "Tissue damage"]
+    },
+    {
+      "code_id": "C0201",
+      "name": "Abrasion",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Skin scraping or wearing away",
+      "examples": ["Skin rubbed raw by device", "Surface abrasion from friction"]
+    },
+    {
+      "code_id": "C0202",
+      "name": "Bruise or Contusion",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Discoloration from broken blood vessels under skin",
+      "examples": ["Bruising at injection site", "Contusion from impact"]
+    },
+    {
+      "code_id": "C0203",
+      "name": "Burn",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Tissue damage from heat, chemical, electrical, or radiation",
+      "examples": ["Thermal burn", "Chemical burn", "Electrical burn"]
+    },
+    {
+      "code_id": "C020301",
+      "name": "Chemical Burn",
+      "parent_id": "C0203",
+      "level": 3,
+      "description": "Burn caused by chemical exposure",
+      "examples": ["Burn from leaked battery acid"]
+    },
+    {
+      "code_id": "C020302",
+      "name": "Electrical Burn",
+      "parent_id": "C0203",
+      "level": 3,
+      "description": "Burn caused by electrical current",
+      "examples": ["Burn at electrode site", "Electrosurgery burn"]
+    },
+    {
+      "code_id": "C020303",
+      "name": "Radiation Burn",
+      "parent_id": "C0203",
+      "level": 3,
+      "description": "Burn caused by radiation exposure",
+      "examples": ["Skin erythema from radiation therapy"]
+    },
+    {
+      "code_id": "C020304",
+      "name": "Thermal Burn",
+      "parent_id": "C0203",
+      "level": 3,
+      "description": "Burn caused by heat",
+      "examples": ["Burn from overheated device", "Cautery burn"]
+    },
+    {
+      "code_id": "C0204",
+      "name": "Laceration or Cut",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Tearing or cutting of tissue",
+      "examples": ["Cut from sharp edge", "Tissue tear"]
+    },
+    {
+      "code_id": "C0205",
+      "name": "Perforation or Puncture",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Hole made through tissue or organ",
+      "examples": ["Bowel perforation", "Vascular puncture"]
+    },
+    {
+      "code_id": "C0206",
+      "name": "Tissue Necrosis",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Death of tissue",
+      "examples": ["Pressure necrosis", "Ischemic necrosis"]
+    },
+    {
+      "code_id": "C0207",
+      "name": "Hemorrhage or Bleeding",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Abnormal bleeding",
+      "examples": ["Excessive bleeding", "Internal hemorrhage"]
+    },
+    {
+      "code_id": "C0208",
+      "name": "Erosion",
+      "parent_id": "C02",
+      "level": 2,
+      "description": "Gradual destruction of tissue surface",
+      "examples": ["Device eroding through tissue"]
+    },
+    {
+      "code_id": "C03",
+      "name": "Infection",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient developed infection",
+      "examples": ["Surgical site infection", "Device-related infection"]
+    },
+    {
+      "code_id": "C0301",
+      "name": "Local Infection",
+      "parent_id": "C03",
+      "level": 2,
+      "description": "Infection at specific site",
+      "examples": ["Wound infection", "Implant site infection"]
+    },
+    {
+      "code_id": "C0302",
+      "name": "Sepsis",
+      "parent_id": "C03",
+      "level": 2,
+      "description": "Systemic infection/blood infection",
+      "examples": ["Bloodstream infection", "Septicemia"]
+    },
+    {
+      "code_id": "C04",
+      "name": "Allergic or Immunologic Reaction",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient had allergic or immune reaction",
+      "examples": ["Allergic reaction to device material", "Hypersensitivity"]
+    },
+    {
+      "code_id": "C0401",
+      "name": "Allergic Reaction",
+      "parent_id": "C04",
+      "level": 2,
+      "description": "Immune response to allergen",
+      "examples": ["Latex allergy", "Metal allergy"]
+    },
+    {
+      "code_id": "C0402",
+      "name": "Anaphylactic Shock",
+      "parent_id": "C04",
+      "level": 2,
+      "description": "Severe systemic allergic reaction",
+      "examples": ["Anaphylaxis requiring epinephrine"]
+    },
+    {
+      "code_id": "C05",
+      "name": "Cardiovascular Event",
+      "parent_id": null,
+      "level": 1,
+      "description": "Heart or blood vessel event",
+      "examples": ["Arrhythmia", "Heart attack", "Stroke"]
+    },
+    {
+      "code_id": "C0501",
+      "name": "Arrhythmia",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Abnormal heart rhythm",
+      "examples": ["Tachycardia", "Bradycardia", "Fibrillation"]
+    },
+    {
+      "code_id": "C0502",
+      "name": "Cardiac Arrest",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Heart stopped beating",
+      "examples": ["Sudden cardiac arrest"]
+    },
+    {
+      "code_id": "C0503",
+      "name": "Embolism",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Blockage of blood vessel by embolus",
+      "examples": ["Air embolism", "Pulmonary embolism"]
+    },
+    {
+      "code_id": "C0504",
+      "name": "Hypotension",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Low blood pressure",
+      "examples": ["Drop in blood pressure", "Orthostatic hypotension"]
+    },
+    {
+      "code_id": "C0505",
+      "name": "Myocardial Infarction",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Heart attack",
+      "examples": ["MI during procedure"]
+    },
+    {
+      "code_id": "C0506",
+      "name": "Stroke",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Cerebrovascular accident",
+      "examples": ["Ischemic stroke", "Hemorrhagic stroke"]
+    },
+    {
+      "code_id": "C0507",
+      "name": "Thrombosis",
+      "parent_id": "C05",
+      "level": 2,
+      "description": "Blood clot formation",
+      "examples": ["Deep vein thrombosis", "Device-related thrombus"]
+    },
+    {
+      "code_id": "C06",
+      "name": "Respiratory Event",
+      "parent_id": null,
+      "level": 1,
+      "description": "Breathing or lung event",
+      "examples": ["Respiratory distress", "Pneumothorax"]
+    },
+    {
+      "code_id": "C0601",
+      "name": "Dyspnea",
+      "parent_id": "C06",
+      "level": 2,
+      "description": "Difficulty breathing",
+      "examples": ["Shortness of breath", "Labored breathing"]
+    },
+    {
+      "code_id": "C0602",
+      "name": "Pneumothorax",
+      "parent_id": "C06",
+      "level": 2,
+      "description": "Collapsed lung",
+      "examples": ["Air in pleural space"]
+    },
+    {
+      "code_id": "C0603",
+      "name": "Respiratory Arrest",
+      "parent_id": "C06",
+      "level": 2,
+      "description": "Breathing stopped",
+      "examples": ["Apnea requiring intervention"]
+    },
+    {
+      "code_id": "C07",
+      "name": "Neurological Event",
+      "parent_id": null,
+      "level": 1,
+      "description": "Nervous system event",
+      "examples": ["Seizure", "Paralysis", "Nerve damage"]
+    },
+    {
+      "code_id": "C0701",
+      "name": "Loss of Consciousness",
+      "parent_id": "C07",
+      "level": 2,
+      "description": "Patient lost consciousness",
+      "examples": ["Syncope", "Fainting"]
+    },
+    {
+      "code_id": "C0702",
+      "name": "Nerve Damage",
+      "parent_id": "C07",
+      "level": 2,
+      "description": "Injury to nerve",
+      "examples": ["Neuropathy", "Nerve compression"]
+    },
+    {
+      "code_id": "C0703",
+      "name": "Paralysis",
+      "parent_id": "C07",
+      "level": 2,
+      "description": "Loss of muscle function",
+      "examples": ["Temporary paralysis", "Permanent paralysis"]
+    },
+    {
+      "code_id": "C0704",
+      "name": "Seizure",
+      "parent_id": "C07",
+      "level": 2,
+      "description": "Uncontrolled electrical brain activity",
+      "examples": ["Grand mal seizure", "Focal seizure"]
+    },
+    {
+      "code_id": "C08",
+      "name": "Pain",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient experienced pain",
+      "examples": ["Device-related pain", "Procedural pain"]
+    },
+    {
+      "code_id": "C0801",
+      "name": "Acute Pain",
+      "parent_id": "C08",
+      "level": 2,
+      "description": "Sudden, short-term pain",
+      "examples": ["Sharp pain during procedure"]
+    },
+    {
+      "code_id": "C0802",
+      "name": "Chronic Pain",
+      "parent_id": "C08",
+      "level": 2,
+      "description": "Long-lasting pain",
+      "examples": ["Ongoing pain from implant"]
+    },
+    {
+      "code_id": "C09",
+      "name": "Metabolic or Endocrine Event",
+      "parent_id": null,
+      "level": 1,
+      "description": "Metabolic or hormonal event",
+      "examples": ["Hypoglycemia", "Electrolyte imbalance"]
+    },
+    {
+      "code_id": "C0901",
+      "name": "Hypoglycemia",
+      "parent_id": "C09",
+      "level": 2,
+      "description": "Low blood sugar",
+      "examples": ["Blood glucose dropped dangerously low"]
+    },
+    {
+      "code_id": "C0902",
+      "name": "Hyperglycemia",
+      "parent_id": "C09",
+      "level": 2,
+      "description": "High blood sugar",
+      "examples": ["Blood glucose elevated above normal"]
+    },
+    {
+      "code_id": "C10",
+      "name": "No Patient Problem",
+      "parent_id": null,
+      "level": 1,
+      "description": "No adverse patient effect occurred",
+      "examples": ["Device issue but patient unaffected", "Near miss"]
+    },
+    {
+      "code_id": "C11",
+      "name": "Insufficient Information",
+      "parent_id": null,
+      "level": 1,
+      "description": "Not enough information to determine patient problem",
+      "examples": ["Patient outcome unknown"]
+    },
+    {
+      "code_id": "C12",
+      "name": "Hospitalization or Prolonged Hospitalization",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient required hospitalization or extended stay",
+      "examples": ["Admitted due to device issue", "Hospitalization extended"]
+    },
+    {
+      "code_id": "C13",
+      "name": "Required Intervention",
+      "parent_id": null,
+      "level": 1,
+      "description": "Patient required medical or surgical intervention",
+      "examples": ["Surgery to remove device", "Medical treatment required"]
+    },
+    {
+      "code_id": "C1301",
+      "name": "Medical Intervention",
+      "parent_id": "C13",
+      "level": 2,
+      "description": "Non-surgical medical treatment required",
+      "examples": ["Medication needed", "Observation required"]
+    },
+    {
+      "code_id": "C1302",
+      "name": "Surgical Intervention",
+      "parent_id": "C13",
+      "level": 2,
+      "description": "Surgery required",
+      "examples": ["Revision surgery", "Device removal surgery"]
+    }
+  ]
+}

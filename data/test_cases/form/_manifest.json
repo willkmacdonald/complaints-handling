@@ -1,0 +1,82 @@
+{
+  "channel": "form",
+  "description": "Synthetic test cases for online form submissions",
+  "test_cases": [
+    {
+      "id": "FORM-001",
+      "file": "form_001_pacemaker_death.json",
+      "name": "Pacemaker Failure Leading to Death",
+      "severity": "death",
+      "device_type": "implantable",
+      "requires_mdr": true
+    },
+    {
+      "id": "FORM-002",
+      "file": "form_002_hip_implant_injury.json",
+      "name": "Hip Implant Dislocation - Serious Injury",
+      "severity": "serious_injury",
+      "device_type": "implantable",
+      "requires_mdr": true
+    },
+    {
+      "id": "FORM-003",
+      "file": "form_003_glucose_meter_malfunction.json",
+      "name": "Blood Glucose Meter False Low Reading",
+      "severity": "malfunction_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": true
+    },
+    {
+      "id": "FORM-004",
+      "file": "form_004_imaging_artifact.json",
+      "name": "CT Scanner Image Artifact - No Patient Harm",
+      "severity": "malfunction_no_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": false
+    },
+    {
+      "id": "FORM-005",
+      "file": "form_005_catheter_packaging.json",
+      "name": "IV Catheter Packaging Damaged",
+      "severity": "quality",
+      "device_type": "consumable",
+      "requires_mdr": false
+    },
+    {
+      "id": "FORM-006",
+      "file": "form_006_dosing_calculator.json",
+      "name": "Clinical Dosing Calculator Software Error",
+      "severity": "malfunction_potential_harm",
+      "device_type": "samd",
+      "requires_mdr": true
+    },
+    {
+      "id": "FORM-007",
+      "file": "form_007_insulin_pump_user_error.json",
+      "name": "Insulin Pump User Programming Error",
+      "severity": "user_error",
+      "device_type": "consumable",
+      "requires_mdr": false
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "mdr_required": 4,
+    "mdr_not_required": 3,
+    "by_device_type": {
+      "implantable": 2,
+      "diagnostic": 2,
+      "consumable": 2,
+      "samd": 1
+    },
+    "by_severity": {
+      "death": 1,
+      "serious_injury": 1,
+      "malfunction_harm": 1,
+      "malfunction_potential_harm": 1,
+      "malfunction_no_harm": 1,
+      "quality": 1,
+      "user_error": 1
+    }
+  }
+}

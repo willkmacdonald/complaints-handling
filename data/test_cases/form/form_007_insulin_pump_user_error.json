@@ -1,0 +1,67 @@
+{
+  "test_case_id": "FORM-007",
+  "name": "Insulin Pump User Programming Error",
+  "description": "Patient incorrectly programmed insulin pump settings leading to hypoglycemia. User error, not device malfunction.",
+  "channel": "form",
+  "device_type": "consumable",
+  "severity": "user_error",
+  "difficulty": "medium",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-01-30T10:15:00Z",
+    "fields": {
+      "device_name": "InsuFlow Insulin Pump System",
+      "manufacturer": "InsuFlow Diabetes Care",
+      "model_number": "IF-500",
+      "serial_number": "IF500-2023-887745",
+      "event_date": "2024-01-28",
+      "event_description": "Patient's spouse called to report that patient experienced severe hypoglycemia (blood glucose 38 mg/dL) requiring emergency glucagon administration. Upon investigation by our diabetes educator, it was determined that the patient had changed their basal rate settings two days prior. The patient intended to increase their overnight basal rate from 0.8 units/hr to 0.9 units/hr between 12am-6am. However, the patient accidentally set the basal rate to 9.0 units/hr instead of 0.9 units/hr. The pump functioned exactly as programmed and delivered the 9.0 units/hr basal rate. The device logs confirm the settings change and proper delivery according to those settings. Patient education on pump programming was provided.",
+      "patient_outcome": "Severe hypoglycemia requiring glucagon, recovered fully",
+      "device_returned": false,
+      "reporter_type": "family_member",
+      "patient_age": 34,
+      "patient_sex": "F"
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-007",
+    "intake_channel": "form",
+    "received_date": "2024-01-30T10:15:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "InsuFlow Insulin Pump System",
+      "manufacturer": "InsuFlow Diabetes Care",
+      "model_number": "IF-500",
+      "serial_number": "IF500-2023-887745",
+      "device_type": "consumable"
+    },
+    "event_info": {
+      "event_date": "2024-01-28",
+      "event_description": "Patient's spouse called to report that patient experienced severe hypoglycemia (blood glucose 38 mg/dL) requiring emergency glucagon administration. Upon investigation by our diabetes educator, it was determined that the patient had changed their basal rate settings two days prior. The patient intended to increase their overnight basal rate from 0.8 units/hr to 0.9 units/hr between 12am-6am. However, the patient accidentally set the basal rate to 9.0 units/hr instead of 0.9 units/hr. The pump functioned exactly as programmed and delivered the 9.0 units/hr basal rate. The device logs confirm the settings change and proper delivery according to those settings. Patient education on pump programming was provided.",
+      "patient_outcome": "Severe hypoglycemia requiring glucagon, recovered fully",
+      "was_device_available_for_evaluation": false
+    },
+    "patient_info": {
+      "age": 34,
+      "sex": "F",
+      "relevant_conditions": ["Type 1 Diabetes"]
+    },
+    "reporter_info": {
+      "reporter_type": "family_member"
+    },
+    "narrative": "Patient's spouse called to report that patient experienced severe hypoglycemia (blood glucose 38 mg/dL) requiring emergency glucagon administration. Upon investigation by our diabetes educator, it was determined that the patient had changed their basal rate settings two days prior. The patient intended to increase their overnight basal rate from 0.8 units/hr to 0.9 units/hr between 12am-6am. However, the patient accidentally set the basal rate to 9.0 units/hr instead of 0.9 units/hr. The pump functioned exactly as programmed and delivered the 9.0 units/hr basal rate. The device logs confirm the settings change and proper delivery according to those settings. Patient education on pump programming was provided."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A01", "C0901"],
+    "alternative_codes": ["C1301"],
+    "requires_mdr": false,
+    "mdr_criteria": [],
+    "coding_rationale": "A01 (Adverse Event Without Identified Device or Use Problem) - the device functioned correctly as programmed, there was no device malfunction. C0901 (Hypoglycemia) describes the patient outcome. This does NOT require MDR because there was no device malfunction - the pump worked exactly as it was programmed. This was user error. However, this might prompt review of UI/UX for pump programming to prevent similar errors."
+  },
+  "extraction_challenges": [
+    "Distinguishing user error from device malfunction",
+    "Understanding that device worked correctly even though patient was harmed",
+    "The narrative initially sounds like a device problem until investigation details are revealed"
+  ],
+  "notes": "Important test case for distinguishing user error from device malfunction. Despite serious patient harm, no MDR required because device functioned correctly. May indicate need for UI improvements but not a reportable device issue."
+}

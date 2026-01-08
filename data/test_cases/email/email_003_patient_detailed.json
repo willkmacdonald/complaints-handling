@@ -1,0 +1,35 @@
+{
+  "test_case_id": "EMAIL-003",
+  "name": "Patient Detailed Complaint - Emotional Narrative",
+  "description": "Lengthy emotional complaint from patient about continuous glucose monitor failures. Contains relevant details mixed with emotional content.",
+  "channel": "email",
+  "device_type": "diagnostic",
+  "severity": "malfunction_harm",
+  "difficulty": "medium",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-03-18T23:12:00Z",
+    "headers": {
+      "from": "maria.gonzalez@email.com",
+      "to": "customer.service@glucomonitor.com",
+      "subject": "URGENT - Your CGM almost killed my daughter!!",
+      "date": "Mon, 18 Mar 2024 23:12:00 -0400"
+    },
+    "body": "To whoever reads this,\n\nI am writing because I am absolutely TERRIFIED and FURIOUS about what happened to my daughter because of your GlucoSense G7 continuous glucose monitor.\n\nMy daughter Emily is 14 years old and has had Type 1 diabetes since she was 6. We trusted your device to help keep her safe, especially at night when we can't constantly check on her. We have been using the GlucoSense G7 since October 2023.\n\nLast Thursday (March 14), the CGM showed her glucose was stable at 115 mg/dL when she went to sleep. We have the high/low alerts set up. At 3 AM I woke up because something just felt wrong - mother's intuition I guess. I went to check on her and she was UNRESPONSIVE, completely drenched in sweat, barely breathing.\n\nI did a finger stick and her actual blood glucose was 28 mg/dL!!! TWENTY-EIGHT! The CGM was STILL showing 108 mg/dL - completely wrong!!\n\nWe called 911 and she was taken to Children's Hospital. The ER doctor said she was having a severe hypoglycemic episode and could have died or had brain damage if I hadn't checked on her. She was in the hospital for 2 days.\n\nI pulled off the sensor - it's the one from Lot G7-2024-0156, sensor code ending in 8834. I have kept it if you need it.\n\nThis should NEVER happen! Your device is supposed to ALERT when glucose is low! Instead it showed everything was fine while my daughter was dying!! \n\nI want to know what you are going to do about this. I want answers. I want to know this won't happen to another child.\n\nA very upset mother,\nMaria Gonzalez\n(555) 876-5432",
+    "attachments": []
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0801", "A0803", "C0901", "C12"],
+    "alternative_codes": ["A02", "A0201", "C0701", "C07"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_death"],
+    "coding_rationale": "A0801 (False Negative Result) - device failed to detect dangerous low glucose. A0803 (Inaccurate Result) - displayed normal when glucose was critically low. C0901 (Hypoglycemia) as patient outcome. C12 (Hospitalization). MDR required - malfunction could have caused death."
+  },
+  "extraction_challenges": [
+    "Emotional language mixed with clinical details",
+    "Must extract specific device info from narrative",
+    "Timeline requires careful parsing",
+    "Patient age and condition embedded in story"
+  ],
+  "notes": "Important case - clearly reportable malfunction with serious patient outcome. Emotional tone is typical for patient reports."
+}

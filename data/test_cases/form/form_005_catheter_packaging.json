@@ -1,0 +1,65 @@
+{
+  "test_case_id": "FORM-005",
+  "name": "IV Catheter Packaging Damaged",
+  "description": "Consumable IV catheter found with damaged sterile packaging. Quality issue, device not used.",
+  "channel": "form",
+  "device_type": "consumable",
+  "severity": "quality",
+  "difficulty": "easy",
+  "raw_input": {
+    "form_type": "online_complaint",
+    "submission_date": "2024-01-25T08:30:00Z",
+    "fields": {
+      "device_name": "SafeVein IV Catheter 20G x 1.25 inch",
+      "manufacturer": "SafeVein Medical Products",
+      "model_number": "SV-20G-125",
+      "lot_number": "SV-2024-01-A445",
+      "event_date": "2024-01-24",
+      "event_description": "During preparation for IV insertion, nurse observed that the sterile packaging of the IV catheter had a small tear approximately 5mm in length along the heat seal. The packaging was not completely open but the sterile barrier was compromised. The device was discarded without use and a replacement catheter from a different lot was used. Upon inspection of remaining catheters from the same lot (box of 50), 3 additional catheters (6%) were found to have similar packaging defects.",
+      "patient_outcome": "No patient impact - device not used",
+      "device_returned": true,
+      "reporter_type": "nurse",
+      "reporter_organization": "Sunrise Community Hospital - Med-Surg Unit",
+      "patient_age": null,
+      "patient_sex": null
+    }
+  },
+  "expected_complaint": {
+    "complaint_id": "FORM-005",
+    "intake_channel": "form",
+    "received_date": "2024-01-25T08:30:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "SafeVein IV Catheter 20G x 1.25 inch",
+      "manufacturer": "SafeVein Medical Products",
+      "model_number": "SV-20G-125",
+      "lot_number": "SV-2024-01-A445",
+      "device_type": "consumable"
+    },
+    "event_info": {
+      "event_date": "2024-01-24",
+      "event_description": "During preparation for IV insertion, nurse observed that the sterile packaging of the IV catheter had a small tear approximately 5mm in length along the heat seal. The packaging was not completely open but the sterile barrier was compromised. The device was discarded without use and a replacement catheter from a different lot was used. Upon inspection of remaining catheters from the same lot (box of 50), 3 additional catheters (6%) were found to have similar packaging defects.",
+      "patient_outcome": "No patient impact - device not used",
+      "device_outcome": "Device discarded, additional defective units found in lot",
+      "location": "Sunrise Community Hospital - Med-Surg Unit",
+      "was_device_available_for_evaluation": true
+    },
+    "reporter_info": {
+      "reporter_type": "nurse",
+      "organization": "Sunrise Community Hospital - Med-Surg Unit"
+    },
+    "narrative": "During preparation for IV insertion, nurse observed that the sterile packaging of the IV catheter had a small tear approximately 5mm in length along the heat seal. The packaging was not completely open but the sterile barrier was compromised. The device was discarded without use and a replacement catheter from a different lot was used. Upon inspection of remaining catheters from the same lot (box of 50), 3 additional catheters (6%) were found to have similar packaging defects."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0901", "A0902", "C10"],
+    "alternative_codes": ["A09", "A08"],
+    "requires_mdr": false,
+    "mdr_criteria": [],
+    "coding_rationale": "A0901 (Packaging Damaged or Defective) and A0902 (Packaging Integrity Problem) describe the device problem. C10 (No Patient Problem) because the device was not used. No MDR required as no patient was exposed to the compromised device. However, this should be tracked for quality trending and potential lot recall."
+  },
+  "extraction_challenges": [
+    "No patient information available (device not used on specific patient)",
+    "Need to recognize this as a quality issue without patient harm"
+  ],
+  "notes": "Common quality complaint type. Important for lot tracking and potential recalls even though no MDR required."
+}
