@@ -1,0 +1,86 @@
+{
+  "test_case_id": "CALL-003",
+  "name": "Emotional Caller - Hearing Aid Battery Fire",
+  "description": "Very upset caller, crying at times, reporting a hearing aid battery that caught fire. Hard difficulty due to emotional state affecting clarity.",
+  "channel": "call",
+  "device_type": "diagnostic",
+  "severity": "serious_injury",
+  "difficulty": "hard",
+  "raw_input": {
+    "call_type": "inbound_complaint",
+    "call_date": "2024-04-12T16:45:00Z",
+    "call_duration_minutes": 22,
+    "caller_id": "CALLER-45782",
+    "transcript": [
+      {"speaker": "agent", "text": "ClearSound Hearing, this is Amanda. How can I help you today?"},
+      {"speaker": "caller", "text": "[crying] I need to... I'm sorry, I'm just so upset right now. Something terrible happened."},
+      {"speaker": "agent", "text": "It's okay, take your time. I'm here to help. What happened?"},
+      {"speaker": "caller", "text": "My son, he's only 8 years old, he wears hearing aids. Your hearing aids. And the battery... [sobbing] it caught on fire. Right next to his ear!"},
+      {"speaker": "agent", "text": "Oh my goodness, I'm so sorry. Is your son okay?"},
+      {"speaker": "caller", "text": "He has burns on his ear and the side of his face. We're at the hospital right now. I just... I can't believe this happened. He was just sitting at the breakfast table this morning and suddenly he started screaming."},
+      {"speaker": "agent", "text": "I understand this is very difficult. Can you tell me which hearing aid model it was?"},
+      {"speaker": "caller", "text": "I don't... I can't think straight. It's the kids one, the colorful one. ClearKids something? He picked the blue one because it's his favorite color. [crying] He might have scars, the doctor said."},
+      {"speaker": "agent", "text": "That must be the ClearKids Pro. Do you have the hearing aid with you?"},
+      {"speaker": "caller", "text": "No, I didn't... I just grabbed my son and ran. My husband is at home, he has it. There's black burn marks all over it. The battery, it just... it was smoking and then there was fire. It melted part of the plastic."},
+      {"speaker": "agent", "text": "Can your husband check for a serial number on the device?"},
+      {"speaker": "caller", "text": "[talking to someone in background] He's looking... okay, he says... CK-2023-12892. The right ear one. The left one is fine."},
+      {"speaker": "agent", "text": "Thank you. And do you remember where you bought the batteries?"},
+      {"speaker": "caller", "text": "We buy them from you! The official ClearSound batteries. I always buy them from your website because I want the best for my son. We just got a new pack last week. Lot... my husband is checking... lot B-2024-0187."},
+      {"speaker": "agent", "text": "Was this a new battery or had it been in the device for a while?"},
+      {"speaker": "caller", "text": "[sniffling] I put it in yesterday. It was brand new. He's worn hearing aids since he was 4, this has never happened. I don't understand how this could happen. He's just a little kid."},
+      {"speaker": "agent", "text": "I'm so sorry. What hospital are you at, in case we need to contact you?"},
+      {"speaker": "caller", "text": "Children's Medical Center. My name is Lisa Chen. Please, please tell me this isn't going to happen to other children."},
+      {"speaker": "agent", "text": "We take this very seriously, Mrs. Chen. Can you give me a phone number to reach you?"},
+      {"speaker": "caller", "text": "555-234-7789. But I might not answer, I need to be with my son. Just... please fix this. No other child should go through this."},
+      {"speaker": "agent", "text": "I promise we will investigate this thoroughly. Someone will be in contact with you today. Please focus on your son right now."},
+      {"speaker": "caller", "text": "[crying] Thank you. I'm sorry for crying. I just... thank you."}
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "CALL-003",
+    "intake_channel": "call",
+    "received_date": "2024-04-12T16:45:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "ClearKids Pro Hearing Aid",
+      "manufacturer": "ClearSound Hearing",
+      "model_number": "ClearKids Pro",
+      "serial_number": "CK-2023-12892",
+      "lot_number": "B-2024-0187",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-04-12",
+      "event_description": "Hearing aid battery caught fire while child was wearing the device. Battery was new (installed previous day), official ClearSound brand, from recently purchased pack. Battery smoked, ignited, and melted part of hearing aid plastic casing. Child sustained burns to ear and side of face.",
+      "patient_outcome": "Burns to ear and face, hospitalized at Children's Medical Center, possible scarring",
+      "device_outcome": "Device retained by husband at home, visible burn marks and melted plastic",
+      "location": "Patient home (breakfast table)",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 8,
+      "sex": "M",
+      "relevant_conditions": ["Hearing impairment since age 4"]
+    },
+    "reporter_info": {
+      "reporter_type": "family_member",
+      "organization": null
+    },
+    "narrative": "Mother reports ClearKids Pro hearing aid (S/N CK-2023-12892) battery caught fire while her 8-year-old son was wearing it at breakfast. Battery was new (installed day before), official ClearSound brand from lot B-2024-0187. Child screamed, battery was smoking and on fire, melted part of plastic casing. Child has burns on ear and side of face, currently at Children's Medical Center. Possible permanent scarring per doctor."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A100105", "A1201", "C020304"],
+    "alternative_codes": ["A10", "A12", "C02"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury", "malfunction_could_cause_death"],
+    "coding_rationale": "A100105 (Battery Overheated or Caught Fire) for battery fire. A1201 (Overheating) as alternative. C020304 (Thermal Burn) for patient burns. MDR required due to serious burns requiring hospitalization and potential scarring."
+  },
+  "extraction_challenges": [
+    "Caller frequently crying and emotionally distressed",
+    "Information fragmented by emotional state",
+    "Some details obtained via caller's husband in background",
+    "Timeline pieced together across multiple statements",
+    "Model name initially unclear (caller couldn't recall exactly)"
+  ],
+  "notes": "High-priority case involving pediatric patient and fire hazard. Caller extremely distressed but still provided essential information with agent's patient guidance. Good test for handling emotional callers."
+}

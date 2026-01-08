@@ -1,0 +1,64 @@
+{
+  "test_case_id": "DOC-004",
+  "name": "Mixed Document - Lab Report with Annotations",
+  "description": "Typed laboratory test report with handwritten annotations from clinician highlighting concerns about diagnostic device accuracy.",
+  "channel": "letter",
+  "device_type": "diagnostic",
+  "severity": "malfunction_harm",
+  "difficulty": "hard",
+  "raw_input": {
+    "document_type": "annotated_lab_report",
+    "received_date": "2024-04-08T00:00:00Z",
+    "scan_quality": "medium",
+    "ocr_confidence": 0.88,
+    "document_content": "CENTRAL LABORATORY SERVICES\n===============================================\nPATIENT: Johnson, Robert M.        DOB: 05/14/1956\nMRN: 4782901                       Collection: 04/01/2024 08:15\nORDERING: Dr. Angela Torres        Received: 04/01/2024 09:30\n\n[HANDWRITTEN: \"See attached - MAJOR DISCREPANCY!\"]\n\n===============================================\nCOMPLETE METABOLIC PANEL\n===============================================\n\nTest                    Result      Reference      Flag\n-------------------------------------------------------\nGlucose                 342 H       70-100 mg/dL   HIGH\nBUN                     18          7-20 mg/dL\nCreatinine              1.1         0.7-1.3 mg/dL\nSodium                  141         136-145 mEq/L\nPotassium               4.2         3.5-5.0 mEq/L\nChloride                102         98-106 mEq/L\nCO2                     24          22-29 mEq/L\nCalcium                 9.4         8.5-10.5 mg/dL\n\nInstrument: GlucoAnalyzer 5000\nSerial: GA5K-2022-45123\nCalibration: 04/01/2024 06:00\n\n[HANDWRITTEN: \"Fingerstick at same time: 185 mg/dL\nPatient treated for DKA based on this result!\nRe-tested on backup analyzer: 178 mg/dL\nThis analyzer giving FALSE HIGH readings!\"]\n\n===============================================\nADDITIONAL NOTES FROM DR. TORRES (HANDWRITTEN):\n===============================================\n\n\"I am formally reporting a complaint about the GlucoAnalyzer 5000 (S/N GA5K-2022-45123). This machine reported glucose of 342 mg/dL for my patient. Based on this result, we initiated aggressive IV insulin therapy for presumed DKA.\n\nPoint-of-care fingerstick done simultaneously showed 185. When I questioned the discrepancy, lab re-ran on backup analyzer - result was 178.\n\nPatient experienced hypoglycemic episode (BG dropped to 45) due to over-treatment based on falsely elevated result. Required D50 push x2. Patient recovered but this could have been fatal.\n\nI have pulled this analyzer from service. Lab lot # GA-2024-Q1-089. This is the THIRD glucose discrepancy I've seen this month on this machine. Please investigate urgently.\n\nDr. Angela Torres, MD\nInternal Medicine\n04/02/2024\nContact: atorres@centralmed.org or (555) 892-7700 x445\"",
+    "attachments_noted": ["Comparison fingerstick glucose log", "Backup analyzer results"]
+  },
+  "expected_complaint": {
+    "complaint_id": "DOC-004",
+    "intake_channel": "letter",
+    "received_date": "2024-04-08T00:00:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "GlucoAnalyzer 5000",
+      "manufacturer": "Central Laboratory Services",
+      "model_number": "GlucoAnalyzer 5000",
+      "serial_number": "GA5K-2022-45123",
+      "lot_number": "GA-2024-Q1-089",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-04-01",
+      "event_description": "Laboratory glucose analyzer reported falsely elevated glucose (342 mg/dL) when actual value was approximately 178-185 mg/dL. Patient treated for DKA with aggressive insulin therapy based on false result. Patient developed hypoglycemia (glucose 45 mg/dL) requiring emergency dextrose administration.",
+      "patient_outcome": "Hypoglycemic episode (BG 45) due to over-treatment, required D50 x2, recovered",
+      "device_outcome": "Analyzer removed from service by physician",
+      "location": "Central Laboratory Services / Central Med hospital",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 67,
+      "sex": "M",
+      "relevant_conditions": []
+    },
+    "reporter_info": {
+      "reporter_type": "physician",
+      "organization": "Internal Medicine, Central Med"
+    },
+    "narrative": "Physician reports GlucoAnalyzer 5000 (S/N GA5K-2022-45123) gave falsely elevated glucose reading of 342 mg/dL. Simultaneous fingerstick was 185 mg/dL, backup analyzer showed 178 mg/dL. Patient treated for presumed DKA with aggressive IV insulin based on false high reading. Patient developed hypoglycemia (glucose 45) requiring emergency D50 administration x2. Third glucose discrepancy on this machine this month. Analyzer removed from service."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0803", "A0801", "C0902"],
+    "alternative_codes": ["A08", "A02", "C09"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury", "malfunction_could_cause_death"],
+    "coding_rationale": "A0803 (Inaccurate Result) or A0801 (False Positive Result) for falsely elevated glucose reading. C0902 (Hypoglycemia) for patient outcome. MDR required - patient had serious hypoglycemic event that could have been fatal, directly caused by device malfunction."
+  },
+  "extraction_challenges": [
+    "Mixed typed and handwritten content",
+    "Medical data table to interpret",
+    "Clinical reasoning embedded in annotations",
+    "Must identify complaint vs routine lab report",
+    "Handwritten notes contain critical information"
+  ],
+  "notes": "Complex document requiring synthesis of typed lab results and handwritten clinical annotations. Tests ability to identify device malfunction from clinical context. High priority case due to patient harm and pattern of repeated issues."
+}

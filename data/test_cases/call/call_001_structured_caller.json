@@ -1,0 +1,73 @@
+{
+  "test_case_id": "CALL-001",
+  "name": "Structured Caller - Infusion Pump Occlusion Alarm",
+  "description": "Clear, organized caller reporting infusion pump occlusion alarm issue. Easy extraction due to structured responses.",
+  "channel": "call",
+  "device_type": "diagnostic",
+  "severity": "malfunction_no_harm",
+  "difficulty": "easy",
+  "raw_input": {
+    "call_type": "inbound_complaint",
+    "call_date": "2024-02-15T10:30:00Z",
+    "call_duration_minutes": 8,
+    "caller_id": "CALLER-78234",
+    "transcript": [
+      {"speaker": "agent", "text": "Thank you for calling MedTech Solutions customer service. This is Jennifer speaking. How may I help you today?"},
+      {"speaker": "caller", "text": "Hi Jennifer. I'm calling to report a problem with one of your infusion pumps. I'm a nurse at Valley General Hospital."},
+      {"speaker": "agent", "text": "I'm sorry to hear you're experiencing an issue. Could you tell me which device you're calling about?"},
+      {"speaker": "caller", "text": "Yes, it's the InfuseMax 3000 infusion pump. The serial number is IM3K-2022-45891."},
+      {"speaker": "agent", "text": "Thank you. And what problem are you experiencing with the device?"},
+      {"speaker": "caller", "text": "The occlusion alarm keeps triggering even when there's no actual occlusion. We've checked the tubing multiple times, replaced the IV sets, and the alarm still goes off every few minutes. It started happening yesterday during a patient's chemotherapy infusion."},
+      {"speaker": "agent", "text": "I understand. Was the patient affected by this issue?"},
+      {"speaker": "caller", "text": "No, fortunately we caught it quickly and transferred the patient to a different pump. The infusion was completed without any issues. But this pump is now out of service."},
+      {"speaker": "agent", "text": "That's good to hear the patient wasn't affected. Can you tell me when this started happening?"},
+      {"speaker": "caller", "text": "It started yesterday morning, February 14th, around 9 AM. We've tried recalibrating the sensors and updating the firmware, but nothing works."},
+      {"speaker": "agent", "text": "Thank you for that information. Do you have the lot number for the device?"},
+      {"speaker": "caller", "text": "Let me check... yes, it's LOT-IM3K-2023-Q2-187."},
+      {"speaker": "agent", "text": "Perfect. And may I have your name and contact information for follow-up?"},
+      {"speaker": "caller", "text": "Sure. I'm Sarah Martinez, RN. My direct line is 555-234-8876, and my email is smartinez@valleygeneral.org."},
+      {"speaker": "agent", "text": "Thank you, Sarah. Is the device available if we need to retrieve it for evaluation?"},
+      {"speaker": "caller", "text": "Yes, we've taken it out of service and it's in our biomedical engineering department. You can pick it up whenever."},
+      {"speaker": "agent", "text": "Excellent. I've documented everything and we'll be in touch within 24 hours. Is there anything else I can help you with?"},
+      {"speaker": "caller", "text": "No, that's all. Thank you for your help."},
+      {"speaker": "agent", "text": "Thank you for reporting this issue. Have a great day."}
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "CALL-001",
+    "intake_channel": "call",
+    "received_date": "2024-02-15T10:30:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "InfuseMax 3000 Infusion Pump",
+      "manufacturer": "MedTech Solutions",
+      "model_number": "InfuseMax 3000",
+      "serial_number": "IM3K-2022-45891",
+      "lot_number": "LOT-IM3K-2023-Q2-187",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-02-14",
+      "event_description": "Infusion pump occlusion alarm triggering falsely every few minutes despite no actual occlusion. Tubing and IV sets replaced, sensors recalibrated, firmware updated - problem persists. Issue occurred during patient chemotherapy infusion.",
+      "patient_outcome": "No harm - patient transferred to different pump and infusion completed normally",
+      "device_outcome": "Device taken out of service, available for evaluation",
+      "location": "Valley General Hospital",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": null,
+    "reporter_info": {
+      "reporter_type": "nurse",
+      "organization": "Valley General Hospital"
+    },
+    "narrative": "Nurse at Valley General Hospital reports InfuseMax 3000 infusion pump (S/N IM3K-2022-45891) occlusion alarm triggering falsely every few minutes. Problem started February 14th around 9 AM during a patient's chemotherapy infusion. Tubing replaced, IV sets replaced, sensors recalibrated, firmware updated - alarm persists. Patient transferred to different pump without harm. Device taken out of service and available for pickup."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0702", "A14"],
+    "alternative_codes": ["A07", "A1401"],
+    "requires_mdr": false,
+    "mdr_criteria": [],
+    "coding_rationale": "A0702 (False Alarm) for the false occlusion alarm. A14 (Output Problem) as alternative. No MDR required as no patient harm occurred - patient was safely transferred to another pump."
+  },
+  "extraction_challenges": [],
+  "notes": "Ideal caller - provides information in organized manner, answers questions directly, has all device details ready. Easy extraction baseline case."
+}

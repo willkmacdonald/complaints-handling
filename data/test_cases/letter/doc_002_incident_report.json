@@ -1,0 +1,62 @@
+{
+  "test_case_id": "DOC-002",
+  "name": "Hospital Incident Report - Ventilator Alarm Failure",
+  "description": "Hospital incident report form documenting ventilator alarm failure in ICU. Structured form format with checkboxes and narrative sections.",
+  "channel": "letter",
+  "device_type": "diagnostic",
+  "severity": "malfunction_potential_harm",
+  "difficulty": "easy",
+  "raw_input": {
+    "document_type": "hospital_incident_report",
+    "received_date": "2024-02-05T00:00:00Z",
+    "scan_quality": "high",
+    "ocr_confidence": 0.96,
+    "document_content": "MEMORIAL GENERAL HOSPITAL\nPATIENT SAFETY INCIDENT REPORT\n\n==============================================================================\nREPORT INFORMATION\n==============================================================================\nReport Number: IR-2024-0892\nDate of Incident: February 2, 2024\nTime of Incident: 02:35 AM\nLocation: Medical ICU, Room 412\nReporting Staff: Jennifer Walsh, RN, BSN\nDate Reported: February 2, 2024\n\n==============================================================================\nINCIDENT TYPE (Check all that apply)\n==============================================================================\n[ ] Medication Error\n[ ] Fall\n[X] Equipment/Device Malfunction\n[ ] Procedure Complication\n[ ] Security Issue\n[ ] Other: _____________\n\n==============================================================================\nDEVICE INFORMATION (if applicable)\n==============================================================================\nDevice Name: VitaBreath 7000 Ventilator\nManufacturer: RespiraTech Medical\nModel Number: VB-7000\nSerial Number: VB7K-2021-89234\nLot Number: VB-2021-L-0445\nPurchase/Service Date: August 2021\n\n==============================================================================\nPATIENT INFORMATION\n==============================================================================\nMRN: 2847291 (Do not include in external reports)\nAge: 67\nSex: M\nAdmission Diagnosis: Acute respiratory failure secondary to pneumonia\nCurrent Status: Mechanically ventilated, sedated\n\n==============================================================================\nINCIDENT DESCRIPTION\n==============================================================================\nAt approximately 02:35 AM, I was at the nurses' station when I noticed the patient's oxygen saturation dropping on the central monitoring system (from 96% to 88%). I went to the room and found the ventilator circuit disconnected at the Y-piece. The ventilator low pressure alarm had NOT activated, even though the disconnect had apparently been present for several minutes based on the trending data.\n\nUpon inspection, the ventilator alarm system was set correctly (low pressure alarm at 5 cmH2O). The disconnect should have triggered an immediate alarm. Other nurses confirmed they had not heard any alarm.\n\nI reconnected the circuit and the patient's saturation recovered to 95% within 2 minutes. Physician was notified.\n\n==============================================================================\nPATIENT OUTCOME\n==============================================================================\n[X] No apparent harm\n[ ] Temporary harm requiring intervention\n[ ] Permanent harm\n[ ] Death\n[ ] Unknown at time of report\n\nNotes: Patient SpO2 dropped to 88% but recovered quickly after reconnection. No apparent lasting effects. Patient remains sedated and stable.\n\n==============================================================================\nIMMEDIATE ACTIONS TAKEN\n==============================================================================\n1. Reconnected ventilator circuit\n2. Verified patient stabilization\n3. Notified attending physician (Dr. Raymond Kim)\n4. Tagged ventilator and removed from service\n5. Replacement ventilator obtained from equipment pool\n6. Biomedical engineering notified for device evaluation\n\n==============================================================================\nEQUIPMENT DISPOSITION\n==============================================================================\n[X] Removed from service\n[X] Retained for evaluation\n[ ] Returned to manufacturer\n[ ] Discarded\n\nLocation of device: Biomedical Engineering, Tag #BME-2024-0156\n\n==============================================================================\nAPPROVALS\n==============================================================================\nReporting Nurse: Jennifer Walsh, RN_______ Date: 02/02/2024\nCharge Nurse: Michael Torres, RN_________ Date: 02/02/2024\nRisk Management: Sandra Chen_____________ Date: 02/03/2024",
+    "attachments_noted": []
+  },
+  "expected_complaint": {
+    "complaint_id": "DOC-002",
+    "intake_channel": "letter",
+    "received_date": "2024-02-05T00:00:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "VitaBreath 7000 Ventilator",
+      "manufacturer": "RespiraTech Medical",
+      "model_number": "VB-7000",
+      "serial_number": "VB7K-2021-89234",
+      "lot_number": "VB-2021-L-0445",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-02-02",
+      "event_description": "Ventilator low pressure alarm failed to activate when circuit disconnected at Y-piece. Patient's oxygen saturation dropped from 96% to 88% before nurse noticed on central monitor. Alarm settings were correct (5 cmH2O threshold). Disconnect present for several minutes without alarm.",
+      "patient_outcome": "Temporary oxygen desaturation (88%), recovered after reconnection, no lasting harm",
+      "device_outcome": "Removed from service, retained for biomedical engineering evaluation",
+      "location": "Memorial General Hospital, Medical ICU Room 412",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 67,
+      "sex": "M",
+      "relevant_conditions": ["Acute respiratory failure", "Pneumonia", "Mechanically ventilated"]
+    },
+    "reporter_info": {
+      "reporter_type": "nurse",
+      "organization": "Memorial General Hospital"
+    },
+    "narrative": "Hospital incident report: VitaBreath 7000 ventilator (S/N VB7K-2021-89234) low pressure alarm failed to activate when circuit disconnected. Nurse noticed patient's SpO2 drop from 96% to 88% on central monitor, found circuit disconnected at Y-piece. Alarm settings verified as correct. Circuit reconnected, patient recovered. No lasting harm. Device removed from service for biomedical engineering evaluation."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0701", "A0702"],
+    "alternative_codes": ["A07", "A14"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_death"],
+    "coding_rationale": "A0701 (Failure To Alarm) or A0702 (False Alarm/Failure to Alarm When Appropriate) for alarm not activating. MDR required because a ventilator alarm failure could lead to patient death if disconnect goes unnoticed longer."
+  },
+  "extraction_challenges": [
+    "Structured form format with checkboxes to interpret",
+    "Hospital-specific formatting and terminology",
+    "Some fields may be partially filled"
+  ],
+  "notes": "Well-structured incident report with all required information clearly documented. Form format makes extraction straightforward despite formal structure."
+}

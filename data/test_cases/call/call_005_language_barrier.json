@@ -1,0 +1,87 @@
+{
+  "test_case_id": "CALL-005",
+  "name": "Language Barrier Caller - Blood Pressure Monitor",
+  "description": "Non-native English speaker reporting blood pressure monitor malfunction. Simple vocabulary, some confusion, requires patient clarification.",
+  "channel": "call",
+  "device_type": "diagnostic",
+  "severity": "malfunction_harm",
+  "difficulty": "hard",
+  "raw_input": {
+    "call_type": "inbound_complaint",
+    "call_date": "2024-03-20T09:45:00Z",
+    "call_duration_minutes": 15,
+    "caller_id": "CALLER-67234",
+    "transcript": [
+      {"speaker": "agent", "text": "HealthMonitor customer service, this is Kevin. How can I help you?"},
+      {"speaker": "caller", "text": "Hello? Yes, hello. I have problem with machine. Blood pressure machine."},
+      {"speaker": "agent", "text": "You're having a problem with a blood pressure monitor? Can you tell me what's happening?"},
+      {"speaker": "caller", "text": "Yes, the machine, it say my blood pressure very low. Every time, it say low. 90, 85, like this. But I feel... how you say... dizzy? No good."},
+      {"speaker": "agent", "text": "The machine is showing low blood pressure readings?"},
+      {"speaker": "caller", "text": "Yes, yes. But doctor say no! Doctor say my blood pressure high. Very high. 180, 170. He give medicine. But machine at home say low. I am confuse."},
+      {"speaker": "agent", "text": "Oh, so the machine shows low readings but your doctor says your blood pressure is actually high?"},
+      {"speaker": "caller", "text": "Yes! Exactly. I stop taking medicine because machine say low. Then I get very sick. Go hospital. Doctor very angry."},
+      {"speaker": "agent", "text": "I understand. You stopped your medication based on the home monitor and then had to go to the hospital?"},
+      {"speaker": "caller", "text": "Yes. I have... my daughter help me say... stroke? Small stroke. Because blood pressure too high. But I think low because of machine!"},
+      {"speaker": "agent", "text": "I'm so sorry to hear that. Can you tell me which blood pressure monitor you have?"},
+      {"speaker": "caller", "text": "Uhh... I have paper. QuickCheck... Pro something. QuickCheck Pro 200? I buy from pharmacy, six month ago maybe."},
+      {"speaker": "agent", "text": "QuickCheck Pro 200, okay. Is there a number on the machine? A serial number?"},
+      {"speaker": "caller", "text": "Number? Let me look... is small. QCP-22... no wait... QCP2-2023-34521. Yes, this one."},
+      {"speaker": "agent", "text": "Thank you. Do you still have the machine?"},
+      {"speaker": "caller", "text": "Yes, I keep. My daughter say keep for you. For company. She very smart, my daughter."},
+      {"speaker": "agent", "text": "That's good. What date did this happen, when you had to go to the hospital?"},
+      {"speaker": "caller", "text": "Last week. Thursday I think. March... 14? Yes, Thursday March 14."},
+      {"speaker": "agent", "text": "And can I get your name and phone number for follow-up?"},
+      {"speaker": "caller", "text": "My name Tran Nguyen. Phone 555-234-8823. But better call daughter. She speak better English. Christina, 555-234-5567."},
+      {"speaker": "agent", "text": "Thank you, Mr. Nguyen. We will investigate this and contact you soon. Do you have a new blood pressure monitor now?"},
+      {"speaker": "caller", "text": "Yes, hospital give me different one. This one work good. Same as doctor machine."},
+      {"speaker": "agent", "text": "Good. Please continue using that one and taking your medication as your doctor prescribed."},
+      {"speaker": "caller", "text": "Yes, yes. I learn lesson. Thank you, thank you."}
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "CALL-005",
+    "intake_channel": "call",
+    "received_date": "2024-03-20T09:45:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "QuickCheck Pro 200 Blood Pressure Monitor",
+      "manufacturer": "HealthMonitor",
+      "model_number": "QuickCheck Pro 200",
+      "serial_number": "QCP2-2023-34521",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-03-14",
+      "event_description": "Blood pressure monitor consistently displayed falsely low readings (90, 85 systolic) when patient's actual blood pressure was severely elevated (170-180 systolic per physician). Patient discontinued hypertension medication based on false readings. Patient subsequently suffered TIA/minor stroke due to uncontrolled hypertension and was hospitalized.",
+      "patient_outcome": "TIA (transient ischemic attack/mini-stroke), hospitalized",
+      "device_outcome": "Device retained by patient for evaluation",
+      "location": "Patient home",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": null,
+      "sex": "M",
+      "relevant_conditions": ["Hypertension (on medication)"]
+    },
+    "reporter_info": {
+      "reporter_type": "patient",
+      "organization": null
+    },
+    "narrative": "Patient reports QuickCheck Pro 200 blood pressure monitor (S/N QCP2-2023-34521) giving consistently false low readings (85-90 systolic) when actual blood pressure was high (170-180 per physician). Patient discontinued hypertension medication based on inaccurate device readings. Patient suffered TIA/mini-stroke on March 14 and was hospitalized. Device purchased approximately 6 months ago, retained for evaluation."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0803", "A0201", "C0701"],
+    "alternative_codes": ["A08", "A02", "C07"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A0803 (Inaccurate Result) or A0201 (Device Displays Inaccurate Data) for falsely low BP readings. C0701 (Cerebrovascular Accident/Stroke) for TIA. MDR required due to serious injury (stroke) causally linked to device malfunction."
+  },
+  "extraction_challenges": [
+    "Limited English vocabulary requires inference",
+    "Medical terminology unclear to caller",
+    "Causal chain must be pieced together",
+    "Some information requires clarification questions",
+    "Caller confuses sequence of events initially"
+  ],
+  "notes": "Important case demonstrating device malfunction leading directly to patient harm. Language barrier adds extraction difficulty but caller provides essential information with agent assistance. Daughter available for follow-up with better English."
+}

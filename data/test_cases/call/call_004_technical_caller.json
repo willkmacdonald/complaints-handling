@@ -1,0 +1,81 @@
+{
+  "test_case_id": "CALL-004",
+  "name": "Technical Caller - Defibrillator Sensing Issue",
+  "description": "Electrophysiologist reporting sensing malfunction in ICD. Uses heavy medical jargon and expects peer-level understanding.",
+  "channel": "call",
+  "device_type": "implantable",
+  "severity": "malfunction_potential_harm",
+  "difficulty": "medium",
+  "raw_input": {
+    "call_type": "inbound_complaint",
+    "call_date": "2024-02-28T11:20:00Z",
+    "call_duration_minutes": 12,
+    "caller_id": "CALLER-38291",
+    "transcript": [
+      {"speaker": "agent", "text": "CardiacTech technical support, this is Rachel. How can I help you?"},
+      {"speaker": "caller", "text": "Hi Rachel, this is Dr. Marcus Webb, electrophysiologist at University Cardiac Institute. I need to report a device malfunction on one of your ICDs."},
+      {"speaker": "agent", "text": "Good morning, Dr. Webb. What device are we discussing?"},
+      {"speaker": "caller", "text": "The PulseGuard Dual Chamber ICD, model PG-DC-500. I just interrogated this device during the patient's three-month follow-up and found significant undersensing on the ventricular channel. The R-wave amplitude has dropped from 12 millivolts at implant to less than 2 millivolts now."},
+      {"speaker": "agent", "text": "I understand. Can you provide the device serial number?"},
+      {"speaker": "caller", "text": "PG5-2023-45678. Implanted September 15, 2023, so we're at about five months post-implant. The lead parameters were all nominal at implant and at the one-month check."},
+      {"speaker": "agent", "text": "Has the patient experienced any symptoms?"},
+      {"speaker": "caller", "text": "No documented VT or VF episodes according to device interrogation. However, given the current sensing margin, I have serious concerns about appropriate detection if the patient were to have an arrhythmic event. I've adjusted sensitivity to 0.3 mV as a temporary measure, but this is well outside normal parameters."},
+      {"speaker": "agent", "text": "What do you suspect is causing the undersensing?"},
+      {"speaker": "caller", "text": "Could be lead maturation, though this degree of R-wave attenuation is excessive. Lead impedance is normal at 550 ohms, pacing thresholds are stable. I'm wondering if there's an issue with the sensing amplifier in the pulse generator itself. Have you had any other reports of sensing issues with this lot?"},
+      {"speaker": "agent", "text": "I can check on that. Do you have the lot number?"},
+      {"speaker": "caller", "text": "Lot PG-LOT-2023-Q2-089. The patient is being scheduled for a lead revision, but I wanted to flag this in case it's a device rather than lead issue. I can provide the interrogation printouts if needed."},
+      {"speaker": "agent", "text": "That would be helpful. Is the patient stable currently?"},
+      {"speaker": "caller", "text": "Asymptomatic, sinus rhythm, LVEF of 35%. Primary prevention indication. I've asked the patient to avoid strenuous activity until we get this sorted. The concern is that an inadequate sensed R-wave could lead to failure to detect VT/VF."},
+      {"speaker": "agent", "text": "Understood. What's the best way to reach you for follow-up?"},
+      {"speaker": "caller", "text": "My office line is 555-892-3456, or page me at 555-892-0000, pager 4421. I'd like your engineering team's input before we proceed with revision surgery."},
+      {"speaker": "agent", "text": "We'll have our technical team reach out within 24 hours. They may request the device be returned after explant if revision is performed."},
+      {"speaker": "caller", "text": "Agreed. The patient is consented for that possibility. I'll send the interrogation data to your secure portal today."}
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "CALL-004",
+    "intake_channel": "call",
+    "received_date": "2024-02-28T11:20:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "PulseGuard Dual Chamber ICD",
+      "manufacturer": "CardiacTech",
+      "model_number": "PG-DC-500",
+      "serial_number": "PG5-2023-45678",
+      "lot_number": "PG-LOT-2023-Q2-089",
+      "device_type": "implantable"
+    },
+    "event_info": {
+      "event_date": "2024-02-28",
+      "event_description": "ICD exhibiting significant ventricular undersensing. R-wave amplitude dropped from 12mV at implant to less than 2mV at 5-month follow-up. Lead parameters (impedance, pacing thresholds) normal. Possible sensing amplifier malfunction in pulse generator. Patient asymptomatic but at risk of failure to detect VT/VF.",
+      "patient_outcome": "No adverse event yet - potential failure to detect life-threatening arrhythmia",
+      "device_outcome": "Device still implanted, sensitivity adjusted as temporary measure, revision surgery planned",
+      "location": "University Cardiac Institute",
+      "was_device_available_for_evaluation": false
+    },
+    "patient_info": {
+      "age": null,
+      "sex": null,
+      "relevant_conditions": ["Primary prevention ICD indication", "LVEF 35%"]
+    },
+    "reporter_info": {
+      "reporter_type": "physician",
+      "organization": "University Cardiac Institute"
+    },
+    "narrative": "Electrophysiologist reports PulseGuard Dual Chamber ICD (S/N PG5-2023-45678) with significant ventricular undersensing at 5-month follow-up. R-wave amplitude decreased from 12mV to less than 2mV. Lead impedance and pacing thresholds normal, suggesting possible sensing amplifier malfunction. Sensitivity adjusted to 0.3mV as temporary measure. Patient asymptomatic but concern for failure to detect VT/VF. Lead revision planned; device to be returned for analysis if explanted."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0501", "A1101"],
+    "alternative_codes": ["A05", "A11", "A0803"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_death"],
+    "coding_rationale": "A0501 (Device Operates Differently Than Expected) for undersensing malfunction. A1101 (Sensing Problem) as primary. This is an MDR case because the malfunction could lead to failure to detect VT/VF, which could cause death."
+  },
+  "extraction_challenges": [
+    "Heavy use of medical and technical jargon",
+    "Requires understanding of cardiac device terminology",
+    "Clinical significance must be inferred from technical details",
+    "No actual adverse event - potential harm only"
+  ],
+  "notes": "Technical caller with peer-level expectations. All information provided clearly but requires domain knowledge to fully understand severity. Good test for handling healthcare professional reports."
+}

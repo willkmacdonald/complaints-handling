@@ -1,0 +1,63 @@
+{
+  "test_case_id": "DOC-001",
+  "name": "Typed Formal Letter - Attorney Representation",
+  "description": "Formal typed letter from attorney representing patient regarding surgical mesh complications. Clear structure, legal language.",
+  "channel": "letter",
+  "device_type": "implantable",
+  "severity": "serious_injury",
+  "difficulty": "easy",
+  "raw_input": {
+    "document_type": "typed_letter",
+    "received_date": "2024-01-22T00:00:00Z",
+    "scan_quality": "high",
+    "ocr_confidence": 0.98,
+    "document_content": "MITCHELL & ASSOCIATES, P.C.\nATTORNEYS AT LAW\n1200 Commerce Street, Suite 400\nDallas, TX 75201\nTel: (214) 555-8900\nFax: (214) 555-8901\n\nJanuary 18, 2024\n\nVIA CERTIFIED MAIL\n\nMeshTech Medical, Inc.\nComplaint Department\n500 Innovation Drive\nSan Diego, CA 92121\n\nRe: Product Complaint - ProLift Surgical Mesh\n    Our Client: Patricia Henderson\n    Date of Implantation: March 15, 2022\n\nDear Sir or Madam:\n\nThis firm represents Patricia Henderson regarding injuries she has sustained as a result of your ProLift Surgical Mesh product, Model PL-500, which was implanted during a pelvic organ prolapse repair procedure on March 15, 2022, at Memorial Hospital in Houston, Texas.\n\nMs. Henderson has experienced severe and ongoing complications following the implantation, including:\n\n• Chronic pelvic pain requiring narcotic medication management\n• Mesh erosion through vaginal tissue (confirmed by examination on December 5, 2023)\n• Recurrent urinary tract infections (five documented infections since implantation)\n• Dyspareunia requiring cessation of normal marital relations\n• Revision surgery on January 8, 2024, for partial mesh removal\n\nThe device serial number, as documented in her operative records, is PL5-2022-18934. The lot number is L-2022-Q1-445.\n\nWe hereby request that you:\n\n1. Preserve all documents relating to the ProLift Surgical Mesh, Model PL-500, including but not limited to design documents, testing records, complaint files, and communications with the FDA.\n\n2. Provide us with the complete complaint history for this device and lot number.\n\n3. Confirm whether an MDR was filed for this incident.\n\nPlease direct all communications regarding this matter to the undersigned.\n\nVery truly yours,\n\nJames T. Mitchell, Esq.\nMitchell & Associates, P.C.\n\nJTM/kls\nEnclosures: Medical Records Summary, Operative Reports\ncc: Patricia Henderson",
+    "attachments_noted": ["Medical Records Summary", "Operative Reports"]
+  },
+  "expected_complaint": {
+    "complaint_id": "DOC-001",
+    "intake_channel": "letter",
+    "received_date": "2024-01-22T00:00:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "ProLift Surgical Mesh",
+      "manufacturer": "MeshTech Medical, Inc.",
+      "model_number": "PL-500",
+      "serial_number": "PL5-2022-18934",
+      "lot_number": "L-2022-Q1-445",
+      "device_type": "implantable"
+    },
+    "event_info": {
+      "event_date": "2023-12-05",
+      "event_description": "Surgical mesh implant has caused multiple complications: chronic pelvic pain requiring narcotics, mesh erosion through vaginal tissue, five recurrent UTIs, and dyspareunia. Patient required revision surgery for partial mesh removal.",
+      "patient_outcome": "Chronic pain, mesh erosion, recurrent infections, revision surgery required",
+      "device_outcome": "Partially removed during revision surgery January 8, 2024",
+      "location": "Memorial Hospital, Houston, TX (original implant)",
+      "was_device_available_for_evaluation": false
+    },
+    "patient_info": {
+      "age": null,
+      "sex": "F",
+      "relevant_conditions": ["Pelvic organ prolapse (indication for mesh)"]
+    },
+    "reporter_info": {
+      "reporter_type": "other",
+      "organization": "Mitchell & Associates, P.C. (attorney)"
+    },
+    "narrative": "Attorney letter on behalf of patient Patricia Henderson regarding ProLift Surgical Mesh (Model PL-500, S/N PL5-2022-18934) implanted March 15, 2022. Patient experiencing: chronic pelvic pain requiring narcotic medication, mesh erosion through vaginal tissue (confirmed December 5, 2023), five recurrent UTIs since implant, dyspareunia. Revision surgery for partial mesh removal performed January 8, 2024."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0503", "A0107", "C0302", "C1302"],
+    "alternative_codes": ["A05", "A01", "C03", "C13"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A0503 (Device Breaks or Falls Apart During Use) for mesh erosion. A0107 (Degradation) as alternative. C0302 (Patient Infection) for recurrent UTIs. C1302 (Patient Required Intervention) for revision surgery. MDR required due to serious injury requiring surgical intervention."
+  },
+  "extraction_challenges": [
+    "Legal language mixed with medical information",
+    "Timeline spans multiple dates",
+    "Multiple complications to capture",
+    "Attorney as intermediary reporter"
+  ],
+  "notes": "Well-organized legal letter with clear device identification. Common pattern for mesh litigation. All information present but requires parsing legal structure."
+}

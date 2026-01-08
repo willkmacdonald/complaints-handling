@@ -1,0 +1,62 @@
+{
+  "test_case_id": "DOC-003",
+  "name": "Handwritten Note - Crutch Failure",
+  "description": "Brief handwritten note from patient reporting crutch that broke causing fall. Legible but informal, some abbreviations.",
+  "channel": "letter",
+  "device_type": "other",
+  "severity": "serious_injury",
+  "difficulty": "medium",
+  "raw_input": {
+    "document_type": "handwritten_note",
+    "received_date": "2024-03-11T00:00:00Z",
+    "scan_quality": "medium",
+    "ocr_confidence": 0.85,
+    "document_content": "To MobilityAid Co.\n\nI am writing because your crutches broke and I fell.\n\nI bought the QuickStep adjustable crutches from Walgreens about 3 months ago after my knee surgery. Model # QS-200. On March 8th I was walking to my mailbox and the left crutch just snapped! The bottom part where it adjusts broke clean off.\n\nI fell on my driveway and broke my wrist (left one). Had to go to ER and get a cast. Attached is a photo of the broken crutch and my ER paperwork.\n\nSerial # is hard to read but looks like QS2-23-78456\n\nI still have the broken crutch if you need it.\n\nPlease call me -\nCarol Fisher\n555-678-2234\n\nP.S. - I am 72 years old and live alone. This was very scary for me.",
+    "attachments_noted": ["Photo of broken crutch", "ER paperwork"]
+  },
+  "expected_complaint": {
+    "complaint_id": "DOC-003",
+    "intake_channel": "letter",
+    "received_date": "2024-03-11T00:00:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "QuickStep Adjustable Crutches",
+      "manufacturer": "MobilityAid Co.",
+      "model_number": "QS-200",
+      "serial_number": "QS2-23-78456",
+      "device_type": "other"
+    },
+    "event_info": {
+      "event_date": "2024-03-08",
+      "event_description": "Adjustable crutch structural failure - bottom adjustable portion broke off completely while patient was walking. Patient fell on driveway and fractured left wrist requiring ER visit and casting.",
+      "patient_outcome": "Left wrist fracture, ER visit, cast applied",
+      "device_outcome": "Broken crutch retained by patient",
+      "location": "Patient's home (driveway)",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 72,
+      "sex": "F",
+      "relevant_conditions": ["Recent knee surgery", "Lives alone"]
+    },
+    "reporter_info": {
+      "reporter_type": "patient",
+      "organization": null
+    },
+    "narrative": "72-year-old patient reports QuickStep adjustable crutches (Model QS-200, S/N QS2-23-78456) purchased 3 months ago after knee surgery. On March 8, left crutch broke at adjustable lower section while walking to mailbox. Patient fell on driveway, sustained left wrist fracture requiring ER visit and casting. Broken crutch and ER paperwork available."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0503", "C020501"],
+    "alternative_codes": ["A05", "A0301", "C02"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A0503 (Device Breaks or Falls Apart During Use) for crutch structural failure. C020501 (Fracture) for wrist fracture. MDR required due to bone fracture requiring medical intervention."
+  },
+  "extraction_challenges": [
+    "Handwritten format with some OCR uncertainty",
+    "Informal language and abbreviations",
+    "Serial number partially illegible",
+    "Personal details mixed with complaint"
+  ],
+  "notes": "Typical patient handwritten complaint - informal but contains all essential information. Good test for handling less structured input. Emotional postscript provides context about patient vulnerability."
+}

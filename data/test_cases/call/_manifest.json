@@ -1,0 +1,67 @@
+{
+  "channel": "call",
+  "description": "Synthetic test cases for phone call transcripts",
+  "test_cases": [
+    {
+      "id": "CALL-001",
+      "file": "call_001_structured_caller.json",
+      "name": "Structured Caller - Infusion Pump Occlusion Alarm",
+      "severity": "malfunction_no_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": false
+    },
+    {
+      "id": "CALL-002",
+      "file": "call_002_rambling_caller.json",
+      "name": "Rambling Caller - Wheelchair Brake Failure",
+      "severity": "serious_injury",
+      "device_type": "other",
+      "requires_mdr": true
+    },
+    {
+      "id": "CALL-003",
+      "file": "call_003_emotional_caller.json",
+      "name": "Emotional Caller - Hearing Aid Battery Fire",
+      "severity": "serious_injury",
+      "device_type": "diagnostic",
+      "requires_mdr": true
+    },
+    {
+      "id": "CALL-004",
+      "file": "call_004_technical_caller.json",
+      "name": "Technical Caller - Defibrillator Sensing Issue",
+      "severity": "malfunction_potential_harm",
+      "device_type": "implantable",
+      "requires_mdr": true
+    },
+    {
+      "id": "CALL-005",
+      "file": "call_005_language_barrier.json",
+      "name": "Language Barrier Caller - Blood Pressure Monitor",
+      "severity": "malfunction_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": true
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "mdr_required": 4,
+    "mdr_not_required": 1,
+    "by_device_type": {
+      "diagnostic": 3,
+      "implantable": 1,
+      "other": 1
+    },
+    "by_severity": {
+      "malfunction_no_harm": 1,
+      "malfunction_harm": 1,
+      "malfunction_potential_harm": 1,
+      "serious_injury": 2
+    },
+    "by_difficulty": {
+      "easy": 1,
+      "medium": 2,
+      "hard": 2
+    }
+  }
+}

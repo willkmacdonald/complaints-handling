@@ -1,0 +1,58 @@
+{
+  "channel": "letter",
+  "description": "Synthetic test cases for scanned documents and letters",
+  "test_cases": [
+    {
+      "id": "DOC-001",
+      "file": "doc_001_typed_letter.json",
+      "name": "Typed Formal Letter - Attorney Representation",
+      "severity": "serious_injury",
+      "device_type": "implantable",
+      "requires_mdr": true
+    },
+    {
+      "id": "DOC-002",
+      "file": "doc_002_incident_report.json",
+      "name": "Hospital Incident Report - Ventilator Alarm Failure",
+      "severity": "malfunction_potential_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": true
+    },
+    {
+      "id": "DOC-003",
+      "file": "doc_003_handwritten_note.json",
+      "name": "Handwritten Note - Crutch Failure",
+      "severity": "serious_injury",
+      "device_type": "other",
+      "requires_mdr": true
+    },
+    {
+      "id": "DOC-004",
+      "file": "doc_004_mixed_annotations.json",
+      "name": "Mixed Document - Lab Report with Annotations",
+      "severity": "malfunction_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": true
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "mdr_required": 4,
+    "mdr_not_required": 0,
+    "by_device_type": {
+      "implantable": 1,
+      "diagnostic": 2,
+      "other": 1
+    },
+    "by_severity": {
+      "serious_injury": 2,
+      "malfunction_potential_harm": 1,
+      "malfunction_harm": 1
+    },
+    "by_difficulty": {
+      "easy": 2,
+      "medium": 1,
+      "hard": 1
+    }
+  }
+}

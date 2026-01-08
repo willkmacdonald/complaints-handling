@@ -1,0 +1,83 @@
+{
+  "test_case_id": "CALL-002",
+  "name": "Rambling Caller - Wheelchair Brake Failure",
+  "description": "Caller goes off-topic frequently, mixes in personal stories, requires agent to redirect multiple times. Medium difficulty extraction.",
+  "channel": "call",
+  "device_type": "other",
+  "severity": "serious_injury",
+  "difficulty": "medium",
+  "raw_input": {
+    "call_type": "inbound_complaint",
+    "call_date": "2024-03-08T14:15:00Z",
+    "call_duration_minutes": 18,
+    "caller_id": "CALLER-92341",
+    "transcript": [
+      {"speaker": "agent", "text": "Thank you for calling MobilityPlus customer support. This is David. How can I help you?"},
+      {"speaker": "caller", "text": "Oh hi David. Yes, I need to tell you about what happened with my father's wheelchair. It's just been awful, you know, he's been using wheelchairs for about 15 years now since his stroke. Did I tell you he had a stroke? Anyway..."},
+      {"speaker": "agent", "text": "I'm sorry to hear about your father. What happened with the wheelchair?"},
+      {"speaker": "caller", "text": "Right, right. So the wheelchair, it's one of yours, the EasyRoll Pro model. My father loves it, well, loved it. He got it, let me think, was it September? No wait, it was October. October 2023. From that medical supply store on Fifth Street, you know the one next to the pizza place?"},
+      {"speaker": "agent", "text": "I understand. Can you tell me what problem occurred with the wheelchair?"},
+      {"speaker": "caller", "text": "The brakes! That's what I'm trying to tell you. So last Tuesday - no, Wednesday - my father was at my sister's house. She lives out in Westbrook, beautiful house by the way, she just renovated the kitchen. Anyway, he was on her back patio."},
+      {"speaker": "agent", "text": "What happened with the brakes on Wednesday?"},
+      {"speaker": "caller", "text": "He set the brakes, like he always does, very careful man my father, and he was reaching for his water glass on the table. And the wheelchair just... it just rolled right out from under him! He fell and hit his head on the concrete. There was so much blood, you wouldn't believe it."},
+      {"speaker": "agent", "text": "I'm so sorry to hear that. Is your father okay now?"},
+      {"speaker": "caller", "text": "He's recovering. Had to get 8 stitches in his head. The doctor was very nice, Dr. Patterson at St. Mary's Hospital. Said he was lucky he didn't break his hip. My mother broke her hip in 2019, terrible ordeal that was..."},
+      {"speaker": "agent", "text": "I'm glad he's recovering. Do you know the serial number of the wheelchair?"},
+      {"speaker": "caller", "text": "Serial number? Let me see... I have it somewhere. My daughter wrote it down. She's so organized, not like me. Okay, here it is: ERP-22-78456. Oh, and the lot number if you need it is L-2023-09-ERB."},
+      {"speaker": "agent", "text": "Thank you. So the brake failed while your father was seated in the wheelchair?"},
+      {"speaker": "caller", "text": "Yes, yes. He engaged the brakes, we looked at them after. The left brake was completely loose. It just flops around now, doesn't hold at all. My nephew looked at it, he's very handy, fixes all sorts of things, and he said something about a pin or a spring being broken inside."},
+      {"speaker": "agent", "text": "Do you still have the wheelchair available?"},
+      {"speaker": "caller", "text": "Oh yes, it's in my garage. We bought him a new one already, different brand though. Not that I'm blaming you! These things happen, I know. But I thought you should know about this safety issue."},
+      {"speaker": "agent", "text": "We appreciate you reporting this. What's the best way to reach you for follow-up?"},
+      {"speaker": "caller", "text": "You can call me at 555-876-2234. I'm usually home after 3pm. My name is Margaret O'Brien. Or you can call my daughter, she handles a lot of this stuff for me since my husband passed, she's at 555-876-5544."},
+      {"speaker": "agent", "text": "Thank you, Mrs. O'Brien. We'll be in touch within 48 hours."},
+      {"speaker": "caller", "text": "Okay dear, thank you for listening. You've been very patient with me!"}
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "CALL-002",
+    "intake_channel": "call",
+    "received_date": "2024-03-08T14:15:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "EasyRoll Pro Wheelchair",
+      "manufacturer": "MobilityPlus",
+      "model_number": "EasyRoll Pro",
+      "serial_number": "ERP-22-78456",
+      "lot_number": "L-2023-09-ERB",
+      "device_type": "other"
+    },
+    "event_info": {
+      "event_date": "2024-03-06",
+      "event_description": "Wheelchair brake failed while patient was seated with brakes engaged. Left brake mechanism completely loose, possibly due to broken pin or spring. Patient fell from wheelchair onto concrete patio and sustained head laceration requiring 8 stitches.",
+      "patient_outcome": "Head laceration requiring 8 stitches at hospital",
+      "device_outcome": "Device in garage, available for evaluation, brake visibly broken",
+      "location": "Private residence (sister's house)",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": null,
+      "sex": "M",
+      "relevant_conditions": ["Stroke (15 years ago)", "Wheelchair user"]
+    },
+    "reporter_info": {
+      "reporter_type": "family_member",
+      "organization": null
+    },
+    "narrative": "Patient's daughter reports EasyRoll Pro wheelchair (S/N ERP-22-78456) brake failure. Patient engaged brakes while seated on patio, reached for water glass, and wheelchair rolled away causing him to fall. Hit head on concrete, required 8 stitches at St. Mary's Hospital. Left brake mechanism found to be completely loose, possibly broken pin or spring. Wheelchair purchased October 2023, available in garage for evaluation."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A0503", "C020203"],
+    "alternative_codes": ["A05", "A0501", "C02"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A0503 (Device Breaks or Falls Apart During Use) for brake mechanism failure. C020203 (Laceration/Cut) for head wound requiring stitches. MDR required as injury required professional medical intervention."
+  },
+  "extraction_challenges": [
+    "Caller frequently goes off-topic with personal stories",
+    "Timeline information scattered throughout narrative",
+    "Must filter relevant details from extraneous information",
+    "Event date requires inference from 'last Wednesday'"
+  ],
+  "notes": "Typical elderly family member caller pattern. Contains all necessary information but requires patience to extract. Good test for handling conversational tangents."
+}
