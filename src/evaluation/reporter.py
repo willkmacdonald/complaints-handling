@@ -1,6 +1,7 @@
 """Evaluation report generation."""
 
 import json
+import logging
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -8,6 +9,8 @@ from pydantic import BaseModel, Field
 
 from src.evaluation.models import CodingMetrics, ExtractionMetrics, MDRMetrics
 from src.models.enums import DeviceType, IntakeChannel
+
+logger = logging.getLogger(__name__)
 
 
 class TestCaseResult(BaseModel):
@@ -265,9 +268,16 @@ def export_report_json(report: EvaluationReport, output_path: Path) -> None:
     Args:
         report: The evaluation report to export.
         output_path: Path where JSON file will be written.
+
+    Raises:
+        OSError: If the file cannot be written.
     """
-    with open(output_path, "w") as f:
-        json.dump(report.model_dump(mode="json"), f, indent=2, default=str)
+    try:
+        with open(output_path, "w") as f:
+            json.dump(report.model_dump(mode="json"), f, indent=2, default=str)
+    except OSError as e:
+        logger.error("Failed to export report to JSON at %s: %s", output_path, e)
+        raise
 
 
 def export_report_markdown(report: EvaluationReport, output_path: Path) -> None:
@@ -276,6 +286,9 @@ def export_report_markdown(report: EvaluationReport, output_path: Path) -> None:
     Args:
         report: The evaluation report to export.
         output_path: Path where Markdown file will be written.
+
+    Raises:
+        OSError: If the file cannot be written.
     """
     lines = [
         "# Evaluation Report",
@@ -354,8 +367,12 @@ def export_report_markdown(report: EvaluationReport, output_path: Path) -> None:
                 )
             lines.append("")
 
-    with open(output_path, "w") as f:
-        f.write("\n".join(lines))
+    try:
+        with open(output_path, "w") as f:
+            f.write("\n".join(lines))
+    except OSError as e:
+        logger.error("Failed to export report to Markdown at %s: %s", output_path, e)
+        raise
 
 
 def _format_pct(value: float | None) -> str:
