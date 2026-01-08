@@ -1,405 +1,300 @@
-# Current Sprint: Phase 0 - Foundation
+# Current Sprint: Phase 1 - Single Channel MVP (Structured Forms)
 
 ## Sprint Goal
 
-Establish the foundational reference data and test infrastructure needed to develop and validate the AI-powered complaint handling system.
+Build a functional MVP that processes online form submissions, extracts complaint data, suggests IMDRF codes using an LLM, and provides a basic review interface with audit logging.
 
-**Sprint Duration:** 2 weeks
+**Success Gate:** >80% of suggested codes accepted by human reviewer without modification
 
 ---
 
-## PR-1: IMDRF Code Reference Database
+## Key Files Reference
 
-### Description
-Build a structured, queryable database of IMDRF codes that will serve as the source of truth for code validation and LLM prompt construction.
-
-### Scope
-- [ ] Download and parse IMDRF Annex A (Device Problem Codes)
-- [ ] Download and parse IMDRF Annex C (Patient Problem Codes)
-- [ ] Create JSON schema for hierarchical code structure
-- [ ] Build code reference files with:
-  - Code ID
-  - Code name
-  - Parent code (for hierarchy)
-  - Full path (e.g., "Material Problem > Material Integrity > Crack")
-  - Description/definition
-  - Examples (where available)
-- [ ] Create Python utility functions:
-  - `get_code_by_id(code_id: str) -> IMDRFCode`
-  - `get_children(code_id: str) -> list[IMDRFCode]`
-  - `get_ancestors(code_id: str) -> list[IMDRFCode]`
-  - `search_codes(query: str) -> list[IMDRFCode]`
-  - `validate_code(code_id: str) -> bool`
-- [ ] Unit tests for utility functions
-
-### Files to Create
 ```
 src/
-  imdrf/
-    __init__.py
-    models.py          # Pydantic models for IMDRF codes
-    codes.py           # Utility functions
+  models/           # Complaint data models (from Phase 0)
+  imdrf/            # IMDRF code reference database (from Phase 0)
+  evaluation/       # Evaluation framework (from Phase 0)
+  testing/          # Test case loader (from Phase 0)
 data/
-  imdrf/
-    annex_a_device_problems.json
-    annex_c_patient_problems.json
-tests/
-  test_imdrf_codes.py
+  test_cases/form/  # 7 synthetic form test cases (from Phase 0)
+  imdrf/            # IMDRF code reference data (from Phase 0)
 ```
-
-### Acceptance Criteria
-- All Annex A and Annex C codes parsed and validated
-- Hierarchy traversal works correctly
-- Search returns relevant codes
-- 100% test coverage on utility functions
-
-### Estimated Size: Medium (2-3 days)
 
 ---
 
-## PR-2: Complaint Data Models
+## PR-1: Form Ingestion Pipeline
 
 ### Description
-Define the canonical data models for complaints that will be used throughout the system, from intake through coding and review.
+Build the pipeline to ingest online form submissions and convert them to the canonical ComplaintRecord format.
 
 ### Scope
-- [ ] Define `ComplaintRecord` Pydantic model with fields:
-  - `complaint_id`: Unique identifier
-  - `intake_channel`: Enum (FORM, EMAIL, CALL, LETTER, SALES_REP)
-  - `received_date`: datetime
-  - `device_info`: DeviceInfo model
-  - `patient_info`: PatientInfo model (optional, anonymized)
-  - `event_info`: EventInfo model
-  - `reporter_info`: ReporterInfo model
-  - `narrative`: str (raw complaint text)
-  - `extracted_fields`: dict (structured extraction results)
-  - `status`: Enum (NEW, EXTRACTED, CODED, REVIEWED, CLOSED)
-- [ ] Define `DeviceInfo` model:
-  - `device_name`: str
-  - `manufacturer`: str
-  - `model_number`: str (optional)
-  - `serial_number`: str (optional)
-  - `lot_number`: str (optional)
-  - `device_type`: Enum (IMPLANTABLE, DIAGNOSTIC, CONSUMABLE, SAMD, OTHER)
-- [ ] Define `EventInfo` model:
-  - `event_date`: date (optional)
-  - `event_description`: str
-  - `patient_outcome`: str (optional)
-  - `device_outcome`: str (optional)
-- [ ] Define `CodingSuggestion` model:
-  - `code_id`: str
-  - `code_name`: str
-  - `code_type`: Enum (DEVICE_PROBLEM, PATIENT_PROBLEM)
-  - `confidence`: float (0.0-1.0)
-  - `source_text`: str (text that triggered this suggestion)
-  - `reasoning`: str (explanation of why this code applies)
-- [ ] Define `CodingDecision` model:
-  - `complaint_id`: str
-  - `suggested_codes`: list[CodingSuggestion]
-  - `approved_codes`: list[str] (after human review)
-  - `rejected_codes`: list[str]
-  - `added_codes`: list[str] (codes added by reviewer not suggested by AI)
-  - `reviewer_id`: str
-  - `review_timestamp`: datetime
-  - `review_notes`: str (optional)
-- [ ] Define `MDRDetermination` model:
-  - `requires_mdr`: bool
-  - `mdr_criteria_met`: list[str]
-  - `confidence`: float
-  - `reasoning`: str
-- [ ] JSON serialization/deserialization tests
+- [ ] Define `FormSubmission` Pydantic model representing raw form data:
+  - Submitter information (name, email, phone, relationship to patient)
+  - Device information (name, manufacturer, model, serial, lot)
+  - Event details (date, description, patient outcome, device outcome)
+  - Attachments metadata
+  - Submission timestamp
+- [ ] Create `parse_form_submission(raw_data: dict) -> FormSubmission` function
+- [ ] Create `form_to_complaint(form: FormSubmission) -> ComplaintRecord` conversion function
+- [ ] Handle missing/optional fields gracefully
+- [ ] Flag incomplete submissions that need follow-up
+- [ ] Unit tests with form test cases
 
 ### Files to Create
 ```
 src/
-  models/
+  intake/
     __init__.py
-    complaint.py       # ComplaintRecord, DeviceInfo, EventInfo, etc.
-    coding.py          # CodingSuggestion, CodingDecision
-    mdr.py             # MDRDetermination
-    enums.py           # All enums (IntakeChannel, DeviceType, etc.)
+    forms.py         # FormSubmission model, parsing, conversion
 tests/
-  test_models.py
+  test_form_intake.py
 ```
 
 ### Acceptance Criteria
-- All models have complete type hints
-- Validation rules enforced (e.g., confidence 0-1)
-- JSON round-trip works correctly
-- Example instances can be created for all models
+- Successfully parses all 7 form test cases
+- Correctly maps form fields to ComplaintRecord
+- Handles missing optional fields without errors
+- Flags records with missing required fields
 
 ### Estimated Size: Small (1-2 days)
 
 ---
 
-## PR-3: Synthetic Test Data - Online Forms
+## PR-2: LLM Integration Foundation
 
 ### Description
-Create realistic synthetic complaint data for the online form intake channel, covering various device types and severity levels.
+Set up the Azure OpenAI integration and create the base infrastructure for LLM-powered features.
 
 ### Scope
-- [ ] Create 7 synthetic form submissions:
-  1. **Implantable - Death** (pacemaker failure leading to death)
-  2. **Implantable - Serious Injury** (hip implant dislocation)
-  3. **Diagnostic - Malfunction with potential harm** (blood glucose meter false low)
-  4. **Diagnostic - Malfunction no harm** (imaging artifact, caught before diagnosis)
-  5. **Consumable - Quality issue** (catheter packaging damaged)
-  6. **SaMD - Software issue** (dosing calculator error)
-  7. **User error** (insulin pump programmed incorrectly by patient)
-
-- [ ] Each test case includes:
-  - Raw form data (as submitted)
-  - Expected extracted `ComplaintRecord`
-  - Expected IMDRF codes (with rationale)
-  - Expected MDR determination
-  - Difficulty rating
-  - Edge case notes
-
-- [ ] Create test case loader utility
+- [ ] Create LLM client wrapper with:
+  - Azure OpenAI configuration from environment
+  - Retry logic with exponential backoff
+  - Token usage tracking
+  - Error handling and logging
+- [ ] Define base prompt templates structure
+- [ ] Create response parsing utilities
+- [ ] Add structured output validation (ensure LLM returns valid data)
+- [ ] Integration tests with mocked responses
+- [ ] Update `.env.example` with Azure OpenAI variables
 
 ### Files to Create
 ```
-data/
-  test_cases/
-    forms/
-      form_001_pacemaker_death.json
-      form_002_hip_implant_injury.json
-      form_003_glucose_meter_malfunction.json
-      form_004_imaging_artifact.json
-      form_005_catheter_packaging.json
-      form_006_dosing_calculator.json
-      form_007_insulin_pump_user_error.json
-      _manifest.json    # Index of all test cases
 src/
-  testing/
+  llm/
     __init__.py
-    test_case_loader.py
+    client.py        # Azure OpenAI client wrapper
+    prompts.py       # Prompt template management
+    parsing.py       # Response parsing utilities
 tests/
-  test_case_loader_test.py
+  test_llm_client.py
 ```
 
 ### Acceptance Criteria
-- All 7 test cases created with complete ground truth
-- Test cases cover all severity levels (death, serious injury, malfunction, user error)
-- Test cases cover all device types
-- At least 2 test cases require multiple IMDRF codes
-- Loader utility can retrieve test cases by ID or filter by attributes
+- Client successfully connects to Azure OpenAI
+- Retry logic handles transient failures
+- Token usage is tracked and logged
+- Invalid responses are caught and handled
 
 ### Estimated Size: Medium (2-3 days)
 
 ---
 
-## PR-4: Synthetic Test Data - Emails
+## PR-3: IMDRF Code Suggestion Service
 
 ### Description
-Create realistic synthetic complaint data for the email intake channel, with varying formality levels and sender types.
+Implement the core IMDRF code suggestion engine using LLM with few-shot prompting.
 
 ### Scope
-- [ ] Create 8 synthetic email complaints:
-  1. **Physician - Formal report** (detailed clinical language, implant issue)
-  2. **Physician - Brief notification** (terse, assumes reader knowledge)
-  3. **Patient - Detailed complaint** (emotional, lengthy narrative)
-  4. **Patient - Angry complaint** (frustrated tone, demands action)
-  5. **Patient family member** (reporting on behalf of patient)
-  6. **Sales rep - Forwarded customer email** (includes chain)
-  7. **Sales rep - Direct report** (structured internal format)
-  8. **Nurse/clinical staff** (incident report style)
-
-- [ ] Each email includes:
-  - Full email content (headers, body, signature)
-  - Attachments metadata (if applicable)
-  - Expected extracted `ComplaintRecord`
-  - Expected IMDRF codes
-  - Expected MDR determination
-  - Extraction challenges (what makes this hard)
-
-- [ ] Vary severity levels across emails
-
-### Files to Create
-```
-data/
-  test_cases/
-    emails/
-      email_001_physician_formal.json
-      email_002_physician_brief.json
-      email_003_patient_detailed.json
-      email_004_patient_angry.json
-      email_005_family_member.json
-      email_006_sales_rep_forward.json
-      email_007_sales_rep_direct.json
-      email_008_nurse_incident.json
-      _manifest.json
-```
-
-### Acceptance Criteria
-- All 8 test cases created with complete ground truth
-- Emails have realistic structure (headers, signatures, formatting)
-- Mix of formal and informal language
-- At least one email chain (forwarded/replied)
-- Extraction challenges documented for each
-
-### Estimated Size: Medium (2-3 days)
-
----
-
-## PR-5: Synthetic Test Data - Calls & Documents
-
-### Description
-Create synthetic test data for call transcripts and scanned documents (letters).
-
-### Scope
-
-**Call Transcripts (5 cases):**
-- [ ] Create 5 synthetic call transcripts:
-  1. **Clear, structured caller** (organized, answers questions directly)
-  2. **Rambling caller** (goes off-topic, needs redirection)
-  3. **Emotional/upset caller** (crying, angry, hard to follow)
-  4. **Technical caller** (healthcare professional, uses jargon)
-  5. **Language barrier** (simple vocabulary, some confusion)
-
-- [ ] Each transcript includes:
-  - Full conversation (agent and caller turns)
-  - Call metadata (duration, date, caller ID)
-  - Expected extracted `ComplaintRecord`
-  - Expected IMDRF codes
-  - Extraction challenges
-
-**Scanned Documents (4 cases):**
-- [ ] Create 4 synthetic document complaints:
-  1. **Typed formal letter** (patient or attorney)
-  2. **Typed incident report** (hospital form)
-  3. **Handwritten note** (brief, legible)
-  4. **Mixed document** (typed with handwritten annotations)
-
-- [ ] Each document includes:
-  - Document text content (simulating OCR output)
-  - Document metadata
-  - Expected extracted `ComplaintRecord`
-  - Expected IMDRF codes
-  - OCR challenges (if applicable)
-
-### Files to Create
-```
-data/
-  test_cases/
-    calls/
-      call_001_structured_caller.json
-      call_002_rambling_caller.json
-      call_003_emotional_caller.json
-      call_004_technical_caller.json
-      call_005_language_barrier.json
-      _manifest.json
-    documents/
-      doc_001_typed_letter.json
-      doc_002_incident_report.json
-      doc_003_handwritten_note.json
-      doc_004_mixed_annotations.json
-      _manifest.json
-```
-
-### Acceptance Criteria
-- All 9 test cases created with complete ground truth
-- Call transcripts have realistic conversation flow
-- Documents represent realistic OCR output quality
-- Challenges documented for each test case
-
-### Estimated Size: Medium (2-3 days)
-
----
-
-## PR-6: Test Infrastructure & Evaluation Framework
-
-### Description
-Build the infrastructure to load test cases, run evaluations, and measure accuracy metrics.
-
-### Scope
-- [ ] Create unified test case loader:
-  - Load all test cases from all channels
-  - Filter by channel, device type, severity, difficulty
-  - Return as `ComplaintRecord` with ground truth
-- [ ] Create evaluation framework:
-  - `evaluate_extraction(predicted: ComplaintRecord, expected: ComplaintRecord) -> ExtractionMetrics`
-  - `evaluate_coding(predicted: list[str], expected: list[str]) -> CodingMetrics`
-  - `evaluate_mdr(predicted: MDRDetermination, expected: MDRDetermination) -> MDRMetrics`
-- [ ] Define metrics models:
-  - `ExtractionMetrics`: field-level accuracy, completeness
-  - `CodingMetrics`: precision, recall, F1, exact match
-  - `MDRMetrics`: sensitivity (must be 100%), specificity, false positive rate
-- [ ] Create summary report generator:
-  - Aggregate metrics across test cases
-  - Breakdown by channel, device type, severity
-  - Export to JSON and markdown
+- [ ] Design prompt template for IMDRF coding:
+  - System prompt explaining IMDRF coding task
+  - Include code hierarchy context
+  - Few-shot examples (2-3 per code category)
+  - Structured output format (JSON with codes, confidence, reasoning)
+- [ ] Create `suggest_codes(complaint: ComplaintRecord) -> list[CodingSuggestion]` function
+- [ ] Implement confidence scoring (0.0-1.0)
+- [ ] Extract source text citations for each suggestion
+- [ ] Validate suggested codes against IMDRF reference
+- [ ] Handle edge cases (no clear codes, multiple interpretations)
+- [ ] Unit tests with mocked LLM responses
+- [ ] Integration tests with real LLM on test cases
 
 ### Files to Create
 ```
 src/
-  evaluation/
+  coding/
     __init__.py
-    loader.py          # Unified test case loader
-    metrics.py         # Metric calculation functions
-    models.py          # ExtractionMetrics, CodingMetrics, etc.
-    reporter.py        # Report generation
+    service.py       # Code suggestion service
+    prompts.py       # IMDRF coding prompts
 tests/
-  test_evaluation.py
+  test_coding_service.py
 ```
 
 ### Acceptance Criteria
-- Can load all test cases from all channels
-- Metrics calculations are correct (verified with manual examples)
-- Report clearly shows performance breakdown
-- Framework ready for Phase 1 development
+- Returns valid IMDRF codes only (validated against reference)
+- Confidence scores correlate with actual accuracy
+- Source text citations point to relevant complaint text
+- Handles ambiguous cases with multiple suggestions
+- >70% accuracy on form test cases (Phase 1 baseline)
+
+### Estimated Size: Large (3-4 days)
+
+---
+
+## PR-4: MDR Determination Service
+
+### Description
+Implement the MDR (Medical Device Report) determination logic to flag complaints that require FDA reporting.
+
+### Scope
+- [ ] Implement rules-based MDR criteria detection:
+  - Death mentioned or implied
+  - Serious injury (hospitalization, surgery, permanent damage)
+  - Malfunction that could cause death/serious injury if recurs
+- [ ] Create `determine_mdr(complaint: ComplaintRecord) -> MDRDetermination` function
+- [ ] Add LLM-assisted severity assessment for edge cases
+- [ ] Implement conservative defaults (flag uncertain cases)
+- [ ] Extract MDR criteria evidence from narrative
+- [ ] Unit tests covering all severity levels in test cases
+
+### Files to Create
+```
+src/
+  routing/
+    __init__.py
+    mdr.py           # MDR determination service
+tests/
+  test_mdr_service.py
+```
+
+### Acceptance Criteria
+- 100% sensitivity (no false negatives on MDR-required cases)
+- Clear reasoning for each determination
+- Uncertain cases default to "requires review"
+- All test cases correctly classified
 
 ### Estimated Size: Medium (2-3 days)
 
 ---
 
-## PR-7: Development Environment & CI Setup
+## PR-5: Audit Logging Foundation
 
 ### Description
-Set up the development environment, project structure, and continuous integration pipeline.
+Implement the audit logging infrastructure required for regulatory compliance.
 
 ### Scope
-- [ ] Initialize Python project structure:
-  - `pyproject.toml` with dependencies
-  - Ruff configuration
-  - pytest configuration
-  - Pre-commit hooks
-- [ ] Create directory structure as defined in PRs above
-- [ ] Set up GitHub Actions CI:
-  - Lint check (ruff)
-  - Type check (mypy)
-  - Unit tests (pytest)
-  - Coverage reporting
-- [ ] Create `.env.example` with required environment variables
-- [ ] Create initial README with:
-  - Project overview
-  - Setup instructions
-  - Development workflow
+- [ ] Define audit event models:
+  - `AuditEvent` base model (timestamp, user, action, resource)
+  - `ComplaintCreatedEvent`
+  - `CodingSuggestedEvent`
+  - `CodingReviewedEvent` (for future use)
+  - `MDRDeterminedEvent`
+- [ ] Create audit logger interface:
+  - `log_event(event: AuditEvent) -> None`
+  - `get_events(resource_id: str) -> list[AuditEvent]`
+- [ ] Implement JSON file-based storage (simple, sufficient for MVP)
+- [ ] Ensure append-only behavior (no deletions/modifications)
+- [ ] Add timestamps with timezone (UTC)
+- [ ] Unit tests for audit logging
 
 ### Files to Create
 ```
-pyproject.toml
-.pre-commit-config.yaml
-.github/
-  workflows/
-    ci.yml
-.env.example
-README.md
 src/
-  __init__.py
+  audit/
+    __init__.py
+    models.py        # Audit event models
+    logger.py        # Audit logger implementation
 tests/
-  __init__.py
-  conftest.py
+  test_audit.py
 ```
 
 ### Acceptance Criteria
-- `pip install -e .` works
-- `ruff check .` passes
-- `pytest` runs successfully
-- CI pipeline runs on PR
-- README has clear setup instructions
+- All events have complete timestamps and metadata
+- Events are append-only (cannot be modified/deleted)
+- Events can be retrieved by resource ID
+- JSON storage is human-readable for debugging
 
-### Estimated Size: Small (1 day)
+### Estimated Size: Small (1-2 days)
+
+---
+
+## PR-6: Basic Review CLI
+
+### Description
+Build a simple CLI tool for reviewing AI suggestions, allowing human approval/rejection of IMDRF codes.
+
+### Scope
+- [ ] Create Typer CLI application with commands:
+  - `review list` - Show pending complaints for review
+  - `review show <id>` - Display complaint with AI suggestions
+  - `review approve <id>` - Approve AI-suggested codes
+  - `review modify <id>` - Modify codes before approval
+  - `review reject <id>` - Reject and re-queue for manual coding
+- [ ] Display complaint details in Rich formatted tables
+- [ ] Show AI suggestions with confidence and reasoning
+- [ ] Highlight source text for each suggestion
+- [ ] Capture review decisions in audit log
+- [ ] Integration tests for CLI commands
+
+### Files to Create
+```
+src/
+  cli/
+    __init__.py
+    review.py        # Review CLI commands
+    display.py       # Rich display utilities
+tests/
+  test_review_cli.py
+```
+
+### Acceptance Criteria
+- CLI displays complaints and suggestions clearly
+- Human can approve, modify, or reject suggestions
+- All decisions are captured in audit log
+- Works with all form test cases
+
+### Estimated Size: Medium (2-3 days)
+
+---
+
+## PR-7: End-to-End Pipeline
+
+### Description
+Wire together all components into a complete form processing pipeline and validate against test cases.
+
+### Scope
+- [ ] Create `process_form(raw_data: dict) -> ProcessingResult` orchestrator:
+  1. Parse form submission
+  2. Convert to ComplaintRecord
+  3. Suggest IMDRF codes
+  4. Determine MDR status
+  5. Log all events to audit
+  6. Return complete result
+- [ ] Define `ProcessingResult` model with all outputs
+- [ ] Add CLI command: `process form <file>` - Process a form submission
+- [ ] Run evaluation on all form test cases
+- [ ] Generate accuracy report
+- [ ] Document end-to-end workflow
+
+### Files to Create
+```
+src/
+  pipeline/
+    __init__.py
+    forms.py         # Form processing pipeline
+    models.py        # ProcessingResult model
+tests/
+  test_pipeline.py
+  test_e2e_forms.py  # End-to-end tests with real LLM
+```
+
+### Acceptance Criteria
+- Pipeline processes all 7 form test cases successfully
+- Evaluation shows >70% coding accuracy (baseline for Phase 1)
+- All pipeline steps are logged to audit
+- CLI provides clear feedback on processing status
+
+### Estimated Size: Medium (2-3 days)
 
 ---
 
@@ -407,42 +302,71 @@ tests/
 
 | PR | Title | Size | Dependencies | Priority |
 |----|-------|------|--------------|----------|
-| PR-7 | Development Environment & CI Setup | S | None | P0 - Do First |
-| PR-2 | Complaint Data Models | S | PR-7 | P0 |
-| PR-1 | IMDRF Code Reference Database | M | PR-7 | P0 |
-| PR-3 | Synthetic Test Data - Forms | M | PR-2 | P1 |
-| PR-4 | Synthetic Test Data - Emails | M | PR-2 | P1 |
-| PR-5 | Synthetic Test Data - Calls & Docs | M | PR-2 | P1 |
-| PR-6 | Test Infrastructure & Evaluation | M | PR-1, PR-2 | P1 |
+| PR-1 | Form Ingestion Pipeline | S | None | P0 - Do First |
+| PR-2 | LLM Integration Foundation | M | None | P0 |
+| PR-5 | Audit Logging Foundation | S | None | P0 |
+| PR-3 | IMDRF Code Suggestion Service | L | PR-2 | P1 |
+| PR-4 | MDR Determination Service | M | PR-2 | P1 |
+| PR-6 | Basic Review CLI | M | PR-1, PR-3, PR-5 | P1 |
+| PR-7 | End-to-End Pipeline | M | All above | P2 - Do Last |
 
 ### Recommended Order
 
 ```
 Week 1:
-  PR-7 (Environment) ──┬──> PR-2 (Models) ──┬──> PR-3 (Forms)
-                       │                    ├──> PR-4 (Emails)
-                       │                    └──> PR-5 (Calls/Docs)
-                       │
-                       └──> PR-1 (IMDRF Codes) ──┐
-                                                 │
-Week 2:                                          │
-  PR-3, PR-4, PR-5 (parallel) ───────────────────┴──> PR-6 (Evaluation)
+  PR-1 (Forms) ─────────────────────────────────────┐
+  PR-2 (LLM Client) ──┬──> PR-3 (Coding Service) ──>├──> PR-6 (Review CLI)
+                      └──> PR-4 (MDR Service) ──────┤
+  PR-5 (Audit) ─────────────────────────────────────┘
+
+Week 2:
+  PR-6 (Review CLI) ──> PR-7 (E2E Pipeline) ──> Evaluation & Refinement
 ```
 
 ### Sprint Exit Criteria
 
 - [ ] All 7 PRs merged
-- [ ] 24+ synthetic test cases created across all channels
-- [ ] IMDRF code database complete and queryable
-- [ ] Evaluation framework ready for Phase 1
-- [ ] CI pipeline green
-- [ ] Ready to begin Phase 1 (Single Channel MVP)
+- [ ] Form processing pipeline functional end-to-end
+- [ ] >70% coding accuracy on form test cases (baseline)
+- [ ] 100% MDR sensitivity (no false negatives)
+- [ ] All actions logged to audit trail
+- [ ] CLI allows human review of suggestions
+- [ ] Ready to begin Phase 2 (Enhance Coding Quality)
+
+---
+
+## Technical Notes
+
+### Azure OpenAI Configuration
+
+Required environment variables (add to `.env`):
+```
+AZURE_OPENAI_ENDPOINT=https://<resource>.openai.azure.com/
+AZURE_OPENAI_API_KEY=<key>
+AZURE_OPENAI_DEPLOYMENT=<deployment-name>  # e.g., gpt-4o
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+```
+
+### Prompt Engineering Guidelines
+
+1. **System prompt**: Define the IMDRF coding expert role and constraints
+2. **Context**: Provide relevant IMDRF code hierarchy for the complaint type
+3. **Few-shot examples**: 2-3 examples per major code category
+4. **Output format**: Structured JSON with code, confidence, source_text, reasoning
+5. **Constraints**: Only return codes from the valid IMDRF reference
+
+### Testing Strategy
+
+- **Unit tests**: Mock LLM responses for deterministic testing
+- **Integration tests**: Real LLM calls on subset of test cases
+- **Evaluation**: Run full test suite and generate accuracy metrics
 
 ---
 
 ## Notes
 
-- Test cases should feel realistic—use medical terminology appropriately
-- Ground truth codes may have multiple valid answers; document acceptable alternatives
-- Keep PHI completely synthetic (no real patient data patterns)
-- IMDRF codes should come from actual IMDRF documentation
+- Phase 0 foundation is complete: models, IMDRF codes, test cases, evaluation framework
+- Start with forms because they're most structured (lowest extraction difficulty)
+- Focus on coding accuracy first; UI polish comes in later phases
+- Conservative MDR determination is critical (100% sensitivity required)
+- Audit logging must be in place from the start for compliance
