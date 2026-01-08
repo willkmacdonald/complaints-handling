@@ -1,0 +1,70 @@
+{
+  "test_case_id": "EMAIL-006",
+  "name": "Sales Rep Forwarded Customer Email - Dialysis Machine",
+  "description": "Sales representative forwarding customer complaint email chain about dialysis machine issue. Contains original customer email plus sales rep context.",
+  "channel": "email",
+  "device_type": "consumable",
+  "severity": "malfunction_potential_harm",
+  "difficulty": "hard",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-04-15T09:30:00Z",
+    "headers": {
+      "from": "mike.chen@renalcare-devices.com",
+      "to": "product.complaints@renalcare-devices.com",
+      "cc": "regional.manager@renalcare-devices.com",
+      "subject": "FW: URGENT - Dialysis machine alarm issue - Midwest Kidney Center",
+      "date": "Mon, 15 Apr 2024 09:30:00 -0500"
+    },
+    "body": "Team,\n\nForwarding this from my customer at Midwest Kidney Center. This is a large account (12 machines) and they're very concerned. The biomedical engineer is solid - if he says there's an issue, there is.\n\nI've already contacted them to get more details. They have documented 3 separate incidents over the past week with the same model. No patients harmed yet but this sounds serious.\n\nPlease advise how I should respond and whether we need to escalate.\n\nThanks,\nMike Chen\nSenior Sales Representative - Midwest Region\nRenalCare Devices\n(555) 333-2211\n\n-------- Original Message --------\nFrom: Tom Williams <t.williams@midwestkidney.org>\nSent: Friday, April 12, 2024 4:47 PM\nTo: mike.chen@renalcare-devices.com\nSubject: URGENT - Dialysis machine alarm issue\n\nMike,\n\nWe have a serious problem with three of our RenalCare Hemodialysis System 5000 units.\n\nOver the past week, we've had 3 incidents where the air detector alarm failed to activate during treatment. In each case, our nurses caught the air in the line visually during routine monitoring. If they hadn't been paying close attention, air could have been infused into patients.\n\nThe affected units are:\n- S/N RCH5K-2023-11234 (Treatment room 3)\n- S/N RCH5K-2023-11235 (Treatment room 5)  \n- S/N RCH5K-2023-11238 (Treatment room 8)\n\nAll three were installed in September 2023 from the same shipment.\n\nI've taken all three units offline and we're using backup equipment. We need someone here ASAP to investigate. Our clinical director is very concerned and is considering whether we need to report this to the FDA ourselves.\n\nPlease call me first thing Monday.\n\nTom Williams\nDirector of Biomedical Engineering\nMidwest Kidney Center\n(555) 444-5566",
+    "attachments": [
+      {
+        "filename": "incident_log_RCH5K.xlsx",
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "size_bytes": 45000
+      }
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-006",
+    "intake_channel": "email",
+    "received_date": "2024-04-15T09:30:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "RenalCare Hemodialysis System 5000",
+      "manufacturer": "RenalCare Devices",
+      "model_number": "Hemodialysis System 5000",
+      "serial_number": "RCH5K-2023-11234, RCH5K-2023-11235, RCH5K-2023-11238",
+      "device_type": "consumable"
+    },
+    "event_info": {
+      "event_date": "2024-04-05",
+      "event_description": "Air detector alarm failed to activate during hemodialysis treatment on 3 separate units from the same shipment. Air in line was caught by nurses during visual monitoring in each case. Potential for air embolism if not detected.",
+      "patient_outcome": "No patient harm - air detected visually by nursing staff",
+      "device_outcome": "All 3 affected units taken offline, backup equipment in use",
+      "location": "Midwest Kidney Center",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": null,
+    "reporter_info": {
+      "reporter_type": "sales_rep",
+      "organization": "RenalCare Devices"
+    },
+    "narrative": "Three RenalCare Hemodialysis System 5000 units at Midwest Kidney Center had air detector alarm failures during treatment over the past week. In each incident, nurses caught air in the line during visual monitoring. Serial numbers: RCH5K-2023-11234, RCH5K-2023-11235, RCH5K-2023-11238. All units from same September 2023 shipment. Units taken offline. Potential for air embolism if not detected. Originally reported by biomedical engineering director to sales rep, who forwarded to complaints team."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A02", "A15", "C10"],
+    "alternative_codes": ["A04", "A0504"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_death"],
+    "coding_rationale": "A02 (Device Operates Differently Than Expected) for alarm failure. A15 (Failure to Operate) for alarm system failure. C10 (No Patient Problem) as no harm occurred. MDR required because air embolism from undetected air in line could cause death. Multiple units affected increases urgency."
+  },
+  "extraction_challenges": [
+    "Email chain with multiple senders",
+    "Original reporter info in forwarded email",
+    "Multiple devices affected (3 serial numbers)",
+    "Must parse nested email formatting",
+    "Context added by sales rep separate from original complaint"
+  ],
+  "notes": "Critical safety issue - air detector failure on dialysis equipment. Multiple units from same batch suggests potential lot issue. Near-miss scenario with high potential severity."
+}

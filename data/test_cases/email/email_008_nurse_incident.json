@@ -1,0 +1,78 @@
+{
+  "test_case_id": "EMAIL-008",
+  "name": "Nurse Incident Report - Infusion Pump Occlusion Alarm Delay",
+  "description": "Clinical staff submitting incident report about infusion pump alarm delay. Hospital incident report style with clinical details.",
+  "channel": "email",
+  "device_type": "consumable",
+  "severity": "malfunction_harm",
+  "difficulty": "medium",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-04-22T11:45:00Z",
+    "headers": {
+      "from": "amanda.patel@stmarys-hospital.org",
+      "to": "device.complaints@infusionmed.com",
+      "cc": "risk.management@stmarys-hospital.org, pharmacy@stmarys-hospital.org",
+      "subject": "Incident Report - InfuSafe 4000 Pump Alarm Failure - IR#2024-0892",
+      "date": "Mon, 22 Apr 2024 11:45:00 -0400"
+    },
+    "body": "To: InfusionMed Device Complaints\nFrom: Amanda Patel, RN, BSN - ICU Charge Nurse\nDate: April 22, 2024\nRe: Device Incident Report - Internal Reference IR#2024-0892\n\n---\n\nPATIENT INFORMATION:\nAge: 67 | Sex: Female | Unit: Medical ICU | Room: MICU-12\nAdmission Diagnosis: Sepsis secondary to UTI\n\nDEVICE INFORMATION:\nDevice: InfuSafe 4000 Infusion Pump\nSerial Number: IF4K-2022-98234\nSoftware Version: 4.2.1\nPump Channel: A\n\nMEDICATION:\nNorepinephrine 8 mcg/min via central line (right IJ)\n\nINCIDENT DESCRIPTION:\nDate/Time of Incident: April 21, 2024, 0345 hours\n\nDuring routine assessment, I noticed patient's MAP had dropped from 72 to 58 mmHg over approximately 20 minutes. Upon investigation, I found the IV tubing was kinked at the pump loading area, causing a complete occlusion.\n\nThe pump did NOT alarm for occlusion. The infusion history showed the pump had detected \"high pressure\" at 0323 but continued to show \"Infusing\" status. No audible or visual alarm was generated.\n\nThe patient's blood pressure continued to decline for ~20 minutes until I identified the problem during rounds. Norepinephrine was restarted after unkinking the line and patient required a transient increase in dose (to 12 mcg/min) to restore hemodynamic stability.\n\nPATIENT OUTCOME:\nPatient experienced transient hypotension (MAP 55-58 x 20 min) requiring increased vasopressor support. Stabilized without further intervention. No lasting harm identified at this time.\n\nACTION TAKEN:\n1. IV tubing repositioned and infusion restarted\n2. Pump taken out of service and labeled\n3. Incident report filed (IR#2024-0892)\n4. Biomedical engineering notified\n5. Manufacturer notification (this email)\n\nOTHER PUMPS AFFECTED:\nWe have 24 InfuSafe 4000 pumps on this unit. Biomedical is checking all units for software version and alarm function testing.\n\nPLEASE ADVISE:\n- Is this a known issue with software version 4.2.1?\n- Should we take any additional precautions?\n- Will you be sending a field service representative?\n\nAmanda Patel, RN, BSN\nCharge Nurse, Medical ICU\nSt. Mary's Hospital\nDirect: (555) 234-5678 ext 4512\n\ncc: Risk Management, Pharmacy",
+    "attachments": [
+      {
+        "filename": "pump_event_log_IF4K-2022-98234.pdf",
+        "content_type": "application/pdf",
+        "size_bytes": 85000
+      },
+      {
+        "filename": "incident_report_IR2024-0892.pdf",
+        "content_type": "application/pdf",
+        "size_bytes": 156000
+      }
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-008",
+    "intake_channel": "email",
+    "received_date": "2024-04-22T11:45:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "InfuSafe 4000 Infusion Pump",
+      "manufacturer": "InfusionMed",
+      "model_number": "InfuSafe 4000",
+      "serial_number": "IF4K-2022-98234",
+      "device_type": "consumable"
+    },
+    "event_info": {
+      "event_date": "2024-04-21",
+      "event_description": "Infusion pump failed to generate occlusion alarm despite detecting high pressure. Pump showed 'Infusing' status while tubing was kinked and medication (norepinephrine) was not being delivered. Alarm failure allowed patient's blood pressure to decline for approximately 20 minutes before issue was identified during rounds.",
+      "patient_outcome": "Transient hypotension (MAP 55-58 mmHg for 20 minutes), required increased vasopressor dose, stabilized without lasting harm",
+      "device_outcome": "Pump taken out of service, labeled, biomedical engineering notified",
+      "location": "St. Mary's Hospital, Medical ICU",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 67,
+      "sex": "F",
+      "relevant_conditions": ["Sepsis secondary to UTI", "Requiring vasopressor support"]
+    },
+    "reporter_info": {
+      "reporter_type": "nurse",
+      "organization": "St. Mary's Hospital"
+    },
+    "narrative": "Infusion pump failed to alarm for occlusion. During routine assessment, nurse noticed patient's MAP had dropped from 72 to 58 mmHg. IV tubing was found kinked at pump loading area. Pump detected high pressure at 0323 but continued showing 'Infusing' status with no alarm. Patient on norepinephrine drip experienced 20 minutes of hypotension before issue identified. Required increased vasopressor dose to stabilize. Pump software version 4.2.1, serial number IF4K-2022-98234."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A11", "A1101", "A02", "C0504"],
+    "alternative_codes": ["A15", "A05", "C05"],
+    "requires_mdr": true,
+    "mdr_criteria": ["malfunction_could_cause_serious_injury"],
+    "coding_rationale": "A11/A1101 (Software Problem/Application Program Problem) for alarm failure. A02 (Device Operates Differently Than Expected) as pump showed infusing when occluded. C0504 (Hypotension) for patient outcome. MDR required - infusion pump alarm failure could cause serious injury or death if vasopressor interruption goes undetected."
+  },
+  "extraction_challenges": [
+    "Detailed clinical terminology",
+    "Timestamps and timeline require parsing",
+    "Software version potentially relevant to issue",
+    "Hospital incident report format with multiple sections"
+  ],
+  "notes": "Well-documented clinical incident. Nurse provides excellent detail. Software version noted - potential systematic issue. Hospital already initiated internal investigation."
+}

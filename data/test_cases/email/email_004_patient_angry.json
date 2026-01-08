@@ -1,0 +1,77 @@
+{
+  "test_case_id": "EMAIL-004",
+  "name": "Patient Angry Complaint - CPAP Machine",
+  "description": "Frustrated patient complaint about CPAP machine causing skin burns. Demands immediate action and threatens legal action.",
+  "channel": "email",
+  "device_type": "consumable",
+  "severity": "serious_injury",
+  "difficulty": "medium",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-04-02T07:23:00Z",
+    "headers": {
+      "from": "robert.thompson99@gmail.com",
+      "to": "complaints@sleepwell-medical.com",
+      "subject": "YOUR CPAP MACHINE BURNED MY FACE - DEMAND IMMEDIATE RESPONSE",
+      "date": "Tue, 02 Apr 2024 07:23:00 -0700"
+    },
+    "body": "I am DONE with your company and your dangerous products!!!\n\nI have been using your SleepWell Pro 5000 CPAP machine for 6 months now. Last week the heating element in the humidifier chamber MALFUNCTIONED and sent SCALDING HOT water vapor into my mask while I was sleeping.\n\nI woke up screaming at 4am with SECOND DEGREE BURNS on my nose and cheeks. I had to go to the emergency room!!! The ER doctor said I have burns that will probably leave permanent scars on my face.\n\nThe machine serial number is SW5K-2023-88901. I bought it from your website in October 2023.\n\nI have photos of my injuries and all the medical records. My wife also witnessed everything.\n\nI want:\n1. A full refund IMMEDIATELY\n2. All my medical bills paid\n3. Someone to call me TODAY to explain how this happened\n4. A guarantee this won't happen to anyone else\n\nIf I don't hear from someone by end of business today, I WILL be contacting my lawyer and the FDA.\n\nI have kept the machine and all packaging as evidence.\n\nRobert Thompson\n(555) 444-3322\n\nP.S. I have already posted about this on three different sleep apnea forums. Other people need to know about this danger.",
+    "attachments": [
+      {
+        "filename": "burn_photo_1.jpg",
+        "content_type": "image/jpeg",
+        "size_bytes": 245000
+      },
+      {
+        "filename": "er_visit_summary.pdf",
+        "content_type": "application/pdf",
+        "size_bytes": 125000
+      }
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-004",
+    "intake_channel": "email",
+    "received_date": "2024-04-02T07:23:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "SleepWell Pro 5000 CPAP Machine",
+      "manufacturer": "SleepWell Medical",
+      "model_number": "Pro 5000",
+      "serial_number": "SW5K-2023-88901",
+      "device_type": "consumable"
+    },
+    "event_info": {
+      "event_date": "2024-03-26",
+      "event_description": "CPAP machine humidifier heating element malfunctioned, sending scalding hot water vapor through mask while patient was sleeping. Patient woke with second degree burns to nose and cheeks requiring emergency room treatment.",
+      "patient_outcome": "Second degree burns to face (nose and cheeks), ER visit, expected permanent scarring",
+      "device_outcome": "Device retained by patient as evidence",
+      "location": "Patient home",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": null,
+      "sex": "M",
+      "relevant_conditions": ["Sleep apnea"]
+    },
+    "reporter_info": {
+      "reporter_type": "patient",
+      "organization": null
+    },
+    "narrative": "Patient has been using SleepWell Pro 5000 CPAP machine for 6 months. Last week the heating element in the humidifier chamber malfunctioned and sent scalding hot water vapor into the mask while patient was sleeping. Patient woke at 4am with second degree burns on nose and cheeks and went to emergency room. Burns expected to leave permanent scars. Machine serial number SW5K-2023-88901, purchased October 2023."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A12", "A1201", "C0203", "C020304"],
+    "alternative_codes": ["A04", "C02"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A12/A1201 (Thermal Problem/Overheating) for the humidifier malfunction. C0203/C020304 (Burn/Thermal Burn) for patient injury. MDR required due to serious injury (second degree burns requiring ER treatment)."
+  },
+  "extraction_challenges": [
+    "Emotional/angry tone throughout",
+    "Threats and demands mixed with clinical details",
+    "Must extract timeline from upset narrative",
+    "Multiple issues mentioned (burns, scars, medical bills)"
+  ],
+  "notes": "High-priority complaint due to serious injury. Despite angry tone, contains clear device identification and injury description. Attachments provide supporting evidence."
+}

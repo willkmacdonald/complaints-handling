@@ -1,0 +1,67 @@
+{
+  "test_case_id": "EMAIL-005",
+  "name": "Family Member Report - Elderly Father Wheelchair Failure",
+  "description": "Adult child reporting on behalf of elderly parent about powered wheelchair malfunction causing fall.",
+  "channel": "email",
+  "device_type": "other",
+  "severity": "serious_injury",
+  "difficulty": "medium",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-04-10T14:55:00Z",
+    "headers": {
+      "from": "jennifer.martinez@outlook.com",
+      "to": "support@mobilityplus.com",
+      "cc": "safety@mobilityplus.com",
+      "subject": "Wheelchair malfunction - my father was injured",
+      "date": "Wed, 10 Apr 2024 14:55:00 -0400"
+    },
+    "body": "Hello,\n\nI am writing on behalf of my father, William Martinez (age 82), who was injured yesterday when his powered wheelchair malfunctioned.\n\nMy father has been using the MobilityPlus PowerGlide 3000 wheelchair for about 18 months. He has limited mobility due to a stroke he had 3 years ago and relies on the wheelchair to get around his assisted living facility.\n\nYesterday morning (April 9), he was using the wheelchair to go to breakfast when the brakes suddenly engaged while he was moving forward at normal speed. The sudden stop threw him forward out of the chair. He hit his head on the floor and also injured his right wrist trying to catch himself.\n\nThe staff at Sunrise Senior Living called 911 and he was taken to St. Mary's Hospital. He has a concussion and a fractured wrist. He's still in the hospital and they want to keep him for observation because of his age.\n\nThe wheelchair model is PowerGlide 3000, serial number PG3K-2022-56234. It was provided through Medicare in October 2022.\n\nThe facility has kept the wheelchair and said they won't let anyone use it until this is resolved.\n\nI am his healthcare proxy and can provide any additional information you need. Please contact me at this email or call (555) 777-8899.\n\nThank you,\nJennifer Martinez",
+    "attachments": []
+  },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-005",
+    "intake_channel": "email",
+    "received_date": "2024-04-10T14:55:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "MobilityPlus PowerGlide 3000 Powered Wheelchair",
+      "manufacturer": "MobilityPlus",
+      "model_number": "PowerGlide 3000",
+      "serial_number": "PG3K-2022-56234",
+      "device_type": "other"
+    },
+    "event_info": {
+      "event_date": "2024-04-09",
+      "event_description": "Powered wheelchair brakes suddenly engaged while patient was moving forward at normal speed. Sudden stop ejected patient from chair. Patient struck head on floor and injured wrist trying to catch himself.",
+      "patient_outcome": "Concussion and fractured right wrist, hospitalized for observation",
+      "device_outcome": "Wheelchair retained at assisted living facility, taken out of service",
+      "location": "Sunrise Senior Living assisted living facility",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 82,
+      "sex": "M",
+      "relevant_conditions": ["Stroke 3 years ago", "Limited mobility"]
+    },
+    "reporter_info": {
+      "reporter_type": "family_member",
+      "organization": null
+    },
+    "narrative": "82-year-old male patient using MobilityPlus PowerGlide 3000 powered wheelchair for 18 months following stroke. On April 9, 2024, wheelchair brakes suddenly engaged while patient was moving forward, causing sudden stop that ejected patient from chair. Patient struck head on floor and injured right wrist. Taken to hospital where he was diagnosed with concussion and fractured wrist. Hospitalized for observation due to age. Wheelchair serial number PG3K-2022-56234, obtained October 2022."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A07", "A0704", "C02", "C12"],
+    "alternative_codes": ["A15", "C0202", "C07"],
+    "requires_mdr": true,
+    "mdr_criteria": ["serious_injury"],
+    "coding_rationale": "A07/A0704 (Mechanical Problem/Failure to Lock, Seal or Maintain Position) for unexpected brake engagement. C02 (Injury or Damage) for fall injuries. C12 (Hospitalization) as patient was admitted. MDR required due to serious injuries requiring hospitalization."
+  },
+  "extraction_challenges": [
+    "Third-party reporter (family member, not patient)",
+    "Multiple injuries to document",
+    "Device obtained through Medicare (no direct purchase)",
+    "Patient age and conditions mentioned separately"
+  ],
+  "notes": "Good example of family member reporting. Clear narrative despite not being the patient. Facility has secured the device."
+}

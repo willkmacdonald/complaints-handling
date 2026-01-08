@@ -1,0 +1,122 @@
+{
+  "channel": "email",
+  "description": "Synthetic test cases for email complaints with varying formality and sender types",
+  "test_cases": [
+    {
+      "id": "EMAIL-001",
+      "file": "email_001_physician_formal.json",
+      "name": "Physician Formal Report - Implant Infection",
+      "severity": "serious_injury",
+      "device_type": "implantable",
+      "requires_mdr": true,
+      "sender_type": "physician",
+      "formality": "formal"
+    },
+    {
+      "id": "EMAIL-002",
+      "file": "email_002_physician_brief.json",
+      "name": "Physician Brief Notification - Echo Machine",
+      "severity": "malfunction_no_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": false,
+      "sender_type": "physician",
+      "formality": "informal"
+    },
+    {
+      "id": "EMAIL-003",
+      "file": "email_003_patient_detailed.json",
+      "name": "Patient Detailed - CGM Failure",
+      "severity": "malfunction_harm",
+      "device_type": "diagnostic",
+      "requires_mdr": true,
+      "sender_type": "family_member",
+      "formality": "emotional"
+    },
+    {
+      "id": "EMAIL-004",
+      "file": "email_004_patient_angry.json",
+      "name": "Patient Angry - CPAP Burns",
+      "severity": "serious_injury",
+      "device_type": "consumable",
+      "requires_mdr": true,
+      "sender_type": "patient",
+      "formality": "angry"
+    },
+    {
+      "id": "EMAIL-005",
+      "file": "email_005_family_member.json",
+      "name": "Family Member - Wheelchair Fall",
+      "severity": "serious_injury",
+      "device_type": "other",
+      "requires_mdr": true,
+      "sender_type": "family_member",
+      "formality": "formal"
+    },
+    {
+      "id": "EMAIL-006",
+      "file": "email_006_sales_rep_forward.json",
+      "name": "Sales Rep Forward - Dialysis Alarm",
+      "severity": "malfunction_potential_harm",
+      "device_type": "consumable",
+      "requires_mdr": true,
+      "sender_type": "sales_rep",
+      "formality": "email_chain",
+      "has_email_chain": true
+    },
+    {
+      "id": "EMAIL-007",
+      "file": "email_007_sales_rep_direct.json",
+      "name": "Sales Rep Direct - Surgical Instrument QC",
+      "severity": "quality",
+      "device_type": "consumable",
+      "requires_mdr": false,
+      "sender_type": "sales_rep",
+      "formality": "structured"
+    },
+    {
+      "id": "EMAIL-008",
+      "file": "email_008_nurse_incident.json",
+      "name": "Nurse Incident Report - Infusion Pump",
+      "severity": "malfunction_harm",
+      "device_type": "consumable",
+      "requires_mdr": true,
+      "sender_type": "nurse",
+      "formality": "clinical"
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "mdr_required": 6,
+    "mdr_not_required": 2,
+    "by_device_type": {
+      "implantable": 1,
+      "diagnostic": 2,
+      "consumable": 4,
+      "other": 1
+    },
+    "by_severity": {
+      "serious_injury": 3,
+      "malfunction_harm": 2,
+      "malfunction_potential_harm": 1,
+      "malfunction_no_harm": 1,
+      "quality": 1
+    },
+    "by_sender_type": {
+      "physician": 2,
+      "patient": 1,
+      "family_member": 2,
+      "sales_rep": 2,
+      "nurse": 1
+    },
+    "by_formality": {
+      "formal": 2,
+      "informal": 1,
+      "emotional": 1,
+      "angry": 1,
+      "email_chain": 1,
+      "structured": 1,
+      "clinical": 1
+    },
+    "has_email_chain": 1
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "test_case_id": "EMAIL-007",
+  "name": "Sales Rep Direct Report - Surgical Instrument Defect",
+  "description": "Sales representative submitting structured internal complaint report about surgical instrument quality issue discovered during demo.",
+  "channel": "email",
+  "device_type": "consumable",
+  "severity": "quality",
+  "difficulty": "easy",
+  "raw_input": {
+    "email_type": "plain_text",
+    "received_date": "2024-04-18T16:20:00Z",
+    "headers": {
+      "from": "sarah.johnson@surgitool-medical.com",
+      "to": "quality@surgitool-medical.com",
+      "cc": "complaints@surgitool-medical.com, supply.chain@surgitool-medical.com",
+      "subject": "Product Complaint - Laparoscopic Grasper Lot QC Issue",
+      "date": "Thu, 18 Apr 2024 16:20:00 -0600"
+    },
+    "body": "INTERNAL PRODUCT COMPLAINT REPORT\n================================\n\nSubmitted by: Sarah Johnson, Senior Sales Representative\nDate: April 18, 2024\nRegion: Mountain West\n\nPRODUCT INFORMATION:\n- Product Name: SurgiGrip Laparoscopic Grasper, 5mm\n- Catalog Number: SG-LAP-5-GR\n- Lot Number: SG2024-03-445\n- Expiration: March 2026\n\nINCIDENT DETAILS:\n- Date Discovered: April 18, 2024\n- Location: University Medical Center - Denver (demo/evaluation)\n- Device Used on Patient: NO\n\nDESCRIPTION:\nDuring a scheduled product evaluation at University Medical Center today, Dr. Ramirez (Chief of Minimally Invasive Surgery) and I opened 4 units from lot SG2024-03-445 for inspection.\n\n3 of the 4 units had visible jaw misalignment - the grasper jaws did not close evenly. When tested on the practice tissue model, these units did not grip properly and would not have provided adequate tissue purchase during surgery.\n\nThe 4th unit appeared to function correctly.\n\nDr. Ramirez declined to proceed with the evaluation trial and has put further orders on hold pending resolution.\n\nACTION TAKEN:\n- All 4 units retained and sealed in original packaging\n- Labeled with date and issue description\n- Will ship to QA per standard procedure\n- Customer notified we are investigating\n\nIMPACT:\n- No patient exposure\n- Demo evaluation cancelled\n- $50K potential order at risk\n- Customer confidence affected\n\nPlease advise on:\n1. Whether to quarantine other stock from this lot at our distribution centers\n2. Customer communication guidance\n3. Timeline for investigation\n\nSarah Johnson\nSenior Sales Representative\nSurgiTool Medical - Mountain West\nCell: (555) 888-9900",
+    "attachments": [
+      {
+        "filename": "grasper_photos.zip",
+        "content_type": "application/zip",
+        "size_bytes": 2500000
+      }
+    ]
+  },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-007",
+    "intake_channel": "email",
+    "received_date": "2024-04-18T16:20:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "SurgiGrip Laparoscopic Grasper 5mm",
+      "manufacturer": "SurgiTool Medical",
+      "model_number": "SG-LAP-5-GR",
+      "lot_number": "SG2024-03-445",
+      "device_type": "consumable"
+    },
+    "event_info": {
+      "event_date": "2024-04-18",
+      "event_description": "During product evaluation, 3 of 4 laparoscopic graspers from same lot showed visible jaw misalignment. Jaws did not close evenly and failed to grip properly on test tissue model. Devices not used on patients.",
+      "patient_outcome": "No patient exposure - discovered during demo",
+      "device_outcome": "All 4 units retained and sealed, to be shipped to QA",
+      "location": "University Medical Center - Denver",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": null,
+    "reporter_info": {
+      "reporter_type": "sales_rep",
+      "organization": "SurgiTool Medical"
+    },
+    "narrative": "During product evaluation at University Medical Center Denver, 3 of 4 SurgiGrip Laparoscopic Grasper units from lot SG2024-03-445 showed visible jaw misalignment. Jaws did not close evenly and failed to grip adequately on practice tissue model. Devices were not used on patients. All units retained for QA analysis. Issue discovered before clinical use."
+  },
+  "ground_truth": {
+    "expected_imdrf_codes": ["A07", "C10"],
+    "alternative_codes": ["A0602", "A0704"],
+    "requires_mdr": false,
+    "mdr_criteria": [],
+    "coding_rationale": "A07 (Mechanical Problem) for jaw misalignment. C10 (No Patient Problem) as devices never used on patients. No MDR required - quality issue discovered before patient use, no harm potential realized."
+  },
+  "extraction_challenges": [
+    "Structured internal format - different from customer emails",
+    "Business impact info mixed with complaint details",
+    "Multiple units affected from same lot",
+    "Must recognize no patient exposure despite surgical context"
+  ],
+  "notes": "Good example of quality issue caught before patient impact. Structured sales rep format makes extraction easier. Lot-level issue suggests manufacturing problem."
+}
