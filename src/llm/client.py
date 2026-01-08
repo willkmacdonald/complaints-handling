@@ -3,6 +3,7 @@
 import contextlib
 import logging
 import os
+import random
 import time
 from dataclasses import dataclass, field
 from typing import Any
@@ -55,7 +56,7 @@ class LLMConfig:
     """Configuration for the LLM client."""
 
     endpoint: str
-    api_key: str
+    api_key: str = field(repr=False)  # Prevent accidental logging of API key
     deployment_name: str
     api_version: str = "2024-02-15-preview"
     max_retries: int = DEFAULT_MAX_RETRIES
@@ -183,8 +184,6 @@ class LLMClient:
         # Exponential backoff: base_delay * 2^attempt
         delay = self.config.base_delay * (2**attempt)
         # Add jitter (up to 25% of delay)
-        import random
-
         jitter = delay * 0.25 * random.random()
         return float(min(delay + jitter, self.config.max_delay))
 
