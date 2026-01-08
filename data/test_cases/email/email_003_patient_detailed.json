@@ -18,12 +18,43 @@
     "body": "To whoever reads this,\n\nI am writing because I am absolutely TERRIFIED and FURIOUS about what happened to my daughter because of your GlucoSense G7 continuous glucose monitor.\n\nMy daughter Emily is 14 years old and has had Type 1 diabetes since she was 6. We trusted your device to help keep her safe, especially at night when we can't constantly check on her. We have been using the GlucoSense G7 since October 2023.\n\nLast Thursday (March 14), the CGM showed her glucose was stable at 115 mg/dL when she went to sleep. We have the high/low alerts set up. At 3 AM I woke up because something just felt wrong - mother's intuition I guess. I went to check on her and she was UNRESPONSIVE, completely drenched in sweat, barely breathing.\n\nI did a finger stick and her actual blood glucose was 28 mg/dL!!! TWENTY-EIGHT! The CGM was STILL showing 108 mg/dL - completely wrong!!\n\nWe called 911 and she was taken to Children's Hospital. The ER doctor said she was having a severe hypoglycemic episode and could have died or had brain damage if I hadn't checked on her. She was in the hospital for 2 days.\n\nI pulled off the sensor - it's the one from Lot G7-2024-0156, sensor code ending in 8834. I have kept it if you need it.\n\nThis should NEVER happen! Your device is supposed to ALERT when glucose is low! Instead it showed everything was fine while my daughter was dying!! \n\nI want to know what you are going to do about this. I want answers. I want to know this won't happen to another child.\n\nA very upset mother,\nMaria Gonzalez\n(555) 876-5432",
     "attachments": []
   },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-003",
+    "intake_channel": "email",
+    "received_date": "2024-03-18T23:12:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "GlucoSense G7 Continuous Glucose Monitor",
+      "manufacturer": "GlucoMonitor",
+      "model_number": "G7",
+      "lot_number": "G7-2024-0156",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-03-14",
+      "event_description": "Continuous glucose monitor displayed stable reading of 108-115 mg/dL while patient's actual blood glucose was 28 mg/dL. Device failed to alert for dangerously low glucose. Patient found unresponsive with severe hypoglycemia and required emergency hospitalization.",
+      "patient_outcome": "Severe hypoglycemic episode, unresponsive, 2-day hospitalization",
+      "device_outcome": "Sensor retained by reporter",
+      "location": "Patient home",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": {
+      "age": 14,
+      "sex": "F",
+      "relevant_conditions": ["Type 1 diabetes since age 6"]
+    },
+    "reporter_info": {
+      "reporter_type": "family_member",
+      "organization": null
+    },
+    "narrative": "My daughter Emily is 14 years old and has had Type 1 diabetes since she was 6. We have been using the GlucoSense G7 since October 2023. Last Thursday (March 14), the CGM showed her glucose was stable at 115 mg/dL when she went to sleep. At 3 AM I found her unresponsive, drenched in sweat, barely breathing. Finger stick showed actual blood glucose was 28 mg/dL while the CGM was still showing 108 mg/dL. She was taken to Children's Hospital by ambulance and diagnosed with severe hypoglycemic episode. She was hospitalized for 2 days. The sensor is from Lot G7-2024-0156."
+  },
   "ground_truth": {
-    "expected_imdrf_codes": ["A0801", "A0803", "C0901", "C12"],
-    "alternative_codes": ["A02", "A0201", "C0701", "C07"],
+    "expected_imdrf_codes": ["A0201", "C0901", "C12"],
+    "alternative_codes": ["A02", "C0701", "C07"],
     "requires_mdr": true,
     "mdr_criteria": ["malfunction_could_cause_death"],
-    "coding_rationale": "A0801 (False Negative Result) - device failed to detect dangerous low glucose. A0803 (Inaccurate Result) - displayed normal when glucose was critically low. C0901 (Hypoglycemia) as patient outcome. C12 (Hospitalization). MDR required - malfunction could have caused death."
+    "coding_rationale": "A0201 (Device Displays Inaccurate Data) - device displayed normal reading when glucose was critically low. C0901 (Hypoglycemia) as patient outcome. C12 (Hospitalization). MDR required - malfunction could have caused death."
   },
   "extraction_challenges": [
     "Emotional language mixed with clinical details",

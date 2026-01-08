@@ -19,9 +19,35 @@
     "body": "Hi,\n\nThe portable echo in our cath lab (the EchoView 3000, S/N EV3K-2022-45678) is showing intermittent signal dropout during Doppler assessment. Started about 2 weeks ago. Getting worse. Already changed cables and cleaned transducer - no improvement.\n\nMissed some critical flow measurements yesterday during a valve case. Luckily we had backup but this needs to be addressed ASAP.\n\nIs this a known issue? Can someone call me tomorrow AM?\n\n-J Miller MD",
     "attachments": []
   },
+  "expected_complaint": {
+    "complaint_id": "EMAIL-002",
+    "intake_channel": "email",
+    "received_date": "2024-03-12T17:45:00Z",
+    "status": "new",
+    "device_info": {
+      "device_name": "EchoView 3000 Portable Echocardiograph",
+      "manufacturer": "EchoImaging",
+      "serial_number": "EV3K-2022-45678",
+      "device_type": "diagnostic"
+    },
+    "event_info": {
+      "event_date": "2024-02-27",
+      "event_description": "Portable echocardiograph showing intermittent signal dropout during Doppler assessment. Issue started approximately 2 weeks ago and is worsening. Troubleshooting (cable change, transducer cleaning) did not resolve. Missed critical flow measurements during valve case.",
+      "patient_outcome": "No harm - backup equipment was available",
+      "device_outcome": "Device still in use but malfunctioning",
+      "location": "Cardiac Care cath lab",
+      "was_device_available_for_evaluation": true
+    },
+    "patient_info": null,
+    "reporter_info": {
+      "reporter_type": "physician",
+      "organization": "Cardiac Care"
+    },
+    "narrative": "The portable echo in our cath lab (the EchoView 3000, S/N EV3K-2022-45678) is showing intermittent signal dropout during Doppler assessment. Started about 2 weeks ago. Getting worse. Already changed cables and cleaned transducer - no improvement. Missed some critical flow measurements yesterday during a valve case. Luckily we had backup but this needs to be addressed ASAP."
+  },
   "ground_truth": {
     "expected_imdrf_codes": ["A0201", "A14", "A1403"],
-    "alternative_codes": ["A02", "A0803"],
+    "alternative_codes": ["A02", "A04"],
     "requires_mdr": false,
     "mdr_criteria": [],
     "coding_rationale": "A0201 (Device Displays Inaccurate Data) or A1403 (No Output) for signal dropout. This is a malfunction but no patient harm occurred (backup was available). No MDR required as no harm resulted."
