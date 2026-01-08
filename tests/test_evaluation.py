@@ -2,8 +2,6 @@
 
 from datetime import UTC, date, datetime
 
-import pytest
-
 from src.evaluation import (
     CodingMetrics,
     EvaluationReport,
@@ -16,12 +14,11 @@ from src.evaluation import (
     format_report_summary,
     generate_report,
 )
-from src.models import ComplaintRecord, DeviceInfo, EventInfo, PatientInfo, ReporterInfo
+from src.models import ComplaintRecord, DeviceInfo, EventInfo
 from src.models.enums import (
     ComplaintStatus,
     DeviceType,
     IntakeChannel,
-    ReporterType,
 )
 from src.models.mdr import MDRCriteria, MDRDetermination
 

@@ -116,14 +116,22 @@ def _calculate_aggregate_metrics(results: list[TestCaseResult]) -> AggregateMetr
     avg_extraction_completeness = None
 
     if extraction_results:
-        avg_extraction_accuracy = sum(
+        accuracies = [
             r.extraction_metrics.accuracy
-            for r in extraction_results  # type: ignore[union-attr]
-        ) / len(extraction_results)
-        avg_extraction_completeness = sum(
+            for r in extraction_results
+            if r.extraction_metrics is not None
+        ]
+        completeness_values = [
             r.extraction_metrics.completeness
-            for r in extraction_results  # type: ignore[union-attr]
-        ) / len(extraction_results)
+            for r in extraction_results
+            if r.extraction_metrics is not None
+        ]
+        if accuracies:
+            avg_extraction_accuracy = sum(accuracies) / len(accuracies)
+        if completeness_values:
+            avg_extraction_completeness = sum(completeness_values) / len(
+                completeness_values
+            )
 
     # Coding metrics
     coding_results = [r for r in results if r.coding_metrics is not None]
@@ -133,24 +141,34 @@ def _calculate_aggregate_metrics(results: list[TestCaseResult]) -> AggregateMetr
     exact_match_rate = None
 
     if coding_results:
-        avg_coding_precision = sum(
+        precisions = [
             r.coding_metrics.precision
-            for r in coding_results  # type: ignore[union-attr]
-        ) / len(coding_results)
-        avg_coding_recall = sum(
+            for r in coding_results
+            if r.coding_metrics is not None
+        ]
+        recalls = [
             r.coding_metrics.recall
-            for r in coding_results  # type: ignore[union-attr]
-        ) / len(coding_results)
-        avg_coding_f1 = sum(
+            for r in coding_results
+            if r.coding_metrics is not None
+        ]
+        f1_scores = [
             r.coding_metrics.f1_score
-            for r in coding_results  # type: ignore[union-attr]
-        ) / len(coding_results)
+            for r in coding_results
+            if r.coding_metrics is not None
+        ]
         exact_matches = sum(
             1
             for r in coding_results
-            if r.coding_metrics.exact_match  # type: ignore[union-attr]
+            if r.coding_metrics is not None and r.coding_metrics.exact_match
         )
-        exact_match_rate = exact_matches / len(coding_results)
+        if precisions:
+            avg_coding_precision = sum(precisions) / len(precisions)
+        if recalls:
+            avg_coding_recall = sum(recalls) / len(recalls)
+        if f1_scores:
+            avg_coding_f1 = sum(f1_scores) / len(f1_scores)
+        if coding_results:
+            exact_match_rate = exact_matches / len(coding_results)
 
     # MDR metrics
     mdr_results = [r for r in results if r.mdr_metrics is not None]
@@ -160,16 +178,24 @@ def _calculate_aggregate_metrics(results: list[TestCaseResult]) -> AggregateMetr
     mdr_false_negative_count = 0
 
     if mdr_results:
-        correct = sum(1 for r in mdr_results if r.mdr_metrics.is_correct)  # type: ignore[union-attr]
+        correct = sum(
+            1
+            for r in mdr_results
+            if r.mdr_metrics is not None and r.mdr_metrics.is_correct
+        )
         mdr_accuracy = correct / len(mdr_results)
 
         # Sensitivity: TP / (TP + FN) for cases where MDR is required
-        positive_cases = [r for r in mdr_results if r.mdr_metrics.expected_requires_mdr]  # type: ignore[union-attr]
+        positive_cases = [
+            r
+            for r in mdr_results
+            if r.mdr_metrics is not None and r.mdr_metrics.expected_requires_mdr
+        ]
         if positive_cases:
             true_positives = sum(
                 1
                 for r in positive_cases
-                if r.mdr_metrics.predicted_requires_mdr  # type: ignore[union-attr]
+                if r.mdr_metrics is not None and r.mdr_metrics.predicted_requires_mdr
             )
             mdr_sensitivity = true_positives / len(positive_cases)
 
@@ -177,13 +203,14 @@ def _calculate_aggregate_metrics(results: list[TestCaseResult]) -> AggregateMetr
         negative_cases = [
             r
             for r in mdr_results
-            if not r.mdr_metrics.expected_requires_mdr  # type: ignore[union-attr]
+            if r.mdr_metrics is not None and not r.mdr_metrics.expected_requires_mdr
         ]
         if negative_cases:
             true_negatives = sum(
                 1
                 for r in negative_cases
-                if not r.mdr_metrics.predicted_requires_mdr  # type: ignore[union-attr]
+                if r.mdr_metrics is not None
+                and not r.mdr_metrics.predicted_requires_mdr
             )
             mdr_specificity = true_negatives / len(negative_cases)
 
@@ -191,7 +218,7 @@ def _calculate_aggregate_metrics(results: list[TestCaseResult]) -> AggregateMetr
         mdr_false_negative_count = sum(
             1
             for r in mdr_results
-            if r.mdr_metrics.is_false_negative  # type: ignore[union-attr]
+            if r.mdr_metrics is not None and r.mdr_metrics.is_false_negative
         )
 
     return AggregateMetrics(
