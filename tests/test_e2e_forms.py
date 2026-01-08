@@ -171,13 +171,12 @@ class TestFormTestCasesWithMockedLLM:
             assert MDRCriteria.DEATH in result.mdr_determination.mdr_criteria_met
 
         # For other cases with MDR requirement, check detection
-        if expected_requires_mdr:
-            # Allow for conservative false positives, but flag if not detected
-            if not result.mdr_determination.requires_mdr:
-                pytest.xfail(
-                    f"MDR not detected for {test_case_file.name} - "
-                    f"expected criteria: {ground_truth.get('mdr_criteria', [])}"
-                )
+        # Allow for conservative false positives, but flag if not detected
+        if expected_requires_mdr and not result.mdr_determination.requires_mdr:
+            pytest.xfail(
+                f"MDR not detected for {test_case_file.name} - "
+                f"expected criteria: {ground_truth.get('mdr_criteria', [])}"
+            )
 
 
 class TestFormTestCasesMDRSensitivity:
@@ -349,7 +348,8 @@ class TestFormTestCasesWithRealLLM:
         temp_output_dirs: dict,
     ):
         """Test processing with real LLM calls."""
-        test_case = load_test_case(test_case_file)
+        # Load test case to verify file is valid (result used implicitly via file_path)
+        _ = load_test_case(test_case_file)
 
         audit_logger = AuditLogger(log_dir=temp_output_dirs["audit"])
 

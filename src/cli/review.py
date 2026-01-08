@@ -17,7 +17,6 @@ from src.audit.models import CodingReviewedEvent
 from src.cli.display import (
     console,
     create_complaints_table,
-    create_suggestion_detail_panel,
     create_suggestions_table,
     display_complaint_summary,
     display_review_result,
@@ -30,8 +29,8 @@ from src.cli.display import (
     prompt_confirmation,
     prompt_review_notes,
 )
-from src.imdrf import get_code_by_id, validate_code
-from src.models.coding import CodingDecision, CodingSuggestion
+from src.imdrf import validate_code
+from src.models.coding import CodingDecision
 from src.models.complaint import ComplaintRecord
 from src.models.enums import ComplaintStatus
 

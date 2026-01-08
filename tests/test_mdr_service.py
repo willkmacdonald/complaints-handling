@@ -1,7 +1,7 @@
 """Tests for MDR determination service."""
 
 import json
-from datetime import UTC, date, datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -11,10 +11,8 @@ from src.models.complaint import (
     ComplaintRecord,
     DeviceInfo,
     EventInfo,
-    PatientInfo,
-    ReporterInfo,
 )
-from src.models.enums import ComplaintStatus, DeviceType, IntakeChannel, ReporterType
+from src.models.enums import ComplaintStatus, DeviceType, IntakeChannel
 from src.models.mdr import MDRCriteria, MDRDetermination
 from src.routing.mdr import (
     _analyze_text_for_mdr,

@@ -22,7 +22,7 @@ from src.cli.display import (
     print_success,
     print_warning,
 )
-from src.pipeline import ProcessingStatus, process_form
+from src.pipeline import ProcessingStatus
 from src.pipeline.forms import process_form_file
 from src.pipeline.models import ProcessingResult
 

@@ -1,7 +1,5 @@
 """Tests for review CLI commands."""
 
-import json
-import tempfile
 from datetime import UTC, date, datetime
 from pathlib import Path
 from unittest.mock import patch
@@ -19,9 +17,6 @@ from src.cli.display import (
     format_status,
 )
 from src.cli.review import (
-    DEFAULT_AUDIT_DIR,
-    DEFAULT_COMPLAINTS_DIR,
-    DEFAULT_DECISIONS_DIR,
     _load_complaint,
     _load_decision,
     _save_complaint,

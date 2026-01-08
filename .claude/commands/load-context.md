@@ -1,6 +1,6 @@
 Read the current sprint file to understand what we're working on:
 
-/Users/willmacdonald/Documents/Code/azure/my-website/current-sprint.md
+/Users/willmacdonald/Documents/Code/claude/complaints-handling/current-sprint.md
 
 Then summarize:
 1. Current sprint focus

@@ -8,17 +8,14 @@ import json
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
 from src.audit.logger import AuditLogger
-from src.coding.service import CodingResult
 from src.intake.forms import FormValidationResult
-from src.llm.client import LLMClient, LLMConfig, LLMResponse, TokenUsage
-from src.models.coding import CodingSuggestion
-from src.models.enums import IMDRFCodeType
-from src.models.mdr import MDRCriteria, MDRDetermination
+from src.llm.client import LLMClient, LLMResponse, TokenUsage
+from src.models.mdr import MDRCriteria
 from src.pipeline import ProcessingStatus, process_form
 from src.pipeline.forms import process_form_file
 from src.pipeline.models import PipelineError, ProcessingResult
@@ -334,7 +331,8 @@ class TestProcessForm:
         """Test that process_form saves complaint and decision files."""
         audit_logger = AuditLogger(log_dir=temp_output_dirs["audit"])
 
-        result = process_form(
+        # Run process_form - result is implicitly validated by file checks below
+        process_form(
             raw_data=valid_form_data,
             client=mock_llm_client,
             audit_logger=audit_logger,

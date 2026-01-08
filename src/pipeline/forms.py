@@ -25,7 +25,6 @@ from src.audit.models import (
 )
 from src.coding.service import CodingResult, CodingService
 from src.intake.forms import (
-    FormSubmission,
     form_to_complaint,
     parse_form_submission,
     validate_form_completeness,
@@ -34,7 +33,7 @@ from src.llm.client import LLMClient, LLMError, create_client
 from src.models.coding import CodingDecision
 from src.models.complaint import ComplaintRecord
 from src.models.enums import ComplaintStatus
-from src.pipeline.models import PipelineError, ProcessingResult, ProcessingStatus
+from src.pipeline.models import ProcessingResult, ProcessingStatus
 from src.routing.mdr import determine_mdr
 
 logger = logging.getLogger(__name__)
@@ -369,12 +368,7 @@ def process_form_file(
         data = json.load(f)
 
     # Handle test case format vs direct form data
-    if "raw_input" in data:
-        # Test case format - extract raw input
-        raw_data = data["raw_input"]
-    else:
-        # Direct form data
-        raw_data = data
+    raw_data = data.get("raw_input", data)
 
     return process_form(
         raw_data=raw_data,

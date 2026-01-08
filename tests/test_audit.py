@@ -6,6 +6,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 
 from src.audit.logger import AuditLogger, generate_event_id
 from src.audit.models import (
@@ -48,7 +49,7 @@ class TestAuditEventModels:
             resource_id="COMP-001",
         )
 
-        with pytest.raises(Exception):  # ValidationError for frozen model
+        with pytest.raises(ValidationError):  # Frozen model raises ValidationError
             event.action = AuditAction.CODING_SUGGESTED  # type: ignore
 
     def test_audit_event_default_timestamp(self) -> None:

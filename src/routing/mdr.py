@@ -394,7 +394,10 @@ def _call_llm_for_mdr(
     )
 
     # Parse response
-    return parse_json_response(response.content)
+    result = parse_json_response(response.content)
+    if not isinstance(result, dict):
+        raise ValueError("Expected JSON object response from LLM, got list")
+    return result
 
 
 def determine_mdr(

@@ -16,7 +16,6 @@ import os
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Union
 
 from src.audit.models import (
     AuditAction,
@@ -30,13 +29,13 @@ from src.audit.models import (
 logger = logging.getLogger(__name__)
 
 # Type alias for all event types
-EventType = Union[
-    AuditEvent,
-    ComplaintCreatedEvent,
-    CodingSuggestedEvent,
-    CodingReviewedEvent,
-    MDRDeterminedEvent,
-]
+EventType = (
+    AuditEvent
+    | ComplaintCreatedEvent
+    | CodingSuggestedEvent
+    | CodingReviewedEvent
+    | MDRDeterminedEvent
+)
 
 
 def generate_event_id() -> str:
@@ -103,10 +102,9 @@ class AuditLogger:
             JSON string representation.
         """
         # Convert to base AuditEvent if needed
-        if isinstance(event, AuditEvent):
-            base_event = event
-        else:
-            base_event = event.to_base_event()
+        base_event = (
+            event if isinstance(event, AuditEvent) else event.to_base_event()
+        )
 
         # Serialize with datetime handling
         data = base_event.model_dump(mode="json")
