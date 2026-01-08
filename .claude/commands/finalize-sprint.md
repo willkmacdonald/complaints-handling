@@ -1,37 +1,55 @@
 Finalize the current sprint after all PRs are complete.
 
+## Context
+
+This is the **Medical Device Complaint Handling System** project. Read `current-sprint.md` to identify the sprint name and completed work.
+
 ## Steps
 
 1. **Run Security Scan**
-   - Launch the security-scanner agent on the codebase
-   - Review findings and fix any CRITICAL or HIGH severity issues
+   - Review the codebase for security issues, focusing on:
+     - Hardcoded credentials or API keys
+     - SQL injection vulnerabilities
+     - Input validation gaps
+     - PHI/PII data handling
+   - Fix any CRITICAL or HIGH severity issues
    - If security issues found, commit fixes with "fix: address security findings"
 
-2. **Update README.md**
+2. **Run Tests**
+   - Run `pytest` to ensure all tests pass
+   - Fix any failing tests before proceeding
+
+3. **Update README.md**
    - Review changes made during the sprint
-   - Update README if any new features, commands, or usage patterns were added
+   - Update the "Completed" section under "Project Status" with new PRs
+   - Update "Project Structure" if new directories were added
    - Keep updates concise and relevant
 
-3. **Update implementation-plan.md**
-   - Mark completed items from this sprint as done
+4. **Update implementation-plan.md**
+   - Mark completed deliverables with `[x]` checkmarks
+   - Update phase status if appropriate (e.g., "IN PROGRESS" → "COMPLETE")
    - Add any new items discovered during implementation
-   - Archive the sprint section if appropriate
 
-4. **Commit Documentation**
+5. **Update current-sprint.md**
+   - Mark all completed PRs with checkmarks
+   - Update "Sprint Exit Criteria" section
+
+6. **Commit Documentation**
+   - Stage all documentation changes
    - Commit with message: "docs: finalize sprint - {sprint_name}"
-   - Include sprint name from current-sprint.md YAML frontmatter
+   - Extract sprint name from the `# Current Sprint:` header in current-sprint.md
 
-5. **Push to Remote**
+7. **Push to Remote**
    - Push changes to origin/main
 
 ## Guard Rails
 
 Do NOT:
 - Skip the security scan (it must run even if you think code is safe)
+- Skip running tests
 - Create new feature files (finalization is documentation only)
-- Modify source code except for security fixes
+- Modify source code except for security fixes or test fixes
 - Add new dependencies
-- Use deepcontext or Ref (not needed for documentation updates)
 - Push to any branch other than main
 
 ## Output Markers (for automation)
