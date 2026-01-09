@@ -1,5 +1,29 @@
 """Evaluation framework for complaint handling system."""
 
+from src.evaluation.ablation import (
+    AblationReport,
+    StrategyComparison,
+    StrategyMetrics,
+    compare_strategies,
+    format_ablation_summary,
+    list_ablation_reports,
+    load_ablation_report,
+    run_ablation_test,
+    save_ablation_report,
+)
+from src.evaluation.calibration import (
+    CalibrationAnalysis,
+    CalibrationBin,
+    CalibrationConfig,
+    SuggestionOutcome,
+    analyze_calibration,
+    calculate_calibration_error,
+    create_calibration_config,
+    extract_suggestion_outcomes,
+    find_optimal_threshold,
+    load_calibration_config,
+    save_calibration_config,
+)
 from src.evaluation.metrics import (
     CodingMetrics,
     ExtractionMetrics,
@@ -33,6 +57,29 @@ from src.evaluation.storage import (
 )
 
 __all__ = [
+    # Ablation
+    "AblationReport",
+    "StrategyComparison",
+    "StrategyMetrics",
+    "compare_strategies",
+    "format_ablation_summary",
+    "list_ablation_reports",
+    "load_ablation_report",
+    "run_ablation_test",
+    "save_ablation_report",
+    # Calibration
+    "CalibrationAnalysis",
+    "CalibrationBin",
+    "CalibrationConfig",
+    "SuggestionOutcome",
+    "analyze_calibration",
+    "calculate_calibration_error",
+    "create_calibration_config",
+    "extract_suggestion_outcomes",
+    "find_optimal_threshold",
+    "load_calibration_config",
+    "save_calibration_config",
+    # Metrics
     "AggregateMetrics",
     "CodingMetrics",
     "EvaluationFilters",
