@@ -429,13 +429,11 @@ def format_ablation_summary(report: AblationReport) -> str:
 
 def save_ablation_report(
     report: AblationReport,
-    storage: EvaluationStorage | None = None,
 ) -> str:
-    """Save ablation report to storage.
+    """Save ablation report to file storage.
 
     Args:
         report: Ablation report to save.
-        storage: Storage instance. Defaults to file storage.
 
     Returns:
         Report ID.
