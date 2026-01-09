@@ -1,10 +1,18 @@
-# Current Sprint: Phase 1 - Single Channel MVP (Structured Forms)
+# Current Sprint: Phase 2 - Enhance Coding Quality
 
 ## Sprint Goal
 
-Build a functional MVP that processes online form submissions, extracts complaint data, suggests IMDRF codes using an LLM, and provides a basic review interface with audit logging.
+Improve IMDRF code suggestion accuracy from ~70% baseline to >80% acceptance rate through prompt engineering (few-shot examples + chain-of-thought) and data-driven confidence calibration.
 
-**Success Gate:** >80% of suggested codes accepted by human reviewer without modification
+**Success Gate:** >80% F1 score on test cases
+
+---
+
+## Design Principles
+
+See `.claude/CLAUDE.md` for full details. Key principle for Phase 2:
+
+**Cloud Migration Readiness**: Use storage abstractions so file-based implementations can swap to Azure Blob/Cosmos later. Keep business logic in services, not CLI.
 
 ---
 
@@ -333,9 +341,211 @@ Week 2:
 - [x] CLI allows human review of suggestions
 - [x] Ready to begin Phase 2 (Enhance Coding Quality)
 
-**Sprint Status: COMPLETE** - 334 tests passing, 79% code coverage
+**Phase 1 Status: COMPLETE** - 334 tests passing, 79% code coverage
 
 ---
+
+# Phase 2 PRs
+
+## PR-8: Evaluation Pipeline Runner ✅
+
+### Description
+Create a CLI-driven evaluation pipeline that runs the coding service against all test cases with live LLM and generates accuracy reports.
+
+### Scope
+- [x] Create `EvaluationRunMetadata` model (run_id, timestamp, strategy, model, filters, token stats)
+- [x] Create `TestCaseEvaluationResult` model (per-test-case results with predicted codes, metrics)
+- [x] Create `EvaluationRunResult` model (aggregates metadata + all results + report)
+- [x] Implement `EvaluationRunner` class that runs coding service on test cases
+- [x] Create storage interface and file-based implementation for evaluation runs
+- [x] Add CLI commands:
+  - `evaluate run --strategy <strategy>` - Run evaluation
+  - `evaluate report <run_id>` - Generate report for a run
+  - `evaluate history` - List past evaluation runs
+
+### Files Created/Modified
+```
+src/evaluation/
+  models.py         # EvaluationRunMetadata, TestCaseEvaluationResult, EvaluationRunResult
+  runner.py         # run_evaluation(), _evaluate_test_case()
+  storage.py        # EvaluationStorage protocol, FileEvaluationStorage
+src/cli/
+  evaluate.py       # run, report, history commands
+  __init__.py       # Registered evaluate subcommand
+```
+
+### Acceptance Criteria
+- [x] Can run evaluation against all 24 test cases with live LLM
+- [x] Results persisted via storage interface (file-based for now)
+- [x] Report shows F1/precision/recall by difficulty, device type, channel
+- [x] CLI provides clear progress feedback during runs
+- [x] 52 evaluation tests passing
+
+### Estimated Size: Medium
+
+---
+
+## PR-9: Few-Shot + Chain-of-Thought Prompting ✅
+
+### Description
+Enhance the IMDRF coding prompt with few-shot examples and structured chain-of-thought reasoning.
+
+### Scope
+- [x] Create `IMDRF_CODING_TEMPLATE_V2` with chain-of-thought structure:
+  - Step 1: Device Classification
+  - Step 2: Identify Device Problems
+  - Step 3: Identify Patient Problems
+  - Step 4: Code Selection
+- [x] Curate 5 few-shot examples from existing test cases
+- [x] Create `data/prompts/few_shot_examples.json` with full reasoning chains
+- [x] Add `load_few_shot_examples()` function
+- [x] Update `CodingService` with `strategy` parameter
+- [x] `PromptStrategy` enum moved to `src/models/enums.py`: ZERO_SHOT, FEW_SHOT, CHAIN_OF_THOUGHT, FEW_SHOT_COT
+
+### Files Created/Modified
+```
+src/llm/
+  prompts.py            # Added IMDRF_CODING_TEMPLATE_V2, FewShotExample model,
+                        # load_few_shot_examples(), format_few_shot_examples(),
+                        # format_few_shot_as_messages()
+src/coding/
+  service.py            # Added strategy parameter, _build_prompt_messages()
+src/models/
+  enums.py              # Added PromptStrategy enum
+src/evaluation/
+  models.py             # Re-exports PromptStrategy for backward compatibility
+  runner.py             # Passes strategy to CodingService
+data/prompts/
+  few_shot_examples.json  # 5 curated examples with full CoT reasoning
+tests/
+  test_coding_service.py  # Added TestPromptStrategies, TestFewShotExamples
+```
+
+### Acceptance Criteria
+- [x] New prompt template includes 4-step reasoning structure
+- [x] 5 diverse examples cover different device types and coding patterns
+- [x] CodingService can toggle between zero-shot, few-shot, CoT, and combined modes
+- [x] 370 tests passing, 79% coverage
+
+### Estimated Size: Medium
+
+---
+
+## PR-10: Confidence Calibration System ✅
+
+### Description
+Analyze confidence-accuracy correlation and find optimal confidence thresholds.
+
+### Scope
+- [x] Create calibration data models (SuggestionOutcome, CalibrationBin, CalibrationAnalysis)
+- [x] Implement `calculate_calibration_error()` - compute ECE/MCE metrics
+- [x] Implement `find_optimal_threshold()` - find threshold maximizing F1
+- [x] Create `CalibrationConfig` for storing optimal thresholds
+- [x] Add CLI command: `evaluate calibration <run_id>`
+- [ ] Update `CodingService` to load and use calibrated thresholds (deferred to PR-12)
+
+### Files Created/Modified
+```
+src/evaluation/
+  calibration.py        # NEW: Calibration functions and models
+src/cli/
+  evaluate.py           # Add calibration subcommand
+tests/
+  test_calibration.py   # NEW: 21 tests for calibration
+```
+
+### Acceptance Criteria
+- [x] ECE and MCE metrics calculated correctly
+- [x] Optimal threshold found that maximizes F1 score
+- [ ] Calibration config integrates with CodingService (PR-12)
+
+### Estimated Size: Small
+
+---
+
+## PR-11: Ablation Testing Framework ✅
+
+### Description
+Framework for comparing prompt strategies and measuring statistical significance.
+
+### Scope
+- [x] Create comparison models (StrategyComparison, AblationReport)
+- [x] Implement `run_ablation_test()` - run all strategies on same test cases
+- [x] Implement `compare_strategies()` - statistical comparison of two runs
+- [x] Add paired t-test for significance
+- [x] Add CLI commands: `evaluate ablation`, `evaluate compare`, `evaluate ablation-report`, `evaluate ablation-history`
+- [x] Generate cost-effectiveness analysis (F1 per 1K tokens)
+
+### Files Created/Modified
+```
+src/evaluation/
+  ablation.py           # NEW: Ablation functions and models
+src/cli/
+  evaluate.py           # Add ablation, compare subcommands
+pyproject.toml          # Add scipy as optional [stats] dependency
+tests/
+  test_ablation.py      # NEW: 16 tests for ablation
+```
+
+### Acceptance Criteria
+- [x] Can run ablation test across all 4 prompt strategies
+- [x] Statistical significance calculated for each comparison (requires scipy)
+- [x] Cost-effectiveness metric (F1/1K tokens) helps choose practical strategy
+
+### Estimated Size: Medium
+
+---
+
+## PR-12: Integrate & Validate Improvements
+
+### Description
+Run final evaluation, select best strategy, and validate >80% target.
+
+### Scope
+- [ ] Run ablation test with all strategies
+- [ ] Analyze results and select optimal strategy
+- [ ] Run confidence calibration on optimal strategy
+- [ ] Update default CodingService configuration
+- [ ] Document final accuracy metrics
+
+### Files to Modify
+```
+src/coding/service.py       # Update defaults
+current-sprint.md           # Document results
+```
+
+### Success Gate
+- **Primary**: >80% F1 score on test cases
+- **Secondary**: Confidence calibration ECE < 10%
+- **Tertiary**: Token cost increase < 2x baseline
+
+### Estimated Size: Small
+
+---
+
+## Phase 2 Sprint Summary
+
+| PR | Title | Size | Dependencies | Status |
+|----|-------|------|--------------|--------|
+| PR-8 | Evaluation Pipeline Runner | M | None | ✅ Complete |
+| PR-9 | Few-Shot + CoT Prompting | M | None | ✅ Complete |
+| PR-10 | Confidence Calibration | S | PR-8 | ✅ Complete |
+| PR-11 | Ablation Testing | M | PR-8, PR-9 | ✅ Complete |
+| PR-12 | Integrate & Validate | S | All above | Pending |
+
+### Execution Order
+
+```
+PR-8 (Evaluation Runner) ──┬──> PR-10 (Calibration) ──┐
+                           │                          ├──> PR-12 (Integrate)
+PR-9 (Prompting) ──────────┴──> PR-11 (Ablation) ─────┘
+```
+
+PR-8 and PR-9 can proceed in parallel.
+
+---
+
+# Phase 1 Reference (Complete)
 
 ## Technical Notes
 
